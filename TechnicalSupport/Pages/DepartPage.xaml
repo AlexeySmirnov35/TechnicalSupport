@@ -1,0 +1,77 @@
+﻿<Page x:Class="TechnicalSupport.Pages.DepartPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TechnicalSupport.Pages"
+      mc:Ignorable="d" 
+      d:Height="auto" d:Width="auto"
+      Title="DepartPage">
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#E8F5E9" Offset="0"/>
+                <GradientStop Color="#FFFFFF" Offset="0.3"/>
+                <GradientStop Color="#E0E0E0" Offset="0.6"/>
+                <GradientStop Color="#FFFFFF" Offset="0.8"/>
+                <GradientStop Color="#F5F5F5" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Panel -->
+        <StackPanel Grid.Column="0" Margin="10">
+            <ListView x:Name="listview" BorderBrush="#FF111211" FontSize="36" FontFamily="Courier New" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Подразделение">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DepartmentName}" TextWrapping="Wrap"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+
+        <!-- Right Panel -->
+        <StackPanel Grid.Column="1" Margin="10">
+            <TextBlock Text="Перечень подразделений" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                   FontSize="48" FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic" TextWrapping="Wrap"/>
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Добавление/редактирование подразделений"
+                       FontSize="36" FontFamily="Courier New" FontStyle="Italic"/>
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Наименование подразделения" 
+                       FontSize="36" FontFamily="Courier New"/>
+            <TextBox x:Name="tbDep" TextWrapping="Wrap" Text=""
+                     FontFamily="Courier New" FontSize="36" Height="100" Width="400"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Background="#FF00C2C5" BorderThickness="2" Content="Сохранить" Click="AddEditDepar_Click" 
+                        FontFamily="Courier New" FontSize="36" Margin="0 10 20 0">
+                    <Button.BorderBrush>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF80FD09"/>
+                            <GradientStop Color="#FFB91212" Offset="0.997"/>
+                        </LinearGradientBrush>
+                    </Button.BorderBrush>
+                </Button>
+                <Button Background="#FF00C2C5" BorderThickness="2" Content="Удалить" Click="DelDepar_Click"
+                        FontFamily="Courier New" FontSize="36" Margin="0 10 0 0">
+                    <Button.BorderBrush>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF80FD09"/>
+                            <GradientStop Color="#FFB91212" Offset="0.997"/>
+                        </LinearGradientBrush>
+                    </Button.BorderBrush>
+                </Button>
+            </StackPanel>
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="*Для редактирование нажмите на строку,которую хотите отредактировать"
+                       FontSize="36" FontFamily="Courier New" FontStyle="Italic"/>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,54 @@
+﻿<Page x:Class="TechnicalSupport.Pages.UserSoft"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TechnicalSupport.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="1000" d:DesignWidth="1100"
+      Title="UserSoft">
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#E8F5E9" Offset="0"/>
+                <GradientStop Color="#FFFFFF" Offset="0.3"/>
+                <GradientStop Color="#E0E0E0" Offset="0.6"/>
+                <GradientStop Color="#FFFFFF" Offset="0.8"/>
+                <GradientStop Color="#F5F5F5" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <ListView x:Name="listview"  MouseDoubleClick="SoftwareListView_MouseDoubleClick"
+                  Height="622"  BorderBrush="#FF111211" VerticalAlignment="Center" 
+                  FontSize="24" FontFamily="Courier New" HorizontalAlignment="Center" Width="780" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Программа">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding SoftwareName}"  TextWrapping="Wrap" 
+                                           TextAlignment="Center"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBlock HorizontalAlignment="Left" Margin="378,9,0,0" TextWrapping="Wrap" Text="Перечень ПО"
+                   VerticalAlignment="Top" FontFamily="Courier New" FontSize="48" FontWeight="Bold" FontStyle="Italic"/>
+        <TextBlock HorizontalAlignment="Left" Margin="6,83,0,0" TextWrapping="Wrap" Text="Поиск:"
+                   VerticalAlignment="Top" FontFamily="Courier New" FontSize="48"/>
+        <TextBox x:Name="tbox_Search" HorizontalAlignment="Left" TextChanged="Tbox_Search"
+                 Margin="179,84,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="755" Height="58" FontFamily="Courier New" FontSize="24"/>
+        <Button Content="Назад" Background="#FF00C2C5" BorderThickness="2,2,2,2" Click="Btn_GoBack"
+                FontSize="36" HorizontalAlignment="Left"
+            Margin="943,842,0,0" VerticalAlignment="Top" Width="146" FontFamily="Courier New" Height="52">
+            <Button.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF80FD09"/>
+                    <GradientStop Color="#FFB91212" Offset="0.997"/>
+                </LinearGradientBrush>
+            </Button.BorderBrush>
+        </Button>
+    </Grid>
+</Page>

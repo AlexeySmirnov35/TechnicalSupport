@@ -144,6 +144,7 @@
     <Compile Include="Request.cs" />
     <Compile Include="RequestUser.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="Converters\ScaleMultiplierConverter.cs" />
     <Compile Include="Software.cs" />
     <Compile Include="SoftwarePosition.cs" />
     <Compile Include="Status.cs" />

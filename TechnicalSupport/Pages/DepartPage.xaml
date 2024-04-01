@@ -25,7 +25,7 @@
 
         <!-- Left Panel -->
         <StackPanel Grid.Column="0" Margin="10">
-            <ListView x:Name="listview" BorderBrush="#FF111211" FontSize="36" FontFamily="Courier New" >
+            <ListView x:Name="listview" BorderBrush="#FF111211"  FontFamily="Courier New" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Подразделение">
@@ -42,17 +42,17 @@
 
         <!-- Right Panel -->
         <StackPanel Grid.Column="1" Margin="10">
-            <TextBlock Text="Перечень подразделений" HorizontalAlignment="Center" VerticalAlignment="Top" 
-                   FontSize="48" FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic" TextWrapping="Wrap"/>
+            <TextBlock Text="Перечень подразделений" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic" TextWrapping="Wrap"/>
             <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Добавление/редактирование подразделений"
-                       FontSize="36" FontFamily="Courier New" FontStyle="Italic"/>
+                        FontFamily="Courier New" FontStyle="Italic"/>
             <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Наименование подразделения" 
-                       FontSize="36" FontFamily="Courier New"/>
+                        FontFamily="Courier New"/>
             <TextBox x:Name="tbDep" TextWrapping="Wrap" Text=""
-                     FontFamily="Courier New" FontSize="36" Height="100" Width="400"/>
+                     FontFamily="Courier New"  Height="100" Width="400"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Background="#FF00C2C5" BorderThickness="2" Content="Сохранить" Click="AddEditDepar_Click" 
-                        FontFamily="Courier New" FontSize="36" Margin="0 10 20 0">
+                        FontFamily="Courier New"  Margin="0 10 20 0">
                     <Button.BorderBrush>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="#FF80FD09"/>
@@ -61,7 +61,7 @@
                     </Button.BorderBrush>
                 </Button>
                 <Button Background="#FF00C2C5" BorderThickness="2" Content="Удалить" Click="DelDepar_Click"
-                        FontFamily="Courier New" FontSize="36" Margin="0 10 0 0">
+                        FontFamily="Courier New"  Margin="0 10 0 0" Height="auto" Width="auto">
                     <Button.BorderBrush>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="#FF80FD09"/>

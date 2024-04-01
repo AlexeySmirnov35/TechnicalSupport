@@ -31,12 +31,12 @@ namespace TechnicalSupport.Pages
 
         private void Edit_bd_Click(object sender, RoutedEventArgs e)
         {
-           NavigationService.Navigate(new Uri("Pages/InfoPage.xaml", UriKind.Relative));
+            frmMain.Navigate(new SoftwarePage());
         }
 
         private void Role_Click(object sender, RoutedEventArgs e)
         {
-            frmMain.Navigate(new SoftwarePage());
+            frmMain.Navigate(new RolePage());
         }
 
         private void Depart_Click(object sender, RoutedEventArgs e)
@@ -111,6 +111,6 @@ namespace TechnicalSupport.Pages
                      }
                  }
              }
-         }
+         }*/
     }
 }

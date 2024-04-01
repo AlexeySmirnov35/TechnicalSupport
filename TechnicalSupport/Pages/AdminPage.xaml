@@ -7,47 +7,43 @@
       mc:Ignorable="d" 
       Height="Auto" Width="Auto"
       Title="AdminPage">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <Viewbox Stretch="Fill">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-       
-        <StackPanel Grid.Column="0" Background="#007ACC" Width="auto">
-            
-            <TextBlock Text="Меню" Foreground="White" Background="#007ACC" Padding="10" FontWeight="Bold" FontSize="18" Margin="0 0 0 10" HorizontalAlignment="Center"/>
-            <Button Content="Заявки" Click="Role_Click" FontWeight="Bold"/>
-            
-            <Button Content="Роли/Должности" Click="Role_Click"  Margin="5" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            
-            <Button Content="База знаний"  Click="Edit_bd_Click" Margin="5" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button Content="Подразделения" Click="Depart_Click"  Margin="5" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button Content="Программное обеспечение" Click="Soft_Click" Margin="5" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            
+            <!-- Левое меню -->
+            <StackPanel Grid.Column="0" Background="#007ACC" Width="auto">
+                <!-- Заголовок раздела -->
+                <TextBlock Text="Меню" Foreground="White" Background="#007ACC" Padding="10" FontWeight="Bold" FontSize="18" Margin="0 0 0 10" HorizontalAlignment="Center"/>
+                <!-- Кнопки меню -->
+                <Button Content="Заявки" Click="Role_Click" FontWeight="Bold"/>
+                <Button Content="Роли/Должности" Click="Role_Click" Margin="5" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+                <Button Content="База знаний" Click="Edit_bd_Click" Margin="5" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+                <Button Content="Подразделения" Click="Depart_Click" Margin="5" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+                <Button Content="Программное обеспечение" Click="Soft_Click" Margin="5" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            </StackPanel>
 
-        </StackPanel>
+            <!-- Основное содержимое -->
+            <StackPanel Grid.Column="1" Background="#FFDECFCF" >
+                <Border Grid.Column="1" Background="#FFDECFCF" Padding="10">
+                
+                <!-- Здесь будет ваше основное содержимое Navigated="MainFrame_Navigated"ContentRendered="MainFrame_ContentRendered"-->
+                <Viewbox Stretch="Fill">
+                    <Frame x:Name="frmMain" Margin="0,0,95,0"></Frame>
+                </Viewbox></Border>
+            </StackPanel>
 
-        <!-- Основное содержимое -->
-        <Border Grid.Column="1" Background="#FFDECFCF" Padding="10">
-            <!-- Здесь будет ваше основное содержимое Navigated="MainFrame_Navigated"ContentRendered="MainFrame_ContentRendered"-->
-
-
-            <Frame x:Name="frmMain"  Margin="0,0,95,0" ></Frame>
-
-        </Border>
-        <!--  <Image Grid.Column="1" HorizontalAlignment="Left" Height="168" Margin="268,3,0,0" VerticalAlignment="Top" Width="289" Source="/img/krl-transformed.png"/>-->
-        <!-- Правое меню -->
-        <StackPanel Grid.Column="1" Background="#007ACC" Width="auto" HorizontalAlignment="Right">
-            <!-- Заголовок раздела -->
-            <TextBlock Text="Заявки" Foreground="White" Background="#007ACC" Padding="10" FontWeight="Bold" FontSize="18" Margin="0 0 0 10" HorizontalAlignment="Center"/>
-            <!-- Кнопки для подраздела "Заявки" -->
-            <Button Content="Активные" Margin="5" HorizontalAlignment="Stretch"/>
-            <Button Content="Завершенные" Margin="5" HorizontalAlignment="Stretch"/>
-        </StackPanel>
-
-
-
-    </Grid>
+            <!-- Правое меню -->
+            <StackPanel Grid.Column="2" Background="#007ACC" Width="auto" HorizontalAlignment="Right">
+                <!-- Заголовок раздела -->
+                <TextBlock Text="Заявки" Foreground="White" Background="#007ACC" Padding="10" FontWeight="Bold" FontSize="18" Margin="0 0 0 10" HorizontalAlignment="Center"/>
+                <!-- Кнопки для подраздела "Заявки" -->
+                <Button Content="Активные" Margin="5" HorizontalAlignment="Stretch"/>
+                <Button Content="Завершенные" Margin="5" HorizontalAlignment="Stretch"/>
+            </StackPanel>
+        </Grid>
+    </Viewbox>
 </Page>
-

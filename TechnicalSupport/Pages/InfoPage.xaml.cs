@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using TechnicalSupport.DataBaseClasses;
+using TechnicalSupport.WinowsProgram;
+using static MaterialDesignThemes.Wpf.Theme;
 namespace TechnicalSupport.Pages
 {
     /// <summary>
@@ -20,18 +22,67 @@ namespace TechnicalSupport.Pages
     /// </summary>
     public partial class InfoPage : Page
     {
-        private SoftwarePosition _software=new SoftwarePosition();
+        private SoftwarePosition _software = new SoftwarePosition();
+        private byte[] fileContent = null;
+        private FilesSoftware selectedFile = null;
         ApplicationContext KonfigKc;
+        private int currentPage = 1;
+        private const int PageSize = 10;
 
-      
+
         public InfoPage()
         {
             InitializeComponent();
             KonfigKc = new ApplicationContext();
-            softwareListView.ItemsSource = KonfigKc.SoftwarePositions.ToList();
-            cbSoft.ItemsSource = KonfigKc.Softwares.ToList();
+            //  softwareListView.ItemsSource = KonfigKc.SoftwarePositions.ToList();
+            //cbSoft.ItemsSource = KonfigKc.Softwares.ToList();
             //cbLis.ItemsSource = KonfigKc.LicensiaInfos.ToList();
-            cbPosir.ItemsSource=KonfigKc.Positions.ToList();
+            //  cbPosir.ItemsSource=KonfigKc.Positions.ToList();
+
+            LoadDepartments();
+            DisplayPage();
+        }
+
+
+
+        private void LoadDepartments()
+        {
+            // Получаем все данные из базы данных
+            softwareListView.ItemsSource = KonfigKc.SoftwarePositions.ToList();
+        }
+
+
+        private void DisplayPage()
+        {
+            // Получаем текущую страницу данных
+            var departments = KonfigKc.SoftwarePositions
+                .OrderBy(d => d.SoftwareProgPositionID)
+                .Skip((currentPage - 1) * PageSize)
+                .Take(PageSize)
+            .ToList();
+
+            softwareListView.ItemsSource = departments;
+
+            // Обновляем текст с информацией о текущей странице
+            PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKc.SoftwarePositions.Count() / PageSize)}";
+        }
+
+        private void PreviousPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPage > 1)
+            {
+                currentPage--;
+                DisplayPage();
+            }
+        }
+
+        private void NextPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPage < (KonfigKc.SoftwarePositions.Count() + PageSize - 1) / PageSize)
+            {
+                currentPage++;
+                DisplayPage();
+            }
         }
 
         private void SoftwareListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -48,43 +99,7 @@ namespace TechnicalSupport.Pages
         {
             NavigationService.GoBack();
         }
-        private void Btn_Create(object sender, RoutedEventArgs e)
-        {
-            var prog = cbSoft.SelectedItem as Software;
-            var posit = cbPosir.SelectedItem as Position;
 
-            if (prog == null || posit == null)
-            {
-                MessageBox.Show("Выберите программу и должность");
-                return;
-            }
-
-            var dbContext = KonfigKc;
-
-            try
-            {
-                var newSoftwarePosition = new SoftwarePosition
-                {
-                    SoftwareID = prog.SoftwareID,
-                    PositionID = posit.PositionID,
-                    LicenseTreb=1
-                    
-                };
-
-                // Присваиваем новый объект _software перед добавлением
-                _software = newSoftwarePosition;
-
-                dbContext.SoftwarePositions.Add(newSoftwarePosition);
-                dbContext.SaveChanges();
-
-                MessageBox.Show("Успешно сохранено");
-                NavigationService.GoBack();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при сохранении: {ex.Message}");
-            }
-        }
 
 
         /* private void Btn_Create(object sender, RoutedEventArgs e)
@@ -138,18 +153,23 @@ namespace TechnicalSupport.Pages
 
         private void Btn_Del_Click(object sender, RoutedEventArgs e)
         {
-            var selectedSoftwareList = softwareListView.SelectedItems.Cast<SoftwarePosition>().ToList();
 
-            if (MessageBox.Show($"Вы действительно хотите удалить эти {selectedSoftwareList.Count()} элемента!?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            var selectedSoftwareList = (sender as System.Windows.Controls.Button).DataContext as SoftwarePosition;
+
+            if (MessageBox.Show($"Вы действительно хотите удалить элемента!?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
                     var dbContext = KonfigKc;
 
-                    foreach (var selectedSoftware in selectedSoftwareList)
-                    {
-                        dbContext.SoftwarePositions.Remove(selectedSoftware);
-                    }
+                    
+                        dbContext.SoftwarePositions.Remove(selectedSoftwareList);
+                    
 
                     dbContext.SaveChanges();
                     MessageBox.Show("Удаление прошло успешно");
@@ -160,6 +180,23 @@ namespace TechnicalSupport.Pages
                     MessageBox.Show($"Ошибка при удалении элементов: {ex.Message}");
                 }
             }
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var v = (sender as System.Windows.Controls.Button).DataContext as SoftwarePosition;
+            EditWindowSoftPosit editWindowSoftPosit = new EditWindowSoftPosit(v);
+            editWindowSoftPosit.ShowDialog();
+            LoadDepartments();
+            DisplayPage();
+        }
+
+        private void Btn_AddFile(object sender, RoutedEventArgs e)
+        {
+            AddInfoSotrPOWindow addInfoSotrPOWindow = new AddInfoSotrPOWindow();
+            addInfoSotrPOWindow.ShowDialog();
+            LoadDepartments();
+            DisplayPage();
         }
     }
 }

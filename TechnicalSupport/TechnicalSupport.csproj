@@ -83,15 +83,40 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ApplicationContext.cs" />
+    <Compile Include="Converters\BooleanToNullableConverter.cs" />
+    <Compile Include="DataBaseClasses\ApplicationContext.cs" />
+    <Compile Include="Converters\RequestStatusConverter.cs" />
+    <Compile Include="DataBaseClasses\Client.cs" />
+    <Compile Include="DataBaseClasses\CommitMessage.cs" />
+    <Compile Include="DataBaseClasses\StatusRequest.cs" />
     <Compile Include="Pages\AddFilePage.xaml.cs">
       <DependentUpon>AddFilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AdminAreaPage.xaml.cs">
+      <DependentUpon>AdminAreaPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AdminUserPage.xaml.cs">
+      <DependentUpon>AdminUserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\InfoEquipPage.xaml.cs">
+      <DependentUpon>InfoEquipPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MasterAreaPage.xaml.cs">
+      <DependentUpon>MasterAreaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OverdueAndNotCompletedConverter.cs" />
+    <Compile Include="Pages\StatisticPage.xaml.cs">
+      <DependentUpon>StatisticPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\StringToDateTimeToBoolConverter.cs" />
     <Compile Include="Pages\DepartPage.xaml.cs">
       <DependentUpon>DepartPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\DepartPageProb.xaml.cs">
+      <DependentUpon>DepartPageProb.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\EditPageInformation.xaml.cs">
       <DependentUpon>EditPageInformation.xaml</DependentUpon>
@@ -113,6 +138,12 @@
     </Compile>
     <Compile Include="Pages\InformationPage.xaml.cs">
       <DependentUpon>InformationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OfficeEquipPage.xaml.cs">
+      <DependentUpon>OfficeEquipPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OperSystemPage.xaml.cs">
+      <DependentUpon>OperSystemPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PageJornul.xaml.cs">
       <DependentUpon>PageJornul.xaml</DependentUpon>
@@ -141,15 +172,72 @@
     <Compile Include="Pages\VxodAdminPage.xaml.cs">
       <DependentUpon>VxodAdminPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Request.cs" />
-    <Compile Include="RequestUser.cs" />
-    <Compile Include="Role.cs" />
+    <Compile Include="DataBaseClasses\Request.cs" />
+    <Compile Include="DataBaseClasses\RequestUser.cs" />
+    <Compile Include="DataBaseClasses\Role.cs" />
     <Compile Include="Converters\ScaleMultiplierConverter.cs" />
-    <Compile Include="Software.cs" />
-    <Compile Include="SoftwarePosition.cs" />
-    <Compile Include="Status.cs" />
-    <Compile Include="TypeSoft.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="DataBaseClasses\Software.cs" />
+    <Compile Include="DataBaseClasses\SoftwarePosition.cs" />
+    <Compile Include="DataBaseClasses\Status.cs" />
+    <Compile Include="DataBaseClasses\TypeSofware.cs" />
+    <Compile Include="DataBaseClasses\User.cs" />
+    <Compile Include="WinowsProgram\AddCommitWindow.xaml.cs">
+      <DependentUpon>AddCommitWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AddEditDepartWindow.xaml.cs">
+      <DependentUpon>AddEditDepartWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AddEditFileWindow.xaml.cs">
+      <DependentUpon>AddEditFileWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AddEditOfficeEquipWindow.xaml.cs">
+      <DependentUpon>AddEditOfficeEquipWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AddEditOperSystemWindow.xaml.cs">
+      <DependentUpon>AddEditOperSystemWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AddEditRoleWindow.xaml.cs">
+      <DependentUpon>AddEditRoleWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AddEditSoftwareWindow.xaml.cs">
+      <DependentUpon>AddEditSoftwareWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AddEditSotWindow.xaml.cs">
+      <DependentUpon>AddEditSotWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AddEquipWindow.xaml.cs">
+      <DependentUpon>AddEquipWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AddInfoSotrPOWindow.xaml.cs">
+      <DependentUpon>AddInfoSotrPOWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AdminGlavWindow.xaml.cs">
+      <DependentUpon>AdminGlavWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AdminUserWindow.xaml.cs">
+      <DependentUpon>AdminUserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\EditEquipWindow.xaml.cs">
+      <DependentUpon>EditEquipWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\EditWindowInfoSotrPO.xaml.cs">
+      <DependentUpon>EditWindowInfoSotrPO.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\AdminWindow.xaml.cs">
+      <DependentUpon>AdminWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\EditWindowSoftPosit.xaml.cs">
+      <DependentUpon>EditWindowSoftPosit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\LogInWindow.xaml.cs">
+      <DependentUpon>LogInWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\MasterGlavWindow.xaml.cs">
+      <DependentUpon>MasterGlavWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinowsProgram\UserGlavWindow.xaml.cs">
+      <DependentUpon>UserGlavWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -158,9 +246,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Department.cs" />
-    <Compile Include="FilesSoftware.cs" />
-    <Compile Include="LicensiaInfo.cs" />
+    <Compile Include="DataBaseClasses\Department.cs" />
+    <Compile Include="DataBaseClasses\FilesSoftware.cs" />
+    <Compile Include="DataBaseClasses\LicensiaInfo.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -169,13 +257,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\AdminAreaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AdminPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\AdminUserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\DepartPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\DepartPageProb.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\EditPageInformation.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -197,6 +297,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\InfoEquipPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\InfoPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -204,6 +308,18 @@
     <Page Include="Pages\InformationPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\MasterAreaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OfficeEquipPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OperSystemPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\PageJornul.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -225,6 +341,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\StatisticPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\UserPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -241,12 +361,100 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Core.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WinowsProgram\AddCommitWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AddEditDepartWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AddEditFileWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AddEditOfficeEquipWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AddEditOperSystemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AddEditRoleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AddEditSoftwareWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AddEditSotWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AddEquipWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AddInfoSotrPOWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AdminGlavWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AdminUserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\EditEquipWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\EditWindowInfoSotrPO.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\AdminWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\EditWindowSoftPosit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\LogInWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\MasterGlavWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinowsProgram\UserGlavWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OfficeEquipment.cs" />
-    <Compile Include="OperatingSystem.cs" />
-    <Compile Include="Position.cs" />
-    <Compile Include="PositionOfficeEquip.cs" />
+    <Compile Include="DataBaseClasses\OfficeEquipment.cs" />
+    <Compile Include="DataBaseClasses\OperatingSystem.cs" />
+    <Compile Include="DataBaseClasses\Position.cs" />
+    <Compile Include="DataBaseClasses\PositionOfficeEquip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -264,13 +472,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="KonfigKc.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="TechSup.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +486,53 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\krl-transformed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\dustbin_120823.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons88.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-delete-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-edit-48.png" />
+    <Resource Include="img\icons8-plus-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-left-48.png" />
+    <Resource Include="img\icons8-right-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\Ksroom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\Centre.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-seeFile-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-done-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-unavailable-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-logout-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\unnamed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-multiply-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-close-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-back-96.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

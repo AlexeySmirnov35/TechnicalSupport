@@ -1,0 +1,26 @@
+﻿<Window x:Class="TechnicalSupport.WinowsProgram.AddCommitWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TechnicalSupport.WinowsProgram"
+        
+       mc:Ignorable="d" Background="#333" Foreground="#FF32EBFB"
+        Title="AddEditDepartWindow"  WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel Grid.Column="1" Margin="10">
+
+
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Комментрарий:" 
+                        FontFamily="Courier New" HorizontalAlignment="Left"/>
+            <TextBox x:Name="tbDep" TextWrapping="Wrap" Text="{Binding DepartmentName}"
+                     FontFamily="Courier New"  Height="112" Width="300"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button BorderThickness="2" Content="Сохранить" Click="AddEditDepar_Click" 
+                        FontFamily="Courier New"  Margin="0 10 0  0" BorderBrush="{x:Null}"/>
+
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>

@@ -12,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using TechnicalSupport.WinowsProgram;
+using TechnicalSupport.DataBaseClasses;
 namespace TechnicalSupport.Pages
 {
     /// <summary>
@@ -21,80 +22,60 @@ namespace TechnicalSupport.Pages
     public partial class RolePage : Page
     {
         ApplicationContext KonfigKc;
+        private int currentPage = 1;
+        private const int PageSize = 10;
 
-     
         public RolePage()
         {
             InitializeComponent();
             KonfigKc = new ApplicationContext();
-            listview.ItemsSource=KonfigKc.Positions.ToList();
-        }
+            LoadDepartments();
+            DisplayPage();
 
-        private void AddEditRole_Click(object sender, RoutedEventArgs e)
+        }
+       
+       
+
+       
+
+        private void LoadDepartments()
         {
-            
-            StringBuilder errors = new StringBuilder();
-
-            if (string.IsNullOrWhiteSpace(tbPos.Text))
-            {
-                errors.AppendLine("Введите корректное название должности");
-            }
-            else
-            {
-                var dbContext = KonfigKc;
-                var isDuplicate = dbContext.Positions.Any(sp => sp.PositionName == tbPos.Text);
-
-                if (isDuplicate)
-                {
-                    errors.AppendLine("Такая запись существует");
-                }
-
-                if (errors.Length == 0)
-                {
-                    Position newPosition = new Position{ PositionName = tbPos.Text };
-
-                    if (listview.SelectedItem != null)
-                    {
-                        Position selectedPosition = (Position)listview.SelectedItem;
-                        newPosition.PositionID = selectedPosition.PositionID;
-                        UpdatePosition(newPosition);
-                    }
-                    else
-                    {
-                        dbContext.Positions.Add(newPosition);
-                    }
-
-                    dbContext.SaveChanges();
-                    listview.SelectedItem = null;
-                    listview.ItemsSource = dbContext.Positions.ToList();
-                    tbPos.Clear();
-                }
-            }
-
-            if (errors.Length > 0)
-            {
-                MessageBox.Show(errors.ToString());
-            }
+            // Получаем все данные из базы данных
+            listview.ItemsSource = KonfigKc.Positions.ToList();
         }
 
-
-
-
-        private void UpdatePosition(Position newPosition)
+        private void DisplayPage()
         {
-            
-            var existingPosition = KonfigKc.Positions.Find(newPosition.PositionID);
-             if (existingPosition != null)
+            // Получаем текущую страницу данных
+            var departments = KonfigKc.Positions
+                .OrderBy(d => d.PositionID)
+                .Skip((currentPage - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
+
+            listview.ItemsSource = departments;
+
+            // Обновляем текст с информацией о текущей странице
+            PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKc.Positions.Count() / PageSize)}";
+        }
+
+        private void PreviousPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPage > 1)
             {
-                existingPosition.PositionName = newPosition.PositionName;
+                currentPage--;
+                DisplayPage();
             }
         }
 
-        private void Btn_GoBack(object sender, RoutedEventArgs e)
+        private void NextPage_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.GoBack();
+            if (currentPage < (KonfigKc.Positions.Count() + PageSize - 1) / PageSize)
+            {
+                currentPage++;
+                DisplayPage();
+            }
         }
-
         private void DelRole_Click(object sender, RoutedEventArgs e)
         {
             var positionsToDelete = listview.SelectedItems.Cast<Position>().ToList();
@@ -110,14 +91,14 @@ namespace TechnicalSupport.Pages
 
                 foreach (var position in positionsToDelete)
                 {
-                    if (!IsPositionUsedInOtherTables(position))
+                   /* if (!IsPositionUsedInOtherTables(position))
                     {
                         dbContext.Positions.Remove(position);
                     }
                     else
                     {
                         MessageBox.Show($"Должность {position.PositionName} используется в других таблицах и не может быть удалена.");
-                    }
+                    }*/
                 }
 
                 dbContext.SaveChanges();
@@ -130,15 +111,60 @@ namespace TechnicalSupport.Pages
             }
         }
 
-        private bool IsPositionUsedInOtherTables(Position position)
+        private void AddEditRole_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditRoleWindow addEditRoleWindow = new AddEditRoleWindow(null);
+            addEditRoleWindow.ShowDialog();
+            DisplayPage();
+        }
+       /* private bool IsPositionUsedInOtherTables(Position position)
         {
             var dbContext = KonfigKc;
-            return dbContext.SoftwarePositions.Any(item => item.PositionID == position.PositionID)
-                || dbContext.Requests.Any(item => item.PositionID == position.PositionID);
+         //  return dbContext.SoftwarePositions.Any(item => item.PositionID == position.PositionID)|| dbContext.Requests.Any(item => item.PositionID == position.PositionID);
+        }*/
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var departmentsToDelete = (sender as Button).DataContext as Position;
+
+            if (MessageBox.Show($"Вы действительно хотите удалить {departmentsToDelete.PositionName}?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+            // KonfigKcDB.Departments.Remove(del);
+            try
+            {
+
+                if (!KonfigKc.Users.Any(item => item.PositionsID == departmentsToDelete.PositionID))
+                {
+                    KonfigKc.Positions.Remove(departmentsToDelete);
+                    Console.WriteLine($"Удалено подразделение: {departmentsToDelete.PositionName}");
+                    MessageBox.Show("Удаление прошло успешно");
+                }
+                else
+                {
+                    MessageBox.Show($"{departmentsToDelete.PositionName} используется в других таблицах и не может быть удален.");
+                    Console.WriteLine($"{departmentsToDelete.PositionName} используется в других таблицах и не может быть удален.");
+                }
+
+
+                KonfigKc.SaveChanges();
+                LoadDepartments();
+                DisplayPage();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении подразделения: {ex.Message}");
+                Console.WriteLine($"Ошибка при удалении подразделения: {ex}");
+            }
         }
 
-
-
+        private void EditRole_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditRoleWindow addEditRoleWindow = new AddEditRoleWindow((sender as Button).DataContext as Position);
+            addEditRoleWindow.ShowDialog();
+            DisplayPage();
+        }
     }
 }
 

@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TechnicalSupport.Pages"
       mc:Ignorable="d" 
-      d:Height="1000" d:Width="1100"
+      d:Height="auto" d:Width="auto"
       Title="GlavPage">
 
     <Grid>
@@ -18,7 +18,7 @@
                 <GradientStop Color="#F5F5F5" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Button Content="Войти в панель администратора" Click="Btn_Admin_Click"
+        <Button Content="Войти в систему" Click="Btn_Admin_Click"
                 Background="#FF00C2C5" BorderThickness="2,2,2,2" FontSize="36"
                 HorizontalAlignment="Left" Margin="229,390,0,0" VerticalAlignment="Top" 
                 Height="110" Width="666"  FontFamily="Courier New" FontWeight="Bold">
@@ -29,7 +29,7 @@
                 </LinearGradientBrush>
             </Button.BorderBrush>
         </Button>
-        <Button Content="Войти в панель пользователя" Background="#FF00C2C5" 
+        <Button Content="Войти, как гость" Background="#FF00C2C5" 
                 BorderThickness="2,2,2,2" Click="Btn_User_Click" FontSize="36"
                 HorizontalAlignment="Left" Margin="254,560,0,0" VerticalAlignment="Top" 
                 Height="110" Width="616" FontFamily="Courier New" FontWeight="Bold">
@@ -40,11 +40,13 @@
                 </LinearGradientBrush>
             </Button.BorderBrush>
         </Button>
-        <Label Content="Конфигуратор" FontSize="72" HorizontalAlignment="Left"
+        <Label Content="Техническая поддержка" FontSize="72" HorizontalAlignment="Left"
                VerticalAlignment="Top" FontFamily="Courier New" FontWeight="Bold"
-               FontStyle="Italic" Margin="308,279,0,0"/>
+               FontStyle="Italic" Margin="119,282,0,0"/>
         <Image HorizontalAlignment="Left" Height="296" Margin="330,0,0,0"
                VerticalAlignment="Top" Width="504" Source="/img/krl-transformed.png"/>
+        <ComboBox x:Name="cbFile"  SelectedItem="{Binding s}" DisplayMemberPath="FileName"
+            FontFamily="Courier New"  Margin="85,208,633,338"/>
 
     </Grid>
 </Page>

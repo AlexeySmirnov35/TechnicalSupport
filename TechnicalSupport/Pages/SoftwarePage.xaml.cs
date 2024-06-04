@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using TechnicalSupport.DataBaseClasses;
 namespace TechnicalSupport.Pages
 {
     /// <summary>
@@ -92,6 +92,11 @@ namespace TechnicalSupport.Pages
             {
                 MessageBox.Show($"Ошибка при удалении файла: {ex.Message}");
             }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

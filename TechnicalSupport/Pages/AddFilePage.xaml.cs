@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using TechnicalSupport.DataBaseClasses;
 namespace TechnicalSupport.Pages
 {
     /// <summary>
@@ -21,14 +21,41 @@ namespace TechnicalSupport.Pages
     /// </summary>
     public partial class AddFilePage : Page
     {
+        ApplicationContext KonfigKc;
         public Department Department { get; set; }
         public AddFilePage()
         {
             
             InitializeComponent();
-            frmMain.Navigate(new PersonalArea());
+            //frmMain.Navigate(new PersonalArea());
         }
+        private void AddComboBox_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboBoxPanel.Children.OfType<ComboBox>().Count() < 4)
+            {
+                ComboBox newComboBox = new ComboBox
+                {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    Width = 150,
+                    FontFamily = new FontFamily("Courier New"),
+                    Margin = new Thickness(0, 10, 0, 0)
+                };
 
+                int comboBoxCount = comboBoxPanel.Children.OfType<ComboBox>().Count();
+                string comboBoxName = "cbOtvest" + comboBoxCount.ToString();
+                newComboBox.Name = comboBoxName;
+
+                newComboBox.ItemsSource = KonfigKc.Users.ToList();
+                newComboBox.ItemTemplate = this.Resources["FullNameTemplate"] as DataTemplate;
+
+                comboBoxPanel.Children.Add(newComboBox);
+            }
+            else
+            {
+                MessageBox.Show("Нельзя добавить больше четырех исполнителей");
+            }
+        }
         private void add(object sender, RoutedEventArgs e)
         {
             

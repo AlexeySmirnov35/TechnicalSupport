@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechnicalSupport.DataBaseClasses;
 
 
 namespace TechnicalSupport
@@ -14,7 +15,7 @@ namespace TechnicalSupport
         
         public DbSet<LicensiaInfo> LicensiaInfos { get; set; }
         public DbSet<OfficeEquipment> OfficeEquipments{ get; set; }
-        public DbSet<OperatingSystem> OperatingSystems{ get; set; }
+        public DbSet<DataBaseClasses.OperatingSystem> OperatingSystems{ get; set; }
         public DbSet<Position> Positions { get; set; }
         public DbSet<PositionOfficeEquip> PositionOfficeEquips { get; set; }
         public DbSet<Request> Requests{ get; set; }
@@ -23,9 +24,11 @@ namespace TechnicalSupport
         public DbSet<Role> Roles { get; set; }
         public DbSet<Software> Softwares { get; set; }
         public DbSet<SoftwarePosition> SoftwarePositions { get; set; }
-        public DbSet<Status> Statuss { get; set; }
-        public DbSet<TypeSoft> TypeSofts{ get; set; }
+        public DbSet<Status> Statusеs { get; set; }
+        public DbSet<TypeSofware> TypeSofwares { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Client> Clients { get; set; }
+       public DbSet<CommitMessage> CommitMessages { get; set; }
         public ApplicationContext() : base("DefaultConnection")
         { }
     }

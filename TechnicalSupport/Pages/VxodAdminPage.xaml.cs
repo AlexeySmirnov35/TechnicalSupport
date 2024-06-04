@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TechnicalSupport.DataBaseClasses;
+using TechnicalSupport.WinowsProgram;
 
 namespace TechnicalSupport.Pages
 {
@@ -42,21 +44,51 @@ namespace TechnicalSupport.Pages
                 }
                 else
                 {
-                    switch (userObj.RoleID)
+                MasterGlavWindow masterGlavWindow1 = new MasterGlavWindow(userObj);
+                MainWindow mainWindow1 = new MainWindow();
+               
+                switch (userObj.RoleID)
                     {
                         case 1:
-                            MessageBox.Show("Hello Админ!");
-                            NavigationService.Navigate(new Uri("Pages/AddFilePage.xaml", UriKind.Relative));
-                            break;
+                            MessageBox.Show("Hello Админ}!");
+                            AdminGlavWindow adminGlavWindow = new AdminGlavWindow(userObj);
+
+                            adminGlavWindow.Show();
+                            mainWindow1.Close();
+
+                        break;
                         case 2:
                             MessageBox.Show("Hello Диспетчер");
-                            NavigationService.Navigate(new Uri("Pages/AdminPage.xaml", UriKind.Relative));
-                            break;
+                           // NavigationService.Navigate(new Uri("Pages/AdminPage.xaml", UriKind.Relative));
+                       
+                        masterGlavWindow1.Show();
+                        mainWindow1.Close();
+                        break;
                         case 3:
                             MessageBox.Show("Hello! Исполнитель");
-                            NavigationService.Navigate(new Uri("Pages/AdminPage.xaml", UriKind.Relative));
-                            break;
-                        default:
+                       
+                        masterGlavWindow1.Show();
+                        mainWindow1.Close();
+
+                        break;
+                        case 4:
+                        MessageBox.Show("Hello! Исполнитель");
+                     
+                        masterGlavWindow1.Show();
+                        mainWindow1.Close();
+                        break;
+                         case 5:
+                        MessageBox.Show("Hello! Исполнитель");
+                        masterGlavWindow1.Show();
+                        mainWindow1.Close();
+                        break;
+                       case 6:
+                        MessageBox.Show("Hello! Исполнитель");
+                        UserGlavWindow userGlavWindow=new UserGlavWindow(userObj);
+                        userGlavWindow.Show();
+                        mainWindow1.Close(); 
+                        break;
+                    default:
                             break;
                     }
                 }
@@ -85,7 +117,8 @@ namespace TechnicalSupport.Pages
 
         private void Btn_GoBack(object sender, RoutedEventArgs e)
         {
-            NavigationService.GoBack();
+           MainWindow mainWindow = new MainWindow();
+            mainWindow.Close();
         }
     }
 }

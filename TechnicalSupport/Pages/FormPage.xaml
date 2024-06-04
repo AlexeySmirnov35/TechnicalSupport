@@ -5,137 +5,150 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TechnicalSupport.Pages"
       mc:Ignorable="d" 
-      d:Height="1000" d:Width="1100"
+      d:Height="auto" d:Width="auto" Background="#333" Foreground="#FF32EBFB"
       Title="FormPage">
-    <Page.Resources>
-        <DataTemplate x:Key="FullNameTemplate">
-            <TextBlock>
-                <Run Text="{Binding Firstname}" />
-                <Run Text=" " />
-                <Run Text="{Binding Surname}" />
-                <Run Text=" " />
-                <Run Text="{Binding Patranomic}" />
-            </TextBlock>
-        </DataTemplate>
-    </Page.Resources>
+
     <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#E8F5E9" Offset="0"/>
-                <GradientStop Color="#FFFFFF" Offset="0.3"/>
-                <GradientStop Color="#E0E0E0" Offset="0.6"/>
-                <GradientStop Color="#FFFFFF" Offset="0.8"/>
-                <GradientStop Color="#F5F5F5" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" Grid.ColumnSpan="3">
+            <Grid x:Name="print">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-        <Grid x:Name="print">
-            <ComboBox HorizontalAlignment="Left" x:Name="cbDepar" SelectedItem="{Binding Departments}" 
-                      DisplayMemberPath="DepartmentName" Margin="13,129,0,0" VerticalAlignment="Top" Width="397"
-                      Height="44" FontSize="28" FontFamily="Courier New"/>
-            <ComboBox HorizontalAlignment="Left" SelectionChanged="ComboBox_SelectionChanged" 
-                      x:Name="cbPosir" SelectedItem="{Binding Positions}" DisplayMemberPath="PositionName"
-                      Margin="14,238,0,0" VerticalAlignment="Top" Width="398" Height="43" 
-                      FontSize="28" FontFamily="Courier New"/>
-            <Label Content="Выберите подразделение" HorizontalAlignment="Left"
-                   Margin="8,84,0,0" VerticalAlignment="Top" FontSize="28" 
-                   FontFamily="Courier New"/>
-            <Label Content="Выберите должность" HorizontalAlignment="Left"
-                   Margin="10,189,0,0" VerticalAlignment="Top" FontSize="28"
-                   FontFamily="Courier New"/>
-            <Label Content="Примечание:" HorizontalAlignment="Left"
-                   Margin="15,290,0,0" VerticalAlignment="Top" FontSize="28"
-                   FontFamily="Courier New"/>
-            <TextBox x:Name="tbDesc" HorizontalAlignment="Left"  Margin="19,332,0,0"
-                     TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="1073"
-                     Height="341" FontSize="28" RenderTransformOrigin="0.5,0.5" FontFamily="Courier New">
-                <TextBox.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform AngleX="0.401"/>
-                        <RotateTransform/>
-                        <TranslateTransform X="0.493"/>
-                    </TransformGroup>
-                </TextBox.RenderTransform>
-            </TextBox>
+                <StackPanel Orientation="Vertical" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0">
+                    <Label Content="Создание заявки" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Foreground="#FF32EBFB" FontSize="16" FontFamily="Courier New"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <Label Content="Создание заявки" HorizontalAlignment="Left"
-                   Margin="429,5,0,0" VerticalAlignment="Top" 
-                   FontSize="28" FontFamily="Courier New"/>
-            <Label Content="Перечень ПО" HorizontalAlignment="Center"
-                   Margin="0,87,0,0" VerticalAlignment="Top" Width="226"
-                   Height="43" FontSize="28" FontFamily="Courier New"/>
+                        <Label Content="Номер:" HorizontalAlignment="Center" Foreground="#FF32EBFB" FontFamily="Courier New" VerticalAlignment="Center"  />
+                        <TextBox x:Name="tbInc" HorizontalAlignment="Center" Foreground="#FF32EBFB"
+TextWrapping="Wrap" FontFamily="Courier New" VerticalAlignment="Center"  />
+                    </StackPanel>
 
-            <TextBox x:Name="tbPO" Text="" VerticalScrollBarVisibility="Auto"
-                     IsReadOnly="True" HorizontalAlignment="Left" 
-                     Margin="441,127,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"
-                     Width="649" Height="165" FontSize="28" FontFamily="Courier New"/>
+                </StackPanel>
+                
+                <StackPanel  Grid.Column="3" Margin="10,10,20,10" Grid.Row="1" Grid.RowSpan="4">
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="checkBox1" Content="САПР" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,30,0"/>
+                        <StackPanel  Margin="20,0,0,0">
+                            <TextBlock Text="Примечание:"  HorizontalAlignment="Center"></TextBlock>
+                            <TextBox x:Name="tbDesc1" HorizontalAlignment="Left" 
+                                 TextWrapping="Wrap" FontFamily="Courier New" Width="250"
+                                 IsEnabled="{Binding ElementName=checkBox1, Path=IsChecked}" Height="70" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" >
+                        <CheckBox x:Name="checkBox2" Content="Другое ПО" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <StackPanel HorizontalAlignment="Right" Margin="20,0,0,0">
+                            <TextBlock Text="Примечание:" HorizontalAlignment="Center"></TextBlock>
+                            <TextBox x:Name="tbDesc2" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+             TextWrapping="Wrap" FontFamily="Courier New" Width="250"
+             IsEnabled="{Binding ElementName=checkBox2, Path=IsChecked}" Height="70"  />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="checkBox3" Content="Ос" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,40,0"/>
+                        <StackPanel Margin="20,0,0,0">
+                            <TextBlock Text="Примечание:"  HorizontalAlignment="Center"></TextBlock>
+                            <TextBox HorizontalAlignment="Right" x:Name="tbDesc3" Foreground="#FF32EBFB"
+             TextWrapping="Wrap" FontFamily="Courier New" Width="250"
+             IsEnabled="{Binding ElementName=checkBox3, Path=IsChecked}" Height="70"  />
+                        </StackPanel>
+                    </StackPanel>
 
-            <TextBox x:Name="tbInc" HorizontalAlignment="Left" Margin="127,8,0,0"
-                     TextWrapping="Wrap" FontSize="28" FontFamily="Courier New" 
-                     VerticalAlignment="Top" Width="159" Height="37"  TextAlignment="Center"/>
-            <Label Content="Номер:" HorizontalAlignment="Left" Margin="6,5,0,0"
-                   VerticalAlignment="Top" FontSize="28" FontFamily="Courier New" 
-                   Height="47" Width="136" />
-            <Label Content="Отвественный:" HorizontalAlignment="Left"
-                Margin="16,710,0,0" VerticalAlignment="Top" FontSize="28"
-                FontFamily="Courier New"/>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox x:Name="checkBox4" Content="Орг.Техника" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <StackPanel Margin="10,0,0,0">
+                                <TextBlock Text="Примечание:"  HorizontalAlignment="Center"></TextBlock>
+                                <TextBox HorizontalAlignment="Left" Foreground="#FF32EBFB" x:Name="tbDesc4"
+             TextWrapping="Wrap" FontFamily="Courier New" Width="250"
+             IsEnabled="{Binding ElementName=checkBox4, Path=IsChecked}" Height="70"  />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                   
 
-        </Grid>
-        <Button Content="Назад" Click="Btn_GoBack" Background="#FF00C2C5" BorderThickness="2,2,2,2" 
-                FontSize="36" HorizontalAlignment="Left" Margin="944,886,0,0"
-                VerticalAlignment="Top" Width="146" FontFamily="Courier New" Height="52">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
-        <Button Content="Отправить обращение" Background="#FF00C2C5" BorderThickness="2,2,2,2"
-                Click="Create_Req_Click" HorizontalAlignment="Left" Margin="654,798,0,0" 
-                VerticalAlignment="Top" Height="82" Width="436" 
-                FontSize="36" FontFamily="Courier New">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
-        <Button x:Name="addComboBoxButton" Background="#FF00C2C5" BorderThickness="2,2,2,2" 
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="652,692,0,0" 
-                Height="98" Width="436" FontSize="36" FontFamily="Courier New"
-                Click="AddComboBox_Click">
-            <Button.Content>
-                <TextBlock Text="Добавить еще одного исполнителя" TextWrapping="Wrap" TextAlignment="Center"/>
-            </Button.Content>
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
+                </StackPanel>
 
-        <StackPanel x:Name="comboBoxPanel" Margin="238,710,464,10">
-            <!-- Здесь вы можете разместить уже существующий ComboBox -->
-            <ComboBox x:Name="cbOtvest"  ItemsSource="{Binding Users}" Width = "398" Height = "43" FontSize = "28" FontFamily="Courier New">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock>
-                            <Run Text="{Binding Firstname}" /><Run Text=" "/>
-                            <Run Text=" " />
-                            <Run Text="{Binding Surname}" />
-                            <Run Text=" "/>
-                            <Run Text="{Binding Patranomic}" /></TextBlock>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <!-- Здесь вы можете разместить уже существующий ComboBox -->
+                <StackPanel Grid.Row="1" Grid.Column="0">
+                    <Label Content="Выберите подразделение" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+                           VerticalAlignment="Top" 
+                           FontFamily="Courier New"/>
 
-            <!-- Здесь вы можете разместить уже существующий ComboBox -->
+                    <ComboBox HorizontalAlignment="Left" x:Name="cbDepar" SelectedItem="{Binding Departments}" 
+                              DisplayMemberPath="DepartmentName" Width="179"
+                              FontFamily="Courier New"/>
+
+                    <Label Content="Выберите должность" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+                           VerticalAlignment="Top" 
+                           FontFamily="Courier New"/>
+                    <ComboBox HorizontalAlignment="Left" SelectionChanged="ComboBox_SelectionChanged" 
+                              x:Name="cbPosir" SelectedItem="{Binding Positions}" DisplayMemberPath="PositionName" Width="182" 
+                              FontFamily="Courier New"/>
+                    <TextBlock Text="Фамилия"></TextBlock>
+                    <TextBox x:Name="tbSurname" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+         TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
+                    <TextBlock Text="Имя"></TextBlock>
+                    <TextBox x:Name="tbName" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
+                    <TextBlock Text="Отчетсво"></TextBlock>
+                    <TextBox x:Name="tbPAt" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
+                    <TextBlock Text="Кабинет"></TextBlock>
+                    <TextBox x:Name="tbCab" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
+                    <TextBlock Text="Номер"></TextBlock>
+                    <TextBox x:Name="tbNumber" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
+
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
+                    <Label Content="Перечень ПО" Foreground="#FF32EBFB"
+VerticalAlignment="Top"  FontFamily="Courier New"/>
+
+                    <TextBox x:Name="tbPO" Text="" Width="150" VerticalScrollBarVisibility="Auto"
+  IsReadOnly="True" 
+  TextWrapping="Wrap" FontFamily="Courier New" HorizontalAlignment="Left" Height="325"/>
+                </StackPanel>
+            </Grid>
         </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <Button x:Name="createRequestButton" BorderThickness="2,2,2,2"
+                    Click="Create_Req_Click" HorizontalAlignment="Center" 
+                    VerticalAlignment="Top" FontFamily="Courier New" BorderBrush="{x:Null}" Margin="00,10,0,10">
+                <Button.Content>
+                    <TextBlock Text="Создать заявку" Margin="5" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" />
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
 
     </Grid>
 </Page>

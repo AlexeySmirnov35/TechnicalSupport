@@ -4,87 +4,109 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TechnicalSupport.Pages"
-      mc:Ignorable="d" 
-      d:Height="1000" d:Width="1100"
+      mc:Ignorable="d" Background="#333" 
+      d:Height="auto" d:Width="auto" 
       Title="RolePage">
 
     <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#E8F5E9" Offset="0"/>
-                <GradientStop Color="#FFFFFF" Offset="0.3"/>
-                <GradientStop Color="#E0E0E0" Offset="0.6"/>
-                <GradientStop Color="#FFFFFF" Offset="0.8"/>
-                <GradientStop Color="#F5F5F5" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        <ListView x:Name="listview"  Height="875" BorderBrush="#FF111211" VerticalAlignment="Top" 
-                  FontSize="36" FontFamily="Courier New" Margin="10,56,586,0" Padding="2,2,2,2"
-                  BorderThickness="2,2,2,2" ClipToBounds="True" >
-            
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Должность">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding PositionName}" TextWrapping="Wrap" Width="510"></TextBlock>
+       
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
 
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Должность">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding OperatingSystemsID}" TextWrapping="Wrap" Width="510"></TextBlock>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <TextBox x:Name="tbPos" HorizontalAlignment="Left" Margin="520,428,0,0" TextWrapping="Wrap" 
-                 Text="" VerticalAlignment="Top" Width="564" Height="155" FontFamily="Courier New" FontSize="36"/>
-        <Button Content="Сохранить" Background="#FF00C2C5" BorderThickness="2,2,2,2"
-                Click="AddEditRole_Click" HorizontalAlignment="Left" 
-                Margin="518,606,0,0" VerticalAlignment="Top" 
-                FontFamily="Courier New" FontSize="36" Height="62" Width="283">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
-        <Label Content="Перечень ролей" HorizontalAlignment="Center" VerticalAlignment="Top"
-               FontSize="48" FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic"/>
-        <TextBlock TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Left"
-                   Margin="518,150,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Courier New" Height="119" Width="551" FontStyle="Italic">
-            <Run Text="Добавление/редактирование/"/><Run Language="ru-ru" Text="удаление"/><Run Text=" должности"/></TextBlock>
-        <TextBlock TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Left" 
-                   Margin="514,710,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Courier New" FontStyle="Italic" Height="175" Width="556">
-            <Run Text="*Для редактировани"/><Run Language="ru-ru" Text="я"/><Run Language="ru-ru" Text=" или удаления"/>
-            <Run Text=" нажмите на строку,которую хотите отредактировать"/></TextBlock>
-        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Введите наименование должности"
-                   HorizontalAlignment="Left" Margin="564,333,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Courier New" Height="78" Width="488"/>
-        <Button Content="Назад" Click="Btn_GoBack" Background="#FF00C2C5" 
-                BorderThickness="2,2,2,2" FontSize="36" HorizontalAlignment="Left" Margin="935,881,0,0" VerticalAlignment="Top" 
-                Width="146" FontFamily="Courier New" Height="52">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
-        <Button Content="Удалить" Background="#FF00C2C5" BorderThickness="2,2,2,2" 
-                Click="DelRole_Click" HorizontalAlignment="Left" Margin="808,606,0,0" VerticalAlignment="Top" 
-            FontFamily="Courier New" FontSize="36" Height="62" Width="283" Foreground="#FFFF0505" FontWeight="Bold">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
+        </Grid.ColumnDefinitions>
+
+
+        <!-- Left Panel -->
+        <StackPanel Grid.Column="0" Margin="10">
+            <ListView x:Name="listview"   BorderBrush="#FF111211" VerticalAlignment="Top" 
+                    Padding="2,2,2,2"
+                  BorderThickness="2,2,2,2" ClipToBounds="True" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Должность">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PositionName}" TextWrapping="Wrap"></TextBlock>
+
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="ОС">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding OperatingSystem.NameOperatingSystem}" TextWrapping="Wrap" ></TextBlock>
+                                    
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="EditRole_Click" BorderThickness="0" HorizontalAlignment="Right" >
+                                        <Button.Background>
+                                            <SolidColorBrush Color="Transparent"/>
+                                        </Button.Background>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/img\icons8-edit-48.png"  Width="36" Height="36"   Margin="0,0,5,0"/>
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteButton_Click" BorderThickness="0" >
+                                        <Button.Background>
+                                            <SolidColorBrush Color="Transparent"/>
+                                        </Button.Background>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/img\icons8-delete-48.png"  Width="26" Height="26" Margin="0,0,5,0"/>
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Click="PreviousPage_Click" Margin="5" HorizontalAlignment="Center" BorderThickness="0" >
+                        <Button.Background>
+                            <SolidColorBrush Color="Transparent"/>
+                        </Button.Background>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/img\icons8-left-48.png"  Width="36" Height="36"   Margin="0,0,5,0"/>
+                        </StackPanel>
+                    </Button>
+                    <TextBlock x:Name="PageInfo" VerticalAlignment="Center" Margin="5" Foreground="#FF32EBFB" />
+                    <Button Click="NextPage_Click" Margin="5" HorizontalAlignment="Center" BorderThickness="0" >
+                        <Button.Background>
+                            <SolidColorBrush Color="Transparent"/>
+                        </Button.Background>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/img\icons8-right-48.png"  Width="36" Height="36"  Margin="0,0,5,0"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right">
+                    <Button Click="AddEditRole_Click" BorderThickness="0" HorizontalAlignment="Right" >
+                        <Button.Background>
+                            <SolidColorBrush Color="Transparent"/>
+                        </Button.Background>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/img\icons8-plus-48.png"  Width="36" Height="36"   Margin="0,0,5,0"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+
+            </StackPanel>
+        </StackPanel>
+
     </Grid>
 </Page>

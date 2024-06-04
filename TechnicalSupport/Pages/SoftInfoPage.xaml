@@ -4,80 +4,78 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TechnicalSupport.Pages"
-      mc:Ignorable="d" 
-      d:Height="1000" d:Width="1100"
+      mc:Ignorable="d" Background="#333" Foreground="#FF32EBFB"
+      d:Height="auto" d:Width="auto"
       Title="SoftInfoPage" Loaded="Page_Loaded">
 
     <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#E8F5E9" Offset="0"/>
-                <GradientStop Color="#FFFFFF" Offset="0.3"/>
-                <GradientStop Color="#E0E0E0" Offset="0.6"/>
-                <GradientStop Color="#FFFFFF" Offset="0.8"/>
-                <GradientStop Color="#F5F5F5" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+       
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
 
-        <TextBox x:Name="tbName" HorizontalAlignment="Center" Margin="0,10,0,0"
-                 TextWrapping="Wrap" Text="{Binding SoftwareName}" VerticalAlignment="Top" 
-                 Height="64" Width="446" FontFamily="Courier New" FontSize="22"/>
-        <TextBox x:Name="tbVer" HorizontalAlignment="Left" Margin="116,567,0,0" TextWrapping="Wrap"
-                 Text="{Binding Version}" VerticalAlignment="Top" Height="30" Width="248" 
-                 FontFamily="Courier New" FontSize="22"/>
-        <TextBox x:Name="tbDes"  HorizontalAlignment="Left" Margin="16,108,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Description}" VerticalAlignment="Top" Height="218" 
-                 Width="1062" FontFamily="Courier New" FontSize="22"/>
-        <TextBlock  Margin="7,668,768,70" FontFamily="Courier New" FontSize="22" >
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+            <Label Content="Назавние" HorizontalAlignment="Center" Foreground="#FF32EBFB"
+               VerticalAlignment="Center" FontFamily="Courier New" />
+            <TextBox x:Name="tbName" HorizontalAlignment="Center" 
+                 TextWrapping="Wrap" Text="{Binding SoftwareName}" VerticalAlignment="Center"   FontFamily="Courier New" />
+        </StackPanel>
+        <StackPanel Grid.Row="1"  Margin="10">
+            <Label Content="Описание:" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+               VerticalAlignment="Top" FontFamily="Courier New" />
+            <TextBox x:Name="tbDes"  HorizontalAlignment="Left"  TextWrapping="Wrap" 
+                 Text="{Binding Description}" VerticalAlignment="Top" Height="100" 
+                 Width="340" FontFamily="Courier New" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal"  Margin="10">
+            <TextBlock   FontFamily="Courier New" HorizontalAlignment="Left"  >
             <Hyperlink NavigateUri="{Binding WebUrl}" RequestNavigate="Hyperlink_RequestNavigate">
-                <TextBlock Text="Ссылка на документацию" Width="311" Height="24" />
+                <TextBlock Text="Ссылка на документацию"   />
             </Hyperlink>
         </TextBlock>
+            <TextBox x:Name="tbWeb" HorizontalAlignment="Left"  TextWrapping="Wrap"
+                 Text="{Binding WebUrl}" VerticalAlignment="Top" Width="200" FontFamily="Courier New" Margin="5,0,0,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal"  Margin="10">
+            <Label Content="Файл" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+               VerticalAlignment="Top" FontFamily="Courier New" />
+            <ComboBox x:Name="cbFile"  SelectedItem="{Binding FilesSoftwares}" DisplayMemberPath="FileName"
+                  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100"  FontFamily="Courier New"  Margin="10,0,10,0"/>
+            <TextBlock Text="Если нет вашего файла, то нажмите сюда, для создания" TextWrapping="Wrap"
+                   MouseLeftButtonDown="TextBlock_Click" HorizontalAlignment="Left"  VerticalAlignment="Top" 
+                    Width="200" FontFamily="Courier New"  TextAlignment="Justify" TextDecorations="Underline" Foreground="#FF137BEF" />
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Grid.Column="0"  Margin="10">
+            <Label Content="Тип лицензии" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+               VerticalAlignment="Top" FontFamily="Courier New" />
+            <ComboBox x:Name="cbLis"  SelectedItem="{Binding FilesSoftwares}" DisplayMemberPath="FileName"
+                  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100"  FontFamily="Courier New" />
+            <Label Content="Тип ПО" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+               VerticalAlignment="Top" FontFamily="Courier New" />
+            <ComboBox x:Name="cbTypeSoft"  SelectedItem="{Binding FilesSoftwares}" DisplayMemberPath="FileName"
+                  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100"  FontFamily="Courier New" />
+        </StackPanel>
+        <StackPanel Grid.Row="6"  Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Сохранить"  BorderThickness="2,2,2,2" 
+                Click="Btn_Save_Soft_Click" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Courier New" BorderBrush="{x:Null}"/>
+        </StackPanel>
 
 
-        <TextBox x:Name="tbUpDesc" HorizontalAlignment="Left" Margin="18,374,0,0" 
-                 TextWrapping="Wrap" Text="{Binding UpdateDescription}" VerticalAlignment="Top"
-                 Height="176" Width="1056" FontFamily="Courier New" FontSize="22"/>
-        <Label Content="Назавние" HorizontalAlignment="Left" Margin="205,7,0,0"
-               VerticalAlignment="Top" FontFamily="Courier New" FontSize="22"/>
-        <Label Content="Версия" HorizontalAlignment="Left" Margin="5,564,0,0"
-               VerticalAlignment="Top" FontFamily="Courier New" FontSize="22" Height="34"/>
-        <Label Content="Описание:" HorizontalAlignment="Left" Margin="8,74,0,0" 
-               VerticalAlignment="Top" FontFamily="Courier New" FontSize="22" Height="30"/>
-        <Label Content="Дата последнего обновления" HorizontalAlignment="Left"
-               Margin="8,616,0,0" VerticalAlignment="Top" FontFamily="Courier New" FontSize="22" Height="30"/>
-        <DatePicker x:Name="DtPicker" SelectedDate="{Binding LastUpdateDate}" 
-                    HorizontalAlignment="Left" Margin="402,616,0,0" VerticalAlignment="Top" FontFamily="Courier New" FontSize="22" Height="30" Width="274"/>
-        <TextBlock Text="Описание последнего обновления:" TextWrapping="Wrap" 
-                   HorizontalAlignment="Left" Margin="10,334,0,0" VerticalAlignment="Top" Height="34" Width="418" FontFamily="Courier New" FontSize="22" TextAlignment="Right" />
-        <Label Content="Файл" HorizontalAlignment="Left" Margin="400,566,0,0"
-               VerticalAlignment="Top" FontFamily="Courier New" FontSize="22" Height="34"/>
-        <Button Content="Сохранить" Background="#FF00C2C5" BorderThickness="2,2,2,2" 
-                Click="Btn_Save_Soft_Click" HorizontalAlignment="Left" Margin="434,736,0,0" VerticalAlignment="Top" FontFamily="Courier New"
-                FontSize="24" Height="46" Width="184">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
-        <TextBox x:Name="tbWeb" HorizontalAlignment="Left" Margin="345,665,0,0" TextWrapping="Wrap"
-                 Text="{Binding WebUrl}" VerticalAlignment="Top" Width="733" FontFamily="Courier New" FontSize="22" Height="64"/>
-        <ComboBox x:Name="cbFile"  SelectedItem="{Binding FilesSoftwares}" DisplayMemberPath="FileName"
-                  HorizontalAlignment="Left" Margin="475,570,0,0" VerticalAlignment="Top" Width="226" Height="28" FontFamily="Courier New" FontSize="20"/>
-        <TextBlock Text="Если нет вашего файла, то нажмите сюда, для создания" TextWrapping="Wrap"
-                   MouseLeftButtonDown="TextBlock_Click" HorizontalAlignment="Left" Margin="726,557,0,0" VerticalAlignment="Top" 
-                   Height="51" Width="350" FontFamily="Courier New" FontSize="22" TextAlignment="Justify" TextDecorations="Underline" Foreground="#FF137BEF" />
-        <Button Content="Назад" Background="#FF00C2C5" BorderThickness="2,2,2,2" Click="Btn_GoBack"
-                FontSize="36" HorizontalAlignment="Left" Margin="938,740,0,0" VerticalAlignment="Top"
-                Width="146" FontFamily="Courier New" Height="52">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
+
+
+
+
+
     </Grid>
 </Page>

@@ -4,22 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TechnicalSupport.Pages"
-      mc:Ignorable="d" 
-      d:Height="1000" d:Width="1100"
-      Title="InformationPage" Background="Black">
-         <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#E8F5E9" Offset="0"/>
-                <GradientStop Color="#FFFFFF" Offset="0.3"/>
-                <GradientStop Color="#E0E0E0" Offset="0.6"/>
-                <GradientStop Color="#FFFFFF" Offset="0.8"/>
-                <GradientStop Color="#F5F5F5" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+      mc:Ignorable="d" Background="#333" 
+      d:Height="auto" d:Width="auto"
+      Title="InformationPage" >
+    <Grid>
+        
         <Grid>
             <DataGrid x:Name="positionDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" 
-                  SelectionChanged="PositionDataGrid_SelectionChanged" Margin="0,0,342,0">
+                  SelectionChanged="PositionDataGrid_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Должность" Binding="{Binding PositionID}" />
                     <DataGridTemplateColumn Header="Программы">

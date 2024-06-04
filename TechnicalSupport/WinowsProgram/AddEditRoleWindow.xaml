@@ -1,0 +1,28 @@
+﻿<Window x:Class="TechnicalSupport.WinowsProgram.AddEditRoleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TechnicalSupport.WinowsProgram"
+        xmlns:loc="clr-namespace:TechnicalSupport.DataBaseClasses"
+        mc:Ignorable="d" Background="#333" Foreground="#FF32EBFB"
+        Title="AddEditRoleWindow" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel Grid.Column="1" Margin="10">
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Введите наименование должности"
+                       HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Courier New"/>
+            <TextBox x:Name="tbPos" HorizontalAlignment="Center" TextWrapping="Wrap" 
+                     Text="{Binding PositionName}" VerticalAlignment="Top" FontFamily="Courier New" Width="200"/>
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Выберите ОС"
+                       HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Courier New"/>
+            <ComboBox Width="200" x:Name="cbFile" SelectedItem="{Binding OperatingSystem}" DisplayMemberPath="NameOperatingSystem"
+                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,10,0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Сохранить" BorderThickness="2" 
+                        FontFamily="Courier New" Margin="0 10 0 0"
+                        Click="AddEditRole_Click" HorizontalAlignment="Center" 
+                        VerticalAlignment="Top" BorderBrush="{x:Null}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

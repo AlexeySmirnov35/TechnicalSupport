@@ -1,113 +1,54 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using System.Windows.Media;
-using System.Windows.Data;
-using System.Windows.Documents;
+using TechnicalSupport.DataBaseClasses;
 
 namespace TechnicalSupport.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для FormPage.xaml
-    /// </summary>
     public partial class FormPage : Page
     {
         private Request _requests = new Request();
-        ApplicationContext KonfigKc;
+        private ApplicationContext KonfigKc;
 
         public FormPage()
         {
             InitializeComponent();
+            InitializeData();
+        }
+
+        private void InitializeData()
+        {
             KonfigKc = new ApplicationContext();
-            var context = KonfigKc;
             cbPosir.ItemsSource = KonfigKc.Positions.ToList();
             cbDepar.ItemsSource = KonfigKc.Departments.ToList();
-            cbOtvest.ItemsSource = KonfigKc.Users.ToList();
             UpdatePo();
-            var lastRequestId = context.Requests.Max(r => (int?)r.RequestID) ?? 0;
-            if (lastRequestId != null)
-            {
-                int newRequestId = lastRequestId + 1;
-                tbInc.Text = newRequestId.ToString();
-            }
-            else
-            {
-                MessageBox.Show("Возникла ошибка создание заявки");
-            }
+
+            var lastRequestId = KonfigKc.Requests.Max(r => (int?)r.RequestID) ?? 0;
+            tbInc.Text = (lastRequestId + 1).ToString();
         }
 
         private void UpdatePo()
         {
-            if (cbPosir.SelectedItem != null)
+            if (cbPosir.SelectedItem is Position selectedPosition)
             {
-                Position selectedPosition = cbPosir.SelectedItem as Position;
+                var softwareForPosition = selectedPosition.SoftwarePositions
+                    .Select(sp => sp.Software.SoftwareName)
+                    .ToList();
 
-                if (selectedPosition != null)
+                if (softwareForPosition.Any())
                 {
-                    var softwareForPosition = selectedPosition.SoftwarePositions
-                        .Select(sp => sp.Software.SoftwareName)
-                        .ToList();
-
-                    if (softwareForPosition.Any())
-                    {
-                        StringBuilder numberedSoftwareList = new StringBuilder();
-                        for (int i = 0; i < softwareForPosition.Count; i++)
-                        {
-                            numberedSoftwareList.AppendLine($"{i + 1}. {softwareForPosition[i]}");
-                        }
-
-                        tbPO.Text = numberedSoftwareList.ToString();
-                    }
-                    else
-                    {
-                        tbPO.Text = "Нет данных для отображения.";
-                    }
+                    var numberedSoftwareList = string.Join(Environment.NewLine, softwareForPosition.Select((software, index) => $"{index + 1}. {software}"));
+                    tbPO.Text = numberedSoftwareList;
+                }
+                else
+                {
+                    tbPO.Text = "Нет данных для отображения.";
                 }
             }
         }
-
-        private void AddComboBox_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBoxPanel.Children.OfType<ComboBox>().Count() < 4)
-            {
-                ComboBox newComboBox = new ComboBox
-                {
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Top,
-                    Width = 398,
-                    Height = 43,
-                    FontSize = 28,
-                    FontFamily = new FontFamily("Courier New"),
-                    Margin = new Thickness(0, 10, 0, 0)
-                };
-
-                int comboBoxCount = comboBoxPanel.Children.OfType<ComboBox>().Count();
-                string comboBoxName = "cbOtvest" + comboBoxCount.ToString();
-                newComboBox.Name = comboBoxName;
-
-                newComboBox.ItemsSource = KonfigKc.Users.ToList();
-                newComboBox.ItemTemplate = this.Resources["FullNameTemplate"] as DataTemplate;
-
-                comboBoxPanel.Children.Add(newComboBox);
-            }
-            else
-            {
-                MessageBox.Show("Нельзя добавить больше четырех исполнителей");
-            }
-        }
-
-
-
-
-
-
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -116,75 +57,141 @@ namespace TechnicalSupport.Pages
 
         private void Create_Req_Click(object sender, RoutedEventArgs e)
         {
-            // Проверяем данные
+            try
+            {
+                if (!ValidateFields())
+                    return;
+
+                var exsUser = KonfigKc.Clients.FirstOrDefault(x => x.NumberPhone == tbNumber.Text && x.Firstname == tbSurname.Text && x.Surname == tbName.Text && x.Patranomic == tbPAt.Text);
+                if (exsUser == null)
+                {
+                    if (!ValidateClientData(out var client))
+                        return;
+
+                    KonfigKc.Clients.Add(client);
+                    KonfigKc.SaveChanges();
+                    CreateRequest(client.ClientID);
+                }
+                else
+                {
+                    CreateRequest(exsUser.ClientID);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private bool ValidateFields()
+        {
             StringBuilder errors = new StringBuilder();
-            if (string.IsNullOrWhiteSpace(tbDesc.Text))
-                errors.AppendLine("Напишите описание!");
-            if (cbDepar.SelectedItem == null)
-                errors.AppendLine("Укажите подразделения");
-            if (cbPosir.SelectedItem == null)
-                errors.AppendLine("Укажите должность!");
+
+            if (string.IsNullOrWhiteSpace(tbNumber.Text))
+                errors.AppendLine("Поле 'Номер' не должно быть пустым.");
+            else if (!int.TryParse(tbNumber.Text, out _) || tbNumber.Text.Length < 3)
+                errors.AppendLine("Поле 'Номер' должно быть числом и содержать более трех символов.");
+
+            if (string.IsNullOrWhiteSpace(tbSurname.Text))
+                errors.AppendLine("Поле 'Фамилия' не должно быть пустым.");
+
+            if (string.IsNullOrWhiteSpace(tbName.Text))
+                errors.AppendLine("Поле 'Имя' не должно быть пустым.");
+
+
+            if (string.IsNullOrWhiteSpace(tbCab.Text))
+                errors.AppendLine("Поле 'Кабинет' не должно быть пустым.");
+            else if (!int.TryParse(tbCab.Text, out _) || tbCab.Text.Length < 2)
+                errors.AppendLine("Поле 'Кабинет' должно быть числом и содержать более двух символов.");
 
             if (errors.Length > 0)
             {
                 MessageBox.Show(errors.ToString());
-                return;
+                return false;
             }
 
-            // Создаем запись для заявки
-            Request request = new Request
+            return true;
+        }
+
+        private bool ValidateClientData(out Client client)
+        {
+            client = null;
+
+            if (cbDepar.SelectedItem == null)
             {
-                DepartmentID = (cbDepar.SelectedItem as Department).DepartmentID,
+                MessageBox.Show("Выберите подразделение");
+                return false;
+            }
+            if (cbPosir.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите должность");
+                return false;
+            }
+
+            client = new Client
+            {
+                NumberPhone = tbNumber.Text,
+                Firstname = tbSurname.Text,
+                Surname = tbName.Text,
+                Patranomic = tbPAt.Text,
+                Cabinet = tbCab.Text,
+                DepartamentID = (cbDepar.SelectedItem as Department).DepartmentID,
                 PositionID = (cbPosir.SelectedItem as Position).PositionID,
-                StatusID = 1,
-                Description = tbDesc.Text,
-                RequestDateStart = DateTime.Now.ToString(),
-                RequestDateFinish = null,
             };
+            return true;
+        }
 
-            // Добавляем заявку в контекст данных
-            KonfigKc.Requests.Add(request);
-
-            // Создаем множество для отслеживания уже добавленных пользователей к заявке
-            HashSet<int> addedUserIDs = new HashSet<int>();
-
-            // Создаем записи для ответственных
-            foreach (ComboBox comboBox in comboBoxPanel.Children.OfType<ComboBox>())
-            {
-                if (comboBox.SelectedItem != null)
-                {
-                    User user = comboBox.SelectedItem as User;
-                    if (user != null && !addedUserIDs.Contains(user.UserID))
-                    {
-                        // Создаем запись для связи заявки с ответственным
-                        RequestUser requestUser = new RequestUser
-                        {
-                            RequestID = request.RequestID,
-                            UserID = user.UserID
-                        };
-
-                        // Добавляем запись в контекст данных
-                        KonfigKc.RequestUsers.Add(requestUser);
-
-                        // Добавляем идентификатор пользователя в множество добавленных пользователей
-                        addedUserIDs.Add(user.UserID);
-                    }
-                }
-            }
-
+        private void CreateRequest(int clientId)
+        {
             try
             {
-                // Сохраняем изменения
-                KonfigKc.SaveChanges();
+                DateTime dataLine = DateTime.Now.AddDays(3);
+                StringBuilder errors = new StringBuilder();
+
+                if (cbDepar.SelectedItem == null)
+                    errors.AppendLine("Номер должен содержать только цифры!!");
+                if (cbPosir.SelectedItem == null)
+                    errors.AppendLine("Укажите должность!");
+
+                if (errors.Length > 0)
+                {
+                    MessageBox.Show(errors.ToString());
+                    return;
+                }
+
+                CreateRequestIfChecked(checkBox1, tbDesc1.Text, 2, clientId, dataLine);
+                CreateRequestIfChecked(checkBox2, tbDesc2.Text, 3, clientId, dataLine);
+                CreateRequestIfChecked(checkBox3, tbDesc3.Text, 4, clientId, dataLine);
+                CreateRequestIfChecked(checkBox4, tbDesc4.Text, 5, clientId, dataLine);
+
                 MessageBox.Show("Успешно сохранено");
                 NavigationService.GoBack();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString());
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
 
+        private void CreateRequestIfChecked(CheckBox checkBox, string description, int userId, int clientId, DateTime deadline)
+        {
+            if (checkBox.IsChecked == true)
+            {
+                var request = new Request
+                {
+                    StatusID = 4,
+                    Description = description,
+                    RequestDateStart = DateTime.Now.ToString(),
+                    RequestDeadline = deadline.ToString(),
+                    RequestDateFinish = null,
+                    UserID = userId,
+                    ClientID = clientId
+                };
+
+                KonfigKc.Requests.Add(request);
+                KonfigKc.SaveChanges();
+            }
+        }
 
         private void Btn_GoBack(object sender, RoutedEventArgs e)
         {

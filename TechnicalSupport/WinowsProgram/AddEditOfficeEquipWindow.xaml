@@ -1,0 +1,58 @@
+﻿<Window x:Class="TechnicalSupport.WinowsProgram.AddEditOfficeEquipWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TechnicalSupport.WinowsProgram"
+        mc:Ignorable="d" Background="#333" Foreground="#FF32EBFB"
+        Title="AddEditOfficeEquipWindow" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+            <Label Content="Назавние" HorizontalAlignment="Center" Foreground="#FF32EBFB"
+               VerticalAlignment="Center" FontFamily="Courier New" />
+            <TextBox x:Name="tbName" HorizontalAlignment="Center" 
+                 TextWrapping="Wrap" Text="{Binding NameOfficeEquipment}" VerticalAlignment="Center"   FontFamily="Courier New" />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal"  Margin="10">
+            <TextBlock   FontFamily="Courier New" HorizontalAlignment="Left"   >
+            <Hyperlink NavigateUri="{Binding WebUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+                <TextBlock Text="Ссылка на документацию"  Foreground="#FF59ACFF" />
+            </Hyperlink>
+        </TextBlock>
+            <TextBox x:Name="tbWeb" HorizontalAlignment="Left"  TextWrapping="Wrap"
+                 Text="{Binding WebUrl}" VerticalAlignment="Top" Width="200" FontFamily="Courier New" Margin="5,0,0,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal"  Margin="10">
+            <Label Content="Файл" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+               VerticalAlignment="Top" FontFamily="Courier New" />
+            <ComboBox x:Name="cbFile"  SelectedItem="{Binding FilesSoftwares}" DisplayMemberPath="FileName"
+                  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100"  FontFamily="Courier New"  Margin="10,0,10,0"/>
+            <TextBlock Text="Если нет вашего файла, то нажмите сюда, для создания" TextWrapping="Wrap"
+                   MouseLeftButtonDown="TextBlock_Click" HorizontalAlignment="Left"  VerticalAlignment="Top" 
+                    Width="200" FontFamily="Courier New"  TextAlignment="Justify" TextDecorations="Underline" Foreground="#FF59ACFF" />
+        </StackPanel>
+       
+        <StackPanel Grid.Row="6"  Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Сохранить"  BorderThickness="2,2,2,2" 
+                Click="Btn_Save_Soft_Click" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Courier New" BorderBrush="{x:Null}"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

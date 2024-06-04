@@ -3,114 +3,119 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TechnicalSupport.Pages"
-      mc:Ignorable="d" 
-     d:Height="1000" d:Width="1100"
+      xmlns:local="clr-namespace:TechnicalSupport.Pages" 
+      mc:Ignorable="d"  Background="#333" 
+     d:Height="auto" d:Width="auto"
       Title="InfoPage">
-
     <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#E8F5E9" Offset="0"/>
-                <GradientStop Color="#FFFFFF" Offset="0.3"/>
-                <GradientStop Color="#E0E0E0" Offset="0.6"/>
-                <GradientStop Color="#FFFFFF" Offset="0.8"/>
-                <GradientStop Color="#F5F5F5" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        <ListView x:Name="softwareListView" MouseDoubleClick="SoftwareListView_MouseDoubleClick" 
-          Margin="24,48,18,302" FontFamily="Courier New" FontSize="24"
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <ListView x:Name="softwareListView" MouseDoubleClick="SoftwareListView_MouseDoubleClick"  
           ItemsSource="{Binding SoftwarePositions}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Программа">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Software.SoftwareName}" TextWrapping="Wrap" Width="270"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Должность">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Position.PositionName}" TextWrapping="Wrap" Width="450"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Статус лицензии">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding LicenseInfo.LicenseInfo}" TextWrapping="Wrap" Width="265"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Button Content="Назад" Background="#FF00C2C5" BorderThickness="2,2,2,2"
-                Click="Btn_GoBack" FontSize="36" HorizontalAlignment="Left"
-                Margin="941,802,0,0" VerticalAlignment="Top" Width="146" 
-                FontFamily="Courier New" Height="52">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
-        <TextBlock HorizontalAlignment="Left" Margin="310,8,0,0" TextWrapping="Wrap"
-                   Text="ПО для сотрудников" VerticalAlignment="Top" FontSize="36"
-                   FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,753,0,0" TextWrapping="Wrap" 
-                   Text="*Для редактирования дважды нажмите на строку" VerticalAlignment="Top"
-                   FontSize="24" FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic" 
-                   TextAlignment="Center" Width="364" Height="60"/>
-        <ComboBox x:Name="cbPosir" HorizontalAlignment="Left" SelectedItem="{Binding Positions}" 
-                  DisplayMemberPath="PositionName" Margin="6,689,0,0" VerticalAlignment="Top"
-                  Width="356" Height="55" FontSize="24"/>
-        <ComboBox x:Name="cbSoft" SelectedItem="{Binding Softwares}" DisplayMemberPath="SoftwareName"
-                  HorizontalAlignment="Left" Margin="366,689,0,0" VerticalAlignment="Top"
-                  Width="356" Height="55" FontSize="24"/>
-        <ComboBox x:Name="cbLis" SelectedItem="{Binding LicenseInfo}" DisplayMemberPath="LicenseInfo"
-                  HorizontalAlignment="Left" Margin="726,689,0,0" VerticalAlignment="Top"
-                  Width="356" Height="55" FontSize="24"/>
-        <TextBlock HorizontalAlignment="Left" Margin="-4,661,0,0" TextWrapping="Wrap" 
-                   Text="Выберите должность" VerticalAlignment="Top" FontSize="24" 
-                   FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic"
-                   TextAlignment="Center" Width="280" Height="45"/>
-        <TextBlock HorizontalAlignment="Left" Margin="366,664,0,0" TextWrapping="Wrap"
-                   Text="Выберите ПО" VerticalAlignment="Top" FontSize="24" FontFamily="Courier New"
-                   FontWeight="Bold" FontStyle="Italic" TextAlignment="Center" Width="164" Height="30"
-                   RenderTransformOrigin="0.381,0.466"/>
-        <TextBlock HorizontalAlignment="Left" Margin="704,664,0,0" TextWrapping="Wrap"
-                   Text="Выберите статус лицензии" VerticalAlignment="Top" FontSize="24"
-                   FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic"
-                   TextAlignment="Center" Width="382" Height="22"/>
-        <Button Content="Создать" Background="#FF00C2C5" BorderThickness="2,2,2,2"
-                Click="Btn_Create" FontSize="36" HorizontalAlignment="Left" 
-                Margin="454,755,0,0" VerticalAlignment="Top" Width="186"
-                FontFamily="Courier New" Height="47">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
-        <TextBlock HorizontalAlignment="Left" Margin="0,808,0,0" TextWrapping="Wrap"
-                   Text="*Для удаление нажмите один раз на строку" VerticalAlignment="Top" 
-                   FontSize="24" FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic" 
-                   TextAlignment="Center" Width="364" Height="60"/>
-        <Button Content="Удалить" Background="#FF00C2C5" BorderThickness="2,2,2,2"
-                Click="Btn_Del_Click" FontSize="36" HorizontalAlignment="Left" 
-            Margin="454,815,0,0" VerticalAlignment="Top" Width="186" 
-                FontFamily="Courier New" Height="47" Foreground="Red" FontWeight="Bold">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Программа">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Software.SoftwareName}" TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Должность">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Position.PositionName}" TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Лицензия">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsEnabled="False">
+                                        <CheckBox.Style>
+                                            <Style TargetType="CheckBox">
+                                                <Setter Property="IsChecked" Value="False"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding LicenseTreb}" Value="1">
+                                                        <Setter Property="IsChecked" Value="True"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </CheckBox.Style>
+                                    </CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="EditButton_Click" BorderThickness="0" HorizontalAlignment="Right" >
+                                        <Button.Background>
+                                            <SolidColorBrush Color="Transparent"/>
+                                        </Button.Background>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/img\icons8-edit-48.png"  Width="36" Height="36"   Margin="0,0,5,0"/>
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteButton_Click" BorderThickness="0" >
+                                        <Button.Background>
+                                            <SolidColorBrush Color="Transparent"/>
+                                        </Button.Background>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/img\icons8-delete-48.png"  Width="26" Height="26" Margin="0,0,5,0"/>
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Click="PreviousPage_Click" Margin="5" HorizontalAlignment="Center" BorderThickness="0" >
+                    <Button.Background>
+                        <SolidColorBrush Color="Transparent"/>
+                    </Button.Background>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/img\icons8-left-48.png"  Width="36" Height="36"   Margin="0,0,5,0"/>
+                    </StackPanel>
+                </Button>
+                <TextBlock x:Name="PageInfo" VerticalAlignment="Center" Margin="5" Foreground="#FF32EBFB" />
+                <Button Click="NextPage_Click" Margin="5" HorizontalAlignment="Center" BorderThickness="0" >
+                    <Button.Background>
+                        <SolidColorBrush Color="Transparent"/>
+                    </Button.Background>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/img\icons8-right-48.png"  Width="36" Height="36"  Margin="0,0,5,0"/>
+                    </StackPanel>
+                </Button>
+
+
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right">
+                <Button Click="Btn_AddFile" BorderThickness="0" HorizontalAlignment="Right" >
+                    <Button.Background>
+                        <SolidColorBrush Color="Transparent"/>
+                    </Button.Background>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/img\icons8-plus-48.png"  Width="36" Height="36"   Margin="0,0,5,0"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>

@@ -1,47 +1,63 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Windows;
 using System.Windows.Controls;
 using TechnicalSupport;
-
+using TechnicalSupport.WinowsProgram;
+using TechnicalSupport.DataBaseClasses;
 namespace TechnicalSupport.Pages
 {
     public partial class DepartPage : Page
     {
-        ApplicationContext KonfigKcDB;
+        private ApplicationContext KonfigKcDB;
+        private int currentPage = 1;
+        private const int PageSize = 10;
 
         public DepartPage()
         {
             InitializeComponent();
             KonfigKcDB = new ApplicationContext();
-            listview.ItemsSource = KonfigKcDB.Departments.ToList();
-
-            Console.WriteLine("Страница DepartPage успешно загружена.");
+            LoadDepartments();
+            DisplayPage();
         }
 
-        private void AddEditDepar_Click(object sender, RoutedEventArgs e)
+        private void LoadDepartments()
         {
-            string newDeparTitle = tbDep.Text;
-            if (string.IsNullOrEmpty(newDeparTitle))
-            {
-                MessageBox.Show("Введите подразделение");
-                return;
-            }
+            // Получаем все данные из базы данных
+            listview.ItemsSource = KonfigKcDB.Departments.ToList();
+        }
 
-            try
-            {
-                Department newDep = new Department { DepartmentName = newDeparTitle };
-                KonfigKcDB.Departments.Add(newDep);
-                KonfigKcDB.SaveChanges();
+        private void DisplayPage()
+        {
+            // Получаем текущую страницу данных
+            var departments = KonfigKcDB.Departments
+                .OrderBy(d => d.DepartmentID)
+                .Skip((currentPage - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
+            
+            listview.ItemsSource = departments;
 
-                Console.WriteLine($"Добавлено новое подразделение: {newDep.DepartmentName}");
-                listview.ItemsSource = KonfigKcDB.Departments.ToList();
-                tbDep.Clear();
-            }
-            catch (Exception ex)
+            // Обновляем текст с информацией о текущей странице
+            PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKcDB.Departments.Count() / PageSize)}";
+        }
+
+        private void PreviousPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPage > 1)
             {
-                MessageBox.Show($"Ошибка при добавлении подразделения: {ex.Message}");
-                Console.WriteLine($"Ошибка при добавлении подразделения: {ex}");
+                currentPage--;
+                DisplayPage();
+            }
+        }
+
+        private void NextPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPage < (KonfigKcDB.Departments.Count() + PageSize - 1) / PageSize)
+            {
+                currentPage++;
+                DisplayPage();
             }
         }
 
@@ -63,7 +79,7 @@ namespace TechnicalSupport.Pages
             {
                 foreach (var department in departmentsToDelete)
                 {
-                    if (!KonfigKcDB.Requests.Any(item => item.DepartmentID == department.DepartmentID))
+                    /*if (!KonfigKcDB.Requests.Any(item => item.DepartmentID == department.DepartmentID))
                     {
                         KonfigKcDB.Departments.Remove(department);
                         Console.WriteLine($"Удалено подразделение: {department.DepartmentName}");
@@ -72,18 +88,76 @@ namespace TechnicalSupport.Pages
                     {
                         MessageBox.Show($"{department.DepartmentName} используется в других таблицах и не может быть удален.");
                         Console.WriteLine($"{department.DepartmentName} используется в других таблицах и не может быть удален.");
-                    }
+                    }*/
                 }
 
                 KonfigKcDB.SaveChanges();
                 MessageBox.Show("Удаление прошло успешно");
-                listview.ItemsSource = KonfigKcDB.Departments.ToList();
+                DisplayPage();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при удалении подразделения: {ex.Message}");
                 Console.WriteLine($"Ошибка при удалении подразделения: {ex}");
             }
+        }
+
+        private void Role_click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new RolePage());
+        }
+
+        private void AddEditDepar_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditDepartWindow addEditDepartWindow = new AddEditDepartWindow(null);
+            addEditDepartWindow.ShowDialog();
+            // Обновляем список после добавления/редактирования подразделения
+            DisplayPage();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+           // var departmentsToDelete = listview.SelectedItems.Cast<Department>().ToList();
+            var departmentsToDelete = (sender as Button).DataContext as Department;
+           
+            if (MessageBox.Show($"Вы действительно хотите удалить {departmentsToDelete.DepartmentName}?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+           // KonfigKcDB.Departments.Remove(del);
+            try
+            {
+                
+                    if (!KonfigKcDB.Clients.Any(item => item.DepartamentID == departmentsToDelete.DepartmentID))
+                    {
+                        KonfigKcDB.Departments.Remove(departmentsToDelete);
+                        Console.WriteLine($"Удалено подразделение: {departmentsToDelete.DepartmentName}");
+                        MessageBox.Show("Удаление прошло успешно");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"{departmentsToDelete.DepartmentName} используется в других таблицах и не может быть удален.");
+                        Console.WriteLine($"{departmentsToDelete.DepartmentName} используется в других таблицах и не может быть удален.");
+                    }
+                
+
+                KonfigKcDB.SaveChanges();
+                LoadDepartments();
+                DisplayPage();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении подразделения: {ex.Message}");
+                Console.WriteLine($"Ошибка при удалении подразделения: {ex}");
+            }
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var d=(sender as Button).DataContext as Department;
+            AddEditDepartWindow addEditDepartWindow=new AddEditDepartWindow(d);
+             
+            addEditDepartWindow.ShowDialog();
         }
     }
 }

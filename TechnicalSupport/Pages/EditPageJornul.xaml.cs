@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using TechnicalSupport.DataBaseClasses;
 namespace TechnicalSupport.Pages
 {
     /// <summary>
@@ -41,7 +41,7 @@ namespace TechnicalSupport.Pages
         {
             try
             {
-                if (_requests != null && _requests.Position != null)
+               /* if (_requests != null && _requests.Position != null)
                 {
                     Position selectedPosition = _requests.Position;
 
@@ -65,7 +65,7 @@ namespace TechnicalSupport.Pages
                             tbPO.Text = "Нет данных для отображения.";
                         }
                     }
-                }
+                }*/
             }
             catch (Exception ex)
             {

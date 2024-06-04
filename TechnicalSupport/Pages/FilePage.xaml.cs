@@ -1,13 +1,15 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-
+using TechnicalSupport.DataBaseClasses;
+using TechnicalSupport.WinowsProgram;
 namespace TechnicalSupport.Pages
 {
     public partial class FilePage : Page
@@ -15,83 +17,61 @@ namespace TechnicalSupport.Pages
         private byte[] fileContent = null;
         private FilesSoftware selectedFile = null;
         ApplicationContext KonfigKc;
+        private int currentPage = 1;
+        private const int PageSize = 10;
 
-       
         public FilePage()
         {
             InitializeComponent();
             KonfigKc = new ApplicationContext();
-            listview.ItemsSource = KonfigKc.FilesSoftwares.ToList();
-            listview.SelectionChanged += Listview_SelectionChanged;
+            LoadDepartments();
+            DisplayPage();
         }
-
+        private void LoadDepartments()
+        {
+            // Получаем все данные из базы данных
+            listview.ItemsSource = KonfigKc.FilesSoftwares.ToList();
+        }
         private void Listview_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             
             if (listview.SelectedItem != null)
             {
                 selectedFile = (FilesSoftware)listview.SelectedItem;
-                tbContent.Text = selectedFile.FileName;
+                //tbContent.Text = selectedFile.FileName;
             }
         }
 
-        private void Btn_AddFile_Click(object sender, RoutedEventArgs e)
+        private void DisplayPage()
         {
-            OpenFileDialog fileOpen = new OpenFileDialog();
+            // Получаем текущую страницу данных
+            var departments = KonfigKc.FilesSoftwares
+                .OrderBy(d => d.FileID)
+                .Skip((currentPage - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
 
-            fileOpen.Title = "Выберите файл";
-            fileOpen.Multiselect = false;
-            fileOpen.Filter = "Файлы PDF|*.pdf";
+            listview.ItemsSource = departments;
 
-            if (fileOpen.ShowDialog() == true)
+            // Обновляем текст с информацией о текущей странице
+            PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKc.FilesSoftwares.Count() / PageSize)}";
+        }
+
+        private void PreviousPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPage > 1)
             {
-                fileContent = File.ReadAllBytes(fileOpen.FileName);
-                tbContent.Text = fileOpen.SafeFileName;
+                currentPage--;
+                DisplayPage();
             }
         }
-        private void Btn_SaveFile_Click(object sender, RoutedEventArgs e)
+
+        private void NextPage_Click(object sender, RoutedEventArgs e)
         {
-            string fileName = tbContent.Text.Trim();
-            StringBuilder errors = new StringBuilder();
-
-            if (string.IsNullOrEmpty(fileName))
+            if (currentPage < (KonfigKc.FilesSoftwares.Count() + PageSize - 1) / PageSize)
             {
-                errors.AppendLine("Выберите файл.");
-            }
-            else
-            {
-                var dbContext = KonfigKc;
-
-                var isDuplicate = dbContext.FilesSoftwares.Any(f => f.FileName == fileName);
-
-                if (isDuplicate)
-                {
-                    errors.AppendLine("Такой файл уже существует.");
-                }
-
-                if (errors.Length == 0)
-                {
-                    if (selectedFile != null)
-                    {
-                        selectedFile.FileName = fileName;
-                        selectedFile.FileContent = fileContent;
-                    }
-                    else
-                    {
-                        FilesSoftware newFile = new FilesSoftware { FileName = fileName, FileContent = fileContent };
-                        dbContext.FilesSoftwares.Add(newFile);
-                    }
-
-                    dbContext.SaveChanges();
-                    listview.ItemsSource = dbContext.FilesSoftwares.ToList();
-                    tbContent.Clear();
-                    selectedFile = null;
-                }
-            }
-
-            if (errors.Length > 0)
-            {
-                MessageBox.Show(errors.ToString());
+                currentPage++;
+                DisplayPage();
             }
         }
         private void Btn_GoBack_Click(object sender, RoutedEventArgs e)
@@ -101,49 +81,30 @@ namespace TechnicalSupport.Pages
 
         private void Btn_DeleteFile_Click(object sender, RoutedEventArgs e)
         {
-            var filesToDelete = listview.SelectedItems.Cast<FilesSoftware>().ToList();
-
-            if (MessageBox.Show($"Вы действительно хотите удалить эти {filesToDelete.Count()} элемента!?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
-            {
-                return;
-            }
-
-            try
-            {
-                var dbContext = KonfigKc;
-
-                foreach (var file in filesToDelete)
-                {
-                    if (!dbContext.Softwares.Any(item => item.FileID == file.FileID))
-                    {
-                        dbContext.FilesSoftwares.Remove(file);
-                    }
-                    else
-                    {
-                        MessageBox.Show($"Файл {file.FileName} используется в других таблицах и не может быть удален.");
-                    }
-                }
-
-                dbContext.SaveChanges();
-                MessageBox.Show("Удаление прошло успешно");
-                listview.ItemsSource = dbContext.FilesSoftwares.ToList();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при удалении файла: {ex.Message}");
-            }
+            
         }
 
 
         private void Btn_OpenFile(object sender, RoutedEventArgs e)
         {
-            if (selectedFile != null)
+            var sel = (sender as Button).DataContext as FilesSoftware;
+           
+            if (sel != null)
             {
                 try
                 {
-                    string tempFilePath = Path.GetTempFileName();
-                    File.WriteAllBytes(tempFilePath, selectedFile.FileContent);
-                    System.Diagnostics.Process.Start(tempFilePath);
+                    var dbContext = KonfigKc;
+                    var file = dbContext.FilesSoftwares.FirstOrDefault(f => f.FileID == sel.FileID);
+                    if (file != null)
+                    {
+                        string tempFilePath = System.IO.Path.GetTempFileName();
+                        File.WriteAllBytes(tempFilePath, file.FileContent);
+                        System.Diagnostics.Process.Start("rundll32.exe", $"shell32.dll,OpenAs_RunDLL {tempFilePath}");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Файл не найден для выбранной программы.");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -152,11 +113,64 @@ namespace TechnicalSupport.Pages
             }
             else
             {
-                MessageBox.Show("Выберите файл для открытия.");
+                MessageBox.Show("Файл не был загружен");
             }
         }
-    
 
+        private void AddEditFile_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditFileWindow addEditFileWindow = new AddEditFileWindow(null);
+            addEditFileWindow.ShowDialog();
+            LoadDepartments();
+            DisplayPage();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var filesToDelete = (sender as Button).DataContext as FilesSoftware;
+
+            if (MessageBox.Show($"Вы действительно хотите удалить этот файл {filesToDelete.FileName}!?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                var dbContext = KonfigKc;
+
+                // Проверяем, используется ли файл в других таблицах
+                if (dbContext.Softwares.Any(item => item.FileID == filesToDelete.FileID) || dbContext.OperatingSystems.Any(item => item.FileID == filesToDelete.FileID) || dbContext.OfficeEquipments.Any(item => item.FileID == filesToDelete.FileID))
+                {
+                    MessageBox.Show($"Файл {filesToDelete.FileName} используется в других таблицах и не может быть удален.");
+                    return;
+                }
+
+                
+
+                // Удаляем объект
+                dbContext.FilesSoftwares.Remove(filesToDelete);
+
+                // Сохраняем изменения
+                dbContext.SaveChanges();
+                MessageBox.Show("Удаление прошло успешно");
+                LoadDepartments();
+                DisplayPage();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении файла: {ex.Message}");
+            }
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var v=(sender as Button).DataContext as FilesSoftware;
+            AddEditFileWindow addEditFileWindow = new AddEditFileWindow(v);
+            addEditFileWindow.ShowDialog();
+            LoadDepartments();
+            DisplayPage();
+
+        }
     }
 }
 

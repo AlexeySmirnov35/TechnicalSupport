@@ -4,62 +4,133 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:TechnicalSupport.Pages"
-      mc:Ignorable="d"
-      Height="29.7cm" Width="21cm"
+      mc:Ignorable="d" Height="700" Width="800"
       Title="EditPageJornul">
 
-    <Grid Background="White">
-        <Grid Name="print" Margin="0,-1,0,1">
+    <Grid Background="White" Height="29.7cm" Width="21cm" >
+        <Grid Name="print" Margin="2,0,-2,0">
             <Grid.Background>
                 <ImageBrush ImageSource="/img/krl-transformed.png" Stretch="Fill"
                             Opacity="0.1" TileMode="Tile" Viewport="0,0,113,63" ViewportUnits="Absolute"
                             ViewboxUnits="RelativeToBoundingBox" />
 
             </Grid.Background>
-            <TextBlock Text="Заявка №" HorizontalAlignment="Left" Margin="297,40,0,0"
+            <StackPanel Margin="10" Orientation="Vertical">
+                <StackPanel Margin="10" Orientation="Horizontal"  HorizontalAlignment="Center">
+                    <TextBlock Text="Заявка №" HorizontalAlignment="Left" 
                        TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="22"/>
-            <TextBlock x:Name="tbDepar" HorizontalAlignment="Left" Margin="204,198,0,0" 
-                       TextWrapping="Wrap" Text="{Binding Departments.DepartmentName}" 
-                       VerticalAlignment="Top" Width="525" FontFamily="Times New Roman" FontSize="22"/>
-            <TextBlock Text="Должность:" HorizontalAlignment="Left" Margin="23,151,0,0" 
-                       TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="22"/>
-            <TextBlock x:Name="tbPosir" HorizontalAlignment="Left" Margin="204,150,0,0"
-                       TextWrapping="Wrap" Text="{Binding Positions.PositionName}" 
-                       VerticalAlignment="Top" Width="527" FontFamily="Times New Roman" FontSize="22"/>
-            <TextBlock Text="Подразделение:" HorizontalAlignment="Left" Margin="23,200,0,0"
-                       TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="22"/>
-            <TextBlock x:Name="tbInc" HorizontalAlignment="Left" Margin="388,41,0,0"
+                    <TextBlock x:Name="tbInc" HorizontalAlignment="Left" 
                        TextWrapping="Wrap" Text="{Binding RequestID}" VerticalAlignment="Top"
-                       Width="120" FontFamily="Times New Roman" FontSize="22"/>
-            <TextBlock Text="Необходимое ПО:" HorizontalAlignment="Left" Margin="23,527,0,0" 
+                       FontFamily="Times New Roman" FontSize="22"/>
+
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="Дата:" HorizontalAlignment="Left" 
+                       TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Times New Roman"
+                       FontSize="22" RenderTransformOrigin="0.5,0.791"/>
+                    <TextBlock x:Name="tbRes" HorizontalAlignment="Left"
+                       TextWrapping="Wrap"
+                       Text="{Binding RequestDateStart}" VerticalAlignment="Top" Width="166" FontFamily="Times New Roman" FontSize="22"/>
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock HorizontalAlignment="Left" 
+                TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="22"><Run Language="ru-ru" Text="Заявитель"/><Run Text=":"/></TextBlock>
+                    <TextBlock x:Name="tbStr" 
+                       TextWrapping="Wrap" VerticalAlignment="Top" 
+                       Width="449" FontFamily="Times New Roman" FontSize="22" >
+                <Run Text="{Binding Client.Firstname}" ></Run>
+                 <Run Text=" " ></Run>
+                 <Run Text="{Binding Client.Surname}" ></Run>
+                 <Run Text=" " ></Run>
+                <Run Text="{Binding Client.Patranomic}" ></Run>
+
+                    </TextBlock>
+
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock Text="Подразделение:" HorizontalAlignment="Left" 
                        TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="22"/>
-            <TextBlock x:Name="tbPO" HorizontalAlignment="Left" Margin="203,525,0,0"
-                       TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="564"
-                       FontFamily="Times New Roman" FontSize="22" Height="280"/>
-            <TextBlock Text="Примечание:" HorizontalAlignment="Left" Margin="23,250,0,0"
+
+                    <TextBlock x:Name="tbDepar" HorizontalAlignment="Left" 
+                       TextWrapping="Wrap" Text="{Binding Client.Department.DepartmentName}" 
+                       VerticalAlignment="Top" Width="525" FontFamily="Times New Roman" FontSize="22"/>
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock Text="Должность:" HorizontalAlignment="Left"
+                       TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="22"/>
+                    <TextBlock x:Name="tbPosir" HorizontalAlignment="Left" 
+                       TextWrapping="Wrap" Text="{Binding Client.Position.PositionName}" 
+                       VerticalAlignment="Top" Width="527" FontFamily="Times New Roman" FontSize="22"/>
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock Text="Кабинет" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                    <TextBlock Text="{Binding Client.Cabinet}" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock Text="Номер телефона" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                    <TextBlock Text="{Binding Client.NumberPhone}" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock Text="Примечание:" HorizontalAlignment="Left" 
                        TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Times New Roman"
                        FontSize="22" RenderTransformOrigin="0.5,0.791"/>
-            <TextBlock x:Name="tbDesc" HorizontalAlignment="Left" Margin="204,246,0,0"
+                    <TextBlock x:Name="tbDesc" 
                        TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top"
-                       Width="563" FontFamily="Times New Roman" FontSize="22" Height="225"/>
-            <TextBlock Text="Дата:" HorizontalAlignment="Left" Margin="551,39,0,0" 
+                       Width="563" FontFamily="Times New Roman" FontSize="22" Height="45"/>
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+
+                    <TextBlock Text="Исполнитель:" HorizontalAlignment="Left" 
                        TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Times New Roman"
-                       FontSize="22" RenderTransformOrigin="0.5,0.791"/>
-            <TextBlock x:Name="tbRes" HorizontalAlignment="Left"
-                       Margin="603,22,0,0" TextWrapping="Wrap"
-                       Text="{Binding RequestDate}" VerticalAlignment="Top" Width="166" FontFamily="Times New Roman" FontSize="22" Height="66"/>
-            <TextBlock Text="Статус:" HorizontalAlignment="Left" Margin="21,102,0,0"
-                       TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Times New Roman"
-                       FontSize="22" RenderTransformOrigin="0.5,0.791" Height="30" Width="71"/>
-            <TextBlock x:Name="tbSt" HorizontalAlignment="Left" Margin="204,100,0,0" 
-                       TextWrapping="Wrap" Text="{Binding Status.NameStatus}" VerticalAlignment="Top" 
-                       Width="166" FontFamily="Times New Roman" FontSize="22" Height="30"/>
+                       FontSize="22" RenderTransformOrigin="0.5,0.791" Height="30" Width="140"/>
+                    <TextBlock x:Name="tbSt" 
+                       TextWrapping="Wrap" VerticalAlignment="Top" 
+                       Width="458" FontFamily="Times New Roman" FontSize="22" Height="30">
+                <Run Text="{Binding User.Firstname}" ></Run>
+                 <Run Text=" " ></Run>
+                 <Run Text="{Binding User.Surname}" ></Run>
+                 <Run Text=" " ></Run>
+                <Run Text="{Binding User.Patranomic}" ></Run>
+
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock Text="Подраздление" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                    <TextBlock Text="{Binding User.Department.DepartmentName}"  FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock Text="Должность" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                    <TextBlock Text="{Binding User.Position.PositionName}"  FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock Text="Кабинет" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                    <TextBlock Text="{Binding User.NumberPhone}" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock Text="Номер телефона" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                    <TextBlock Text="{Binding Client.NumberPhone}" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock Text="Дата исполнения" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                    <TextBlock Text="{Binding RequestDateFinish}" FontFamily="Times New Roman" FontSize="22"></TextBlock>
+                </StackPanel>
+
+
+
+
+
+
+
+
+            </StackPanel>
         </Grid>
         <Button Content="Экспорт" Click="Create_Pdf_Click" HorizontalAlignment="Left" 
                 Margin="2,-2,0,0" VerticalAlignment="Top" TextBlock.FontFamily="Times New Roman" 
                 TextBlock.FontSize="22" Height="36" Width="102"/>
         <Button Content="Назад" Click="Btn_GoBack" HorizontalAlignment="Left"
-                Margin="680,4,0,0" VerticalAlignment="Top" TextBlock.FontFamily="Times New Roman"
+                Margin="109,0,0,0" VerticalAlignment="Top" TextBlock.FontFamily="Times New Roman"
                 TextBlock.FontSize="22" Height="36" Width="102"/>
+
     </Grid>
 </Page>

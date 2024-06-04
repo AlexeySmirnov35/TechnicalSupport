@@ -1,0 +1,40 @@
+﻿<Page x:Class="TechnicalSupport.Pages.StatisticPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TechnicalSupport.Pages"
+      mc:Ignorable="d" 
+      Foreground="#FF32EBFB"
+      Title="StatisticPage">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Исполнитель:"/>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox x:Name="cbOtvest"  ItemsSource="{Binding Users}" Width="270" FontFamily="Courier New" HorizontalAlignment="Left">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding Firstname}" /><Run Text=" "/>
+                                <Run Text=" " />
+                                <Run Text="{Binding Surname}" />
+                                <Run Text=" "/>
+                                <Run Text="{Binding Patranomic}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox x:Name="cbPeriod" Width="150" FontFamily="Courier New" HorizontalAlignment="Left" Margin="10,0,0,0" SelectedIndex="0">
+                    <ComboBoxItem Content="Все время" Tag="all"/>
+                    <ComboBoxItem Content="Год" Tag="year"/>
+                    <ComboBoxItem Content="Квартал" Tag="quarter"/>
+                    <ComboBoxItem Content="Месяц" Tag="month"/>
+                </ComboBox>
+                <Button Content="Get Statistics" Click="GetStatistics_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </StackPanel>
+            <TextBlock x:Name="AverageCompletionTimeTextBlock"/>
+            <TextBlock x:Name="TotalCompletedRequestsTextBlock"/>
+            <TextBlock x:Name="TotalPendingRequestsTextBlock"/>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -4,72 +4,64 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TechnicalSupport.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="1000" d:DesignWidth="1100"
+      mc:Ignorable="d" Background="#333" 
+      d:Height="auto" d:Width="auto"
       Title="UserPageSoft">
 
     <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#E8F5E9" Offset="0"/>
-                <GradientStop Color="#FFFFFF" Offset="0.3"/>
-                <GradientStop Color="#E0E0E0" Offset="0.6"/>
-                <GradientStop Color="#FFFFFF" Offset="0.8"/>
-                <GradientStop Color="#F5F5F5" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        <TextBox Background="{x:Null}" IsReadOnly="True" VerticalScrollBarVisibility="Auto"
-                 x:Name="tbName" HorizontalAlignment="Left" Margin="410,13,0,0" TextWrapping="Wrap"
-                 Text="{Binding SoftwareName}" VerticalAlignment="Top" Height="64" Width="446" FontFamily="Courier 
-                 New" FontSize="22" BorderBrush="{x:Null}"/>
-        <TextBox Background="{x:Null}" IsReadOnly="True" VerticalScrollBarVisibility="Auto"
-                 x:Name="tbVer" HorizontalAlignment="Left" Margin="116,653,0,0" TextWrapping="Wrap" Text="{Binding Version}"
-                 VerticalAlignment="Top" Height="30" Width="248" FontFamily="Courier New" FontSize="22" BorderBrush="{x:Null}"/>
-        <TextBox Background="{x:Null}" IsReadOnly="True" VerticalScrollBarVisibility="Auto" x:Name="tbDes"
-                 HorizontalAlignment="Left" Margin="14,130,0,0" TextWrapping="Wrap" Text="{Binding Description}"
-                 VerticalAlignment="Top" Height="234" Width="1062" FontFamily="Courier New" FontSize="22" BorderBrush="{x:Null}"/>
-        <TextBlock  Margin="4,735,771,219" FontFamily="Courier New" FontSize="22" >
-            <Hyperlink NavigateUri="{Binding WebUrl}" RequestNavigate="Hyperlink_RequestNavigate">
-                <TextBlock Text="Ссылка на документацию" Width="311" Height="24" />
-            </Hyperlink>
-        </TextBlock>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
 
-        <TextBox Background="{x:Null}" IsReadOnly="True" VerticalScrollBarVisibility="Auto"
-                 x:Name="tbUpDesc" HorizontalAlignment="Left" Margin="16,414,0,0" TextWrapping="Wrap"
-                 Text="{Binding UpdateDescription}" VerticalAlignment="Top" Height="235" Width="1056"
-                 FontFamily="Courier New" FontSize="22" BorderBrush="{x:Null}" />
-        <Label Content="Программа:" HorizontalAlignment="Left" Margin="288,10,0,0"
-               VerticalAlignment="Top" FontFamily="Courier New" FontSize="22"/>
-        <Label Content="Версия" HorizontalAlignment="Left" Margin="5,650,0,0" VerticalAlignment="Top"
-               FontFamily="Courier New" FontSize="22" Height="34"/>
-        <Label Content="Описание:" HorizontalAlignment="Left" Margin="6,96,0,0" 
-               VerticalAlignment="Top" FontFamily="Courier New" FontSize="22" Height="30"/>
-        <Label Content="Дата последнего обновления" HorizontalAlignment="Left"
-               Margin="1,698,0,0" VerticalAlignment="Top" FontFamily="Courier New" 
-               FontSize="22" Height="30"/>
-
-        <TextBox Background="{x:Null}" IsReadOnly="True" VerticalScrollBarVisibility="Auto"
-                 x:Name="DtPicker" Text="{Binding LastUpdateDate}" HorizontalAlignment="Left" Margin="395,698,0,0" VerticalAlignment="Top"
-                 FontFamily="Courier New" FontSize="22" Height="30" Width="274" BorderBrush="{x:Null}"/>
-        <TextBlock Text="Описание последнего обновления:" TextWrapping="Wrap" HorizontalAlignment="Left"
-                   Margin="7,384,0,0" VerticalAlignment="Top" Height="34" Width="418" FontFamily="Courier New"
-                   FontSize="22" TextAlignment="Right" />
-        <Label Content="Файл" HorizontalAlignment="Left" Margin="400,652,0,0" VerticalAlignment="Top" 
-               FontFamily="Courier New" FontSize="22" Height="34"/>
-
-        <TextBlock Background="{x:Null}" x:Name="cbFile" TextDecorations="Underline" Foreground="#FF137BEF" 
-                   Text="{Binding FilesSoftwares.FileName}" MouseLeftButtonDown="TextBlock_Click"  HorizontalAlignment="Left" Margin="473,651,0,0" VerticalAlignment="Top" Width="226" Height="28" FontFamily="Courier New" FontSize="20" />
-
-        <Button Content="Назад" Background="#FF00C2C5" BorderThickness="2,2,2,2" Click="Btn_GoBack" FontSize="36" 
-                HorizontalAlignment="Left" Margin="941,797,0,0" VerticalAlignment="Top"
-                Width="146" FontFamily="Courier New" Height="52">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+            <Label Content="Назавние" HorizontalAlignment="Center" Foreground="#FF32EBFB"
+            VerticalAlignment="Center" FontFamily="Courier New" />
+            <TextBox x:Name="tbName" HorizontalAlignment="Center" 
+              TextWrapping="Wrap" Text="{Binding SoftwareName}" VerticalAlignment="Center"   FontFamily="Courier New" />
+        </StackPanel>
+        <StackPanel Grid.Row="1"  Margin="10">
+            <Label Content="Описание:" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+            VerticalAlignment="Top" FontFamily="Courier New" />
+            <TextBlock x:Name="tbDes"  HorizontalAlignment="Left"  TextWrapping="Wrap" 
+              Text="{Binding Description}" VerticalAlignment="Top" Height="100" 
+              Width="340" FontFamily="Courier New" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal"  Margin="10">
+            <TextBlock   FontFamily="Courier New" HorizontalAlignment="Left"  >
+         <Hyperlink NavigateUri="{Binding WebUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+             <TextBlock Text="Ссылка на документацию"   />
+         </Hyperlink>
+     </TextBlock>
+            
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal"  Margin="10">
+          
+            <TextBlock Text="Если нет вашего файла, то нажмите сюда, для создания" TextWrapping="Wrap"
+                MouseLeftButtonDown="TextBlock_Click" HorizontalAlignment="Left"  VerticalAlignment="Top" 
+                 Width="200" FontFamily="Courier New"  TextAlignment="Justify" TextDecorations="Underline" Foreground="#FF137BEF" />
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Grid.Column="0"  Margin="10">
+            <Label Content="Тип лицензии" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+            VerticalAlignment="Top" FontFamily="Courier New" />
+            <TextBlock x:Name="cbLis"  Text="{Binding LicensiaInfos.LicenseType}" 
+               HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100"  FontFamily="Courier New" />
+            <Label Content="Тип ПО" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+            VerticalAlignment="Top" FontFamily="Courier New" />
+            <TextBlock x:Name="cbTypeSoft"  Text="{Binding TypeSoftware.NameType}" 
+               HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100"  FontFamily="Courier New" />
+        </StackPanel>
+       
     </Grid>
 </Page>

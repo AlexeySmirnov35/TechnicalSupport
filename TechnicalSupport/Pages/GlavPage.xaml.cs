@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TechnicalSupport.DataBaseClasses;
 
 namespace TechnicalSupport.Pages
 {
@@ -21,9 +22,16 @@ namespace TechnicalSupport.Pages
     /// </summary>
     public partial class GlavPage : Page
     {
-        public GlavPage()
+        private Request _request=new Request();
+        ApplicationContext _context;
+        public GlavPage(Request request)
         {
             InitializeComponent();
+            _context= new ApplicationContext(); 
+            _request = request;
+            DataContext=_request;
+            cbFile.ItemsSource=_context.StatusRequests.ToList();
+           
         }
 
         private void Btn_User_Click(object sender, RoutedEventArgs e)

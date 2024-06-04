@@ -1,61 +1,81 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
+using TechnicalSupport.DataBaseClasses;
 namespace TechnicalSupport.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для PageJornul.xaml
-    /// </summary>
     public partial class PageJornul : Page
     {
-        ApplicationContext KonfigKc;
-
-        
+        private ApplicationContext KonfigKc;
+       
+        private int currentPage = 1;
+        private const int PageSize = 10;
         public PageJornul()
         {
             InitializeComponent();
             KonfigKc = new ApplicationContext();
-            listViewReq.ItemsSource=KonfigKc.Requests.ToList();
+            LoadDepartments();
+            DisplayPage();
         }
 
+        private void LoadDepartments()
+        {
+            // Получаем все данные из базы данных
+            listViewReq.ItemsSource = KonfigKc.Requests.ToList();
+        }
+
+        private void DisplayPage()
+        {
+            // Получаем текущую страницу данных
+            var departments = KonfigKc.Requests
+                .OrderBy(d => d.RequestID)
+                .Skip((currentPage - 1) * PageSize)
+                .Take(PageSize)
+            .ToList();
+
+            listViewReq.ItemsSource = departments;
+
+            // Обновляем текст с информацией о текущей странице
+            PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKc.Requests.Count() / PageSize)}";
+        }
+
+        private void PreviousPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPage > 1)
+            {
+                currentPage--;
+                DisplayPage();
+            }
+        }
+
+        private void NextPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPage < (KonfigKc.Requests.Count() + PageSize - 1) / PageSize)
+            {
+                currentPage++;
+                DisplayPage();
+            }
+        }
         private void SoftwareListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-           
             if (listViewReq.SelectedItem != null)
             {
-               Request selectedReq= (Request)listViewReq.SelectedItem;
-                EditPageJornul editPageJornul =new EditPageJornul(selectedReq);
-                
+                Request selectedReq = (Request)listViewReq.SelectedItem;
+                EditPageJornul editPageJornul = new EditPageJornul(selectedReq);
                 NavigationService.Navigate(editPageJornul);
             }
         }
-        private void UpdateProduct()
-        {
-            var curProduct = KonfigKc.SoftwarePositions.ToList();
-         
 
-        }
         private void Page_IsVis(object sender, DependencyPropertyChangedEventArgs e)
         {
-
             if (Visibility == Visibility.Visible)
             {
-                KonfigKc.ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
-                listViewReq.ItemsSource = KonfigKc.SoftwarePositions.ToList();
+                LoadDepartments();
+                DisplayPage();
             }
-
         }
 
         private void Create_Pdf_Click(object sender, RoutedEventArgs e)
@@ -78,6 +98,11 @@ namespace TechnicalSupport.Pages
         private void Btn_GoBack(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
+        }
+
+        private void AddEditDepar_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new FormPage());
         }
     }
 }

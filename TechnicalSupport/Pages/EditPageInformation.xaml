@@ -4,20 +4,12 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TechnicalSupport.Pages"
-      mc:Ignorable="d" 
-      d:Height="1000" d:Width="1100"
+      mc:Ignorable="d" Background="#333" 
+      d:Height="auto" d:Width="auto"
       Title="EditPageInformation">
 
     <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#F5F5F5" Offset="0"/>
-                <GradientStop Color="#FFFFFF" Offset="0.3"/>
-                <GradientStop Color="#FFD6D1D1" Offset="0.6"/>
-                <GradientStop Color="#FFFFFF" Offset="0.8"/>
-                <GradientStop Color="#F5F5F5" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+        
         <TextBox x:Name="tbPosi"  
                  HorizontalAlignment="Left" 
                  IsReadOnly="True" 
@@ -60,13 +52,7 @@
                 FontFamily="Courier New" 
                 Foreground="White" 
                 Height="116" 
-                Width="462" Background="#FF00C2C5" BorderThickness="2,2,2,2">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
+                Width="462" BorderThickness="2,2,2,2">
         </Button>
 
         <ComboBox x:Name="cbLinc" 
@@ -82,15 +68,15 @@
 
         <TextBlock Text="Вы выбрали должность:" TextWrapping="Wrap"
                HorizontalAlignment="Left" 
-               Margin="12,124,0,0" 
+               Margin="12,124,0,0" Foreground="#FF32EBFB"
                VerticalAlignment="Top" 
                FontSize="36" 
                FontFamily="Courier New" 
-               Foreground="Black"/>
+              />
 
         <TextBlock Text="Выберите программу, на которую хотите заменить" 
                    TextWrapping="Wrap" 
-                   HorizontalAlignment="Left" 
+                   HorizontalAlignment="Left" Foreground="#FF32EBFB"
                    Margin="578,283,0,0" 
                    VerticalAlignment="Top" 
                    Height="82" 
@@ -103,12 +89,12 @@
                    HorizontalAlignment="Left" 
                    Margin="8,276,0,0" 
                    VerticalAlignment="Top" 
-                   Height="74" 
+                   Height="74" Foreground="#FF32EBFB"
                    Width="540" 
                    FontSize="36" 
                    FontFamily="Courier New"/>
 
-        <Label Content="Редактирование программ для сотрудников" 
+        <Label Content="Редактирование программ для сотрудников" Foreground="#FF32EBFB"
                HorizontalAlignment="Center" 
                VerticalAlignment="Top" 
                FontSize="44" 
@@ -120,24 +106,7 @@
                HorizontalAlignment="Left" 
                Margin="576,95,0,0" 
                VerticalAlignment="Top" 
-               FontSize="36" 
+               FontSize="36" Foreground="#FF32EBFB"
                FontFamily="Courier New" Height="92" Width="591"/>
-        <Button Content="Назад" 
-            Click="Btn_GoBack" 
-            HorizontalAlignment="Left" 
-            Margin="790,714,0,0" 
-            VerticalAlignment="Top" 
-            FontSize="36" 
-            FontFamily="Courier New" 
-            Foreground="White" 
-            Height="78" 
-            Width="301" Background="#FF00C2C5" BorderThickness="2,2,2,2">
-            <Button.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF80FD09"/>
-                    <GradientStop Color="#FFB91212" Offset="0.997"/>
-                </LinearGradientBrush>
-            </Button.BorderBrush>
-        </Button>
     </Grid>
 </Page>

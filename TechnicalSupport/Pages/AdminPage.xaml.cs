@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TechnicalSupport;
+using TechnicalSupport.DataBaseClasses;
 
 namespace TechnicalSupport.Pages
 {
@@ -27,11 +28,12 @@ namespace TechnicalSupport.Pages
         {
             InitializeComponent();
             KonfigKc = new ApplicationContext();
+            frmMain.Navigate(new DepartPageProb());
         }
 
         private void Edit_bd_Click(object sender, RoutedEventArgs e)
         {
-            frmMain.Navigate(new SoftwarePage());
+            frmMain.Navigate(new InfoPage());
         }
 
         private void Role_Click(object sender, RoutedEventArgs e)
@@ -46,7 +48,7 @@ namespace TechnicalSupport.Pages
 
         private void Soft_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("Pages/SoftwarePage.xaml", UriKind.Relative));
+            frmMain.Navigate(new SoftwarePage());
         }
 
         private void GoNack_Click(object sender, RoutedEventArgs e)
@@ -54,63 +56,73 @@ namespace TechnicalSupport.Pages
            
         }
 
-       /* private void MainFrame_Navigated(object sender, NavigationEventArgs e)
+        private void frmMain_Navigated(object sender, NavigationEventArgs e)
         {
-            foreach (var textBlock in FindVisualChildren<TextBlock>(frmMain))
-            {
-                textBlock.FontSize = CalculateFontSizeForTextBlock(textBlock);
-            }
+
         }
 
-         private void MainFrame_ContentRendered(object sender, EventArgs e)
+        private void File_Click(object sender, RoutedEventArgs e)
+        {
+            frmMain.Navigate(new FilePage());
+        }
+
+        /* private void MainFrame_Navigated(object sender, NavigationEventArgs e)
          {
              foreach (var textBlock in FindVisualChildren<TextBlock>(frmMain))
              {
                  textBlock.FontSize = CalculateFontSizeForTextBlock(textBlock);
              }
          }
-         private double CalculateFontSizeForTextBlock(TextBlock textBlock)
-         {
-             // Получение текущего DPI (dots per inch) экрана пользователя
-             PresentationSource source = PresentationSource.FromVisual(textBlock);
-             double dpiX = 96.0;
-             double dpiY = 96.0;
-             if (source != null)
-             {
-                 dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
-                 dpiY = 96.0 * source.CompositionTarget.TransformToDevice.M22;
-             }
 
-             // Здесь можно использовать текущий DPI и другие параметры для расчета размера шрифта
-             // Например, можно адаптировать размер шрифта в зависимости от DPI и разрешения экрана
+          private void MainFrame_ContentRendered(object sender, EventArgs e)
+          {
+              foreach (var textBlock in FindVisualChildren<TextBlock>(frmMain))
+              {
+                  textBlock.FontSize = CalculateFontSizeForTextBlock(textBlock);
+              }
+          }
+          private double CalculateFontSizeForTextBlock(TextBlock textBlock)
+          {
+              // Получение текущего DPI (dots per inch) экрана пользователя
+              PresentationSource source = PresentationSource.FromVisual(textBlock);
+              double dpiX = 96.0;
+              double dpiY = 96.0;
+              if (source != null)
+              {
+                  dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
+                  dpiY = 96.0 * source.CompositionTarget.TransformToDevice.M22;
+              }
 
-             double desiredFontSize = 16;
+              // Здесь можно использовать текущий DPI и другие параметры для расчета размера шрифта
+              // Например, можно адаптировать размер шрифта в зависимости от DPI и разрешения экрана
 
-             // Пример логики, учитывающей DPI экрана
-             double scaleFactor = Math.Max(dpiX, dpiY) / 96.0; // 96.0 - стандартный DPI
-             desiredFontSize *= scaleFactor; // Масштабирование размера шрифта в зависимости от DPI
+              double desiredFontSize = 16;
 
-             return desiredFontSize;
-         }
+              // Пример логики, учитывающей DPI экрана
+              double scaleFactor = Math.Max(dpiX, dpiY) / 96.0; // 96.0 - стандартный DPI
+              desiredFontSize *= scaleFactor; // Масштабирование размера шрифта в зависимости от DPI
 
-         private IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
-         {
-             if (depObj != null)
-             {
-                 for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-                 {
-                     DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
-                     if (child != null && child is T)
-                     {
-                         yield return (T)child;
-                     }
+              return desiredFontSize;
+          }
 
-                     foreach (T childOfChild in FindVisualChildren<T>(child))
-                     {
-                         yield return childOfChild;
-                     }
-                 }
-             }
-         }*/
+          private IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+          {
+              if (depObj != null)
+              {
+                  for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                  {
+                      DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                      if (child != null && child is T)
+                      {
+                          yield return (T)child;
+                      }
+
+                      foreach (T childOfChild in FindVisualChildren<T>(child))
+                      {
+                          yield return childOfChild;
+                      }
+                  }
+              }
+          }*/
     }
 }

@@ -16,11 +16,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TechnicalSupport.DataBaseClasses;
 using TechnicalSupport.WinowsProgram;
+
 namespace TechnicalSupport.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для UserSoft.xaml
-    /// </summary>
     public partial class UserSoft : Page
     {
         ApplicationContext KonfigKc;
@@ -34,6 +32,31 @@ namespace TechnicalSupport.Pages
             LoadDepartments();
             DisplayPage();
 
+            // Prepare software types with "Все" included
+            var softwareTypes = KonfigKc.TypeSofwares.ToList().OrderBy(t => t.NameType).ToList();
+            var allType = new TypeSofware { TypeSofwareID = -1, NameType = "Все" };
+            softwareTypes.Insert(0, allType); // Insert "Все" at the beginning
+
+            ComboBoxSoftwareType.ItemsSource = softwareTypes;
+            ComboBoxSoftwareType.SelectedItem = allType; // Set "Все" as the default selected item
+        }
+
+        private void UpdateSoftware()
+        {
+            var allSoftware = KonfigKc.Softwares.ToList();
+            allSoftware = allSoftware.Where(s => s.SoftwareName.ToLower().Contains(TboxSerch.Text.ToLower())).ToList();
+
+            if (ComboBoxSoftwareType.SelectedItem != null)
+            {
+                var selectedType = (ComboBoxSoftwareType.SelectedItem as TypeSofware);
+                if (selectedType.TypeSofwareID != -1)
+                {
+                    allSoftware = allSoftware.Where(s => s.TypeSofwareID == selectedType.TypeSofwareID).ToList();
+                }
+            }
+
+            allSoftware = allSoftware.OrderBy(s => s.SoftwareName).ToList();
+            listview.ItemsSource = allSoftware;
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -45,7 +68,6 @@ namespace TechnicalSupport.Pages
                     FileName = uriResult.ToString(),
                     UseShellExecute = true
                 });
-
                 e.Handled = true;
             }
             else
@@ -53,6 +75,7 @@ namespace TechnicalSupport.Pages
                 Debug.WriteLine("Некорректный URL");
             }
         }
+
         private void Btn_OpenFile(object sender, RoutedEventArgs e)
         {
             var sel = (sender as Button).DataContext as Software;
@@ -87,13 +110,11 @@ namespace TechnicalSupport.Pages
 
         private void LoadDepartments()
         {
-            // Получаем все данные из базы данных
             listview.ItemsSource = KonfigKc.Softwares.ToList();
         }
 
         private void DisplayPage()
         {
-            // Получаем текущую страницу данных
             var departments = KonfigKc.Softwares
                 .OrderBy(d => d.SoftwareID)
                 .Skip((currentPage - 1) * PageSize)
@@ -101,8 +122,6 @@ namespace TechnicalSupport.Pages
                 .ToList();
 
             listview.ItemsSource = departments;
-
-            // Обновляем текст с информацией о текущей странице
             PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKc.Softwares.Count() / PageSize)}";
         }
 
@@ -123,6 +142,7 @@ namespace TechnicalSupport.Pages
                 DisplayPage();
             }
         }
+
         private void SoftwareListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (listview.SelectedItem != null)
@@ -130,19 +150,12 @@ namespace TechnicalSupport.Pages
                 Software selectedSoftware = (Software)listview.SelectedItem;
                 UserPageSoft userPageSoft = new UserPageSoft(selectedSoftware);
                 NavigationService.Navigate(userPageSoft);
-                
             }
         }
 
         private void Tbox_Search(object sender, TextChangedEventArgs e)
         {
             UpdateSoftware();
-        }
-        private void UpdateSoftware()
-        {
-            var allSoftware = KonfigKc.Softwares.ToList();
-            allSoftware = allSoftware.Where(s => s.SoftwareName.ToLower().Contains(tbox_Search.Text.ToLower())).ToList();
-            listview.ItemsSource = allSoftware.OrderBy(s => s.SoftwareName).ToList();
         }
 
         private void Btn_GoBack(object sender, RoutedEventArgs e)
@@ -163,19 +176,13 @@ namespace TechnicalSupport.Pages
             {
                 var dbContext = KonfigKc;
 
-                // Проверяем, используется ли файл в других таблицах
                 if (dbContext.SoftwarePositions.Any(item => item.SoftwareID == filesToDelete.SoftwareID))
                 {
                     MessageBox.Show($"Программа {filesToDelete.SoftwareName} используется в других таблицах и не может быть удален.");
                     return;
                 }
 
-
-
-                // Удаляем объект
                 dbContext.Softwares.Remove(filesToDelete);
-
-                // Сохраняем изменения
                 dbContext.SaveChanges();
                 MessageBox.Show("Удаление прошло успешно");
                 LoadDepartments();
@@ -191,7 +198,6 @@ namespace TechnicalSupport.Pages
         {
             var d = (sender as Button).DataContext as Software;
             AddEditSoftwareWindow addEditDepartWindow = new AddEditSoftwareWindow(d);
-
             addEditDepartWindow.ShowDialog();
         }
 
@@ -199,6 +205,11 @@ namespace TechnicalSupport.Pages
         {
             AddEditSoftwareWindow addEditSoftwareWindow = new AddEditSoftwareWindow(null);
             addEditSoftwareWindow.ShowDialog();
+        }
+
+        private void ComboBoxSoftwareType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateSoftware();
         }
     }
 }

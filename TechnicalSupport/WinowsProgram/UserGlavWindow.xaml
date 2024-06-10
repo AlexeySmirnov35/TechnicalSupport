@@ -31,7 +31,10 @@
             <Menu Background="{x:Null}" Foreground="White"  HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="1,0,1,0" >
                 <MenuItem Header="Заявки"  Click="Zayavki_Click"></MenuItem>
                 <MenuItem Header="Статистика"  Click="Upravlenie_Click"></MenuItem>
-
+                <MenuItem Header="Связи">
+                    <MenuItem Header="Програмное обеспечение"  Click="ProgramnoeObespecheniePosit_Click"></MenuItem>
+                    <MenuItem Header="Оборудование"   Click="OborudovanieUpravleniePosi_Click"></MenuItem>
+                </MenuItem>
             </Menu>
 
             <TextBlock Foreground="White" FontSize="15"   Text="Тех. Помощь Крылов" TextWrapping="Wrap" Width="113" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"  />

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TechnicalSupport.DataBaseClasses;
+using TechnicalSupport.WinowsProgram;
 
 namespace TechnicalSupport.Pages
 {
@@ -28,7 +29,8 @@ namespace TechnicalSupport.Pages
         private void LoadRequests()
         {
             var requests = _context.Requests
-                .Where(x => x.UserID == _user.UserID && x.StatusID < 4)
+                .Where(x => x.UserID == _user.UserID && x.StatusID<=3)
+                .OrderByDescending(x => x.RequestDateStart)
                 .ToList();
 
             listViewReq.ItemsSource = requests;
@@ -38,7 +40,7 @@ namespace TechnicalSupport.Pages
         private void UpdatePageInfo()
         {
             var totalRequests = _context.Requests
-                .Where(x => x.UserID == _user.UserID && x.StatusID < 4)
+                .Where(x => x.UserID == _user.UserID & x.StatusID <= 3)
                 .Count();
 
             PageInfo.Text = $"Страница {_currentPage} из {Math.Ceiling((double)totalRequests / PageSize)}";
@@ -46,15 +48,49 @@ namespace TechnicalSupport.Pages
 
         private void DisplayPage()
         {
-            var requests = _context.Requests
-                .Where(x => x.UserID == _user.UserID && x.StatusID < 4)
-                .OrderBy(d => d.RequestID)
+            if (ComboBoxStatus == null || listViewReq == null || PageInfo == null)
+            {
+                MessageBox.Show("Элементы интерфейса не инициализированы.");
+                return;
+            }
+
+            var statusFilter = GetStatusFilter();
+
+            var requestsQuery = _context.Requests
+                .Where(x => x.UserID == _user.UserID);
+
+            if (statusFilter == 3)
+            {
+                requestsQuery = requestsQuery.Where(x => x.StatusID == 3);
+            }
+            else if (statusFilter == 0)
+            {
+                requestsQuery = requestsQuery.Where(x => x.StatusID < 3);
+            }
+
+            var requests = requestsQuery
+                .OrderByDescending(x => x.RequestDateStart)
                 .Skip((_currentPage - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
 
             listViewReq.ItemsSource = requests;
             UpdatePageInfo();
+        }
+
+        private int GetStatusFilter()
+        {
+            if (ComboBoxStatus == null) return -1;
+
+            switch (ComboBoxStatus.SelectedIndex)
+            {
+                case 1:
+                    return 3; // Выполнено
+                case 2:
+                    return 0; // Не выполнено
+                default:
+                    return -1; // Все
+            }
         }
 
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
@@ -69,7 +105,7 @@ namespace TechnicalSupport.Pages
         private void NextPage_Click(object sender, RoutedEventArgs e)
         {
             var totalRequests = _context.Requests
-                .Where(x => x.UserID == _user.UserID && x.StatusID < 4)
+                .Where(x => x.UserID == _user.UserID)
                 .Count();
 
             if (_currentPage < (totalRequests + PageSize - 1) / PageSize)
@@ -118,17 +154,23 @@ namespace TechnicalSupport.Pages
         {
             if (sender is Button button && button.DataContext is Request request)
             {
-                request.StatusID = 3;
-                request.RequestDateFinish = DateTime.Now.ToString();
+                AddCommitWindow addCommitWindow = new AddCommitWindow(request, _user);
+                addCommitWindow.ShowDialog();
                 _context.SaveChanges();
                 LoadRequests();
                 DisplayPage();
             }
         }
 
+        private void ComboBoxStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _currentPage = 1;
+            DisplayPage();
+        }
+
         private void SoftwareListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            // Handle mouse double click
         }
     }
 }

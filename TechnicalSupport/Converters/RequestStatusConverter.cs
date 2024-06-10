@@ -39,12 +39,12 @@ namespace TechnicalSupport.Converters
             {
                 return Brushes.DarkOrange;
             }
-            if (deadlineDate<finishDate ) // Assuming 1 means completed
+            if (deadlineDate<finishDate ) 
             {
-                return Brushes.Brown; // Color for overdue and not completed
+                return Brushes.Brown; 
             }
             
-            return Brushes.Transparent; // Default color
+            return Brushes.Transparent;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

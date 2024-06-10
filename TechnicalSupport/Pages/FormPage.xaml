@@ -128,13 +128,10 @@ TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
 
                 </StackPanel>
 
-                <StackPanel Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
-                    <Label Content="Перечень ПО" Foreground="#FF32EBFB"
-VerticalAlignment="Top"  FontFamily="Courier New"/>
-
+                <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Orientation="Vertical" Margin="10,0,0,0">
+                    <Label Content="Перечень ПО" Foreground="#FF32EBFB" VerticalAlignment="Top" FontFamily="Courier New"/>
                     <TextBox x:Name="tbPO" Text="" Width="150" VerticalScrollBarVisibility="Auto"
-  IsReadOnly="True" 
-  TextWrapping="Wrap" FontFamily="Courier New" HorizontalAlignment="Left" Height="325"/>
+                     IsReadOnly="True" TextWrapping="Wrap" FontFamily="Courier New" HorizontalAlignment="Left" Height="325"/>
                 </StackPanel>
             </Grid>
         </StackPanel>

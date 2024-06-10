@@ -4,22 +4,24 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TechnicalSupport.Pages"
-      mc:Ignorable="d" Background="#333" 
+      mc:Ignorable="d" Background="#333" Foreground="#FF32EBFB"
       d:Height="auto" d:Width="auto"
       Title="UserSoft">
 
     <Grid>
-        <StackPanel>
-            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Перечень ПО"
-            VerticalAlignment="Center" FontWeight="Bold" FontStyle="Italic"/>
-            <StackPanel Orientation="Horizontal">
-
-                <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Поиск:"
-           VerticalAlignment="Center"  />
-                <TextBox x:Name="tbox_Search" TextChanged="Tbox_Search"
-       TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="100" />
-            </StackPanel>
-            <ListView x:Name="listview"  MouseDoubleClick="SoftwareListView_MouseDoubleClick"
+        <StackPanel Grid.Column="0" Margin="10" HorizontalAlignment="Center">
+                <Label Content="Перечень программ" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF32EBFB" FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic"/>
+                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Поиск:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Width="100" x:Name="TboxSerch" TextChanged="Tbox_Search" FontFamily="Courier New"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0">
+                        <TextBlock Text="Тип ПО:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ComboBox Width="150" x:Name="ComboBoxSoftwareType"  SelectedItem="{Binding TypeSofware}" DisplayMemberPath="NameType" SelectionChanged="ComboBoxSoftwareType_SelectionChanged"/>
+                    </StackPanel>
+                </WrapPanel>
+                <ListView x:Name="listview"  MouseDoubleClick="SoftwareListView_MouseDoubleClick"
                    BorderBrush="#FF111211" VerticalAlignment="Center" 
                    FontFamily="Courier New" HorizontalAlignment="Center"  >
                 <ListView.View>

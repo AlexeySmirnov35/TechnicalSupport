@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TechnicalSupport.DataBaseClasses;
+using TechnicalSupport.WinowsProgram;
 
 namespace TechnicalSupport.Pages
 {
@@ -95,8 +96,8 @@ namespace TechnicalSupport.Pages
         private void EditNoDoneRole_Click(object sender, RoutedEventArgs e)
         {
             var r = (sender as Button).DataContext as Request;
-            r.StatusID = 5;
-          
+            AddCommitWindow addCommitWindow = new AddCommitWindow(r,_user);
+            addCommitWindow.ShowDialog();
             KonfigKc.SaveChanges();
             LoadDepartments();
             DisplayPage();

@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:TechnicalSupport.Pages"
       xmlns:converters="clr-namespace:TechnicalSupport.Converters"
       mc:Ignorable="d" Background="#333" 
-      d:Height="auto" d:Width="auto" 
+      d:Height="auto" d:Width="auto" Foreground="#FF32EBFB"
       Title="PageJornul" IsVisibleChanged="Page_IsVis">
 
     <Page.Resources>
@@ -23,6 +23,24 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+                <TextBlock Text="Поиск по номеру заявки:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                <TextBox Width="100" x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged"/>
+                <TextBlock Text="Фильтр по статусу:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                <ComboBox Width="150" x:Name="StatusComboBox" SelectionChanged="StatusComboBox_SelectionChanged" SelectedValuePath="ID" SelectedValue="{Binding SelectedStatusID}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StatusName}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock Text="Сортировка по дате:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                <ComboBox Width="150" x:Name="SortComboBox" SelectionChanged="SortComboBox_SelectionChanged" SelectedIndex="0">
+                    <ComboBoxItem Content="От новых к старым" IsSelected="True"/>
+                    <ComboBoxItem Content="От старых к новым"/>
+                </ComboBox>
+            </StackPanel>
             <Grid x:Name="print">
                 <ListView  x:Name="listViewReq"  MouseDoubleClick="SoftwareListView_MouseDoubleClick"
                           FontFamily="Courier New" VerticalAlignment="Top">
@@ -30,10 +48,7 @@
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Background" Value="{Binding Converter={StaticResource RequestStatusConverter}}" />
-
                             <Setter Property="FocusVisualStyle" Value="{DynamicResource ListViewItemFocusVisual}" />
-
-
                             <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
                             <Setter Property="BorderThickness" Value="1" />
                             <Setter Property="Margin" Value="0,0,0,1" />
@@ -107,7 +122,6 @@
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
-
                         </Style>
                     </ListView.ItemContainerStyle>
 
@@ -144,7 +158,7 @@
                             <GridViewColumn Header="Описание">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding Description}" Width="150" TextWrapping="Wrap"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -169,7 +183,6 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            
                             <GridViewColumn Header="Дедлайн">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -182,43 +195,40 @@
                 </ListView>
             </Grid>
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
-
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <Button Click="PreviousPage_Click" Margin="5" HorizontalAlignment="Center" BorderThickness="0" >
+                <Button Click="PreviousPage_Click" Margin="5" HorizontalAlignment="Center" BorderThickness="0">
                     <Button.Background>
                         <SolidColorBrush Color="Transparent"/>
                     </Button.Background>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/img\icons8-left-48.png"  Width="36" Height="36"   Margin="0,0,5,0"/>
+                        <Image Source="/img/icons8-left-48.png" Width="36" Height="36" Margin="0,0,5,0"/>
                     </StackPanel>
                 </Button>
                 <TextBlock x:Name="PageInfo" VerticalAlignment="Center" Margin="5" Foreground="#FF32EBFB" />
-                <Button Click="NextPage_Click" Margin="5" HorizontalAlignment="Center" BorderThickness="0" >
+                <Button Click="NextPage_Click" Margin="5" HorizontalAlignment="Center" BorderThickness="0">
                     <Button.Background>
                         <SolidColorBrush Color="Transparent"/>
                     </Button.Background>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/img\icons8-right-48.png"  Width="36" Height="36"  Margin="0,0,5,0"/>
+                        <Image Source="/img/icons8-right-48.png" Width="36" Height="36" Margin="0,0,5,0"/>
                     </StackPanel>
                 </Button>
-                <Button Click="AddEditDepar_Click" BorderThickness="0" HorizontalAlignment="Right" >
+                <Button Click="AddEditDepar_Click" BorderThickness="0" HorizontalAlignment="Right">
                     <Button.Background>
                         <SolidColorBrush Color="Transparent"/>
                     </Button.Background>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/img\icons8-plus-48.png"  Width="36" Height="36"   Margin="0,0,5,0"/>
+                        <Image Source="/img/icons8-plus-48.png" Width="36" Height="36" Margin="0,0,5,0"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button Content="Экспорт PDF" 
-            BorderThickness="2,2,2,2" Click="Create_Pdf_Click"
-            HorizontalAlignment="Left"
-            FontFamily="Courier New" BorderBrush="{x:Null}" VerticalAlignment="Top" Margin="0,0,10,0"/>
-                
+                        BorderThickness="2,2,2,2" Click="Create_Pdf_Click"
+                        HorizontalAlignment="Left"
+                        FontFamily="Courier New" BorderBrush="{x:Null}" VerticalAlignment="Top" Margin="0,0,10,0"/>
             </StackPanel>
         </StackPanel>
-        
     </Grid>
 </Page>

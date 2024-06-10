@@ -4,47 +4,49 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TechnicalSupport.Pages"
-      mc:Ignorable="d" 
-     d:Height="auto" d:Width="auto" Background="#333" 
+      mc:Ignorable="d" Foreground="#FF32EBFB"
+      d:Height="auto" d:Width="auto" Background="#333" 
       Title="SoftwarePage">
 
     <Grid>
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Margin="10">
             <Label Content="Перечень программ" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF32EBFB"
-               FontSize="16" FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic"/>
-            <WrapPanel Orientation="Horizontal"   >
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Поиск:"   FontFamily="Courier New"/>
-                    <TextBox Width="102" x:Name="TboxSerch" TextChanged="Tbox_Search"  TextBlock.FontFamily="Courier New"/>
+                   FontSize="16" FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic"/>
+            <WrapPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Поиск:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox Width="102" x:Name="TboxSerch" TextChanged="Tbox_Search" FontFamily="Courier New"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0">
+                    <TextBlock Text="Тип ПО:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ComboBox Width="150" x:Name="ComboBoxSoftwareType" SelectionChanged="ComboBoxSoftwareType_SelectionChanged"/>
                 </StackPanel>
             </WrapPanel>
-            <ListView x:Name="listview"  MouseDoubleClick="SoftwareListView_MouseDoubleClick" Margin="10"
-                  BorderBrush="#FF111211" VerticalAlignment="Top"   FontFamily="Courier New"  >
+            <ListView x:Name="listview" MouseDoubleClick="SoftwareListView_MouseDoubleClick" Margin="10"
+                      BorderBrush="#FF111211" VerticalAlignment="Top" FontFamily="Courier New">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Программа">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding SoftwareName}" TextWrapping="Wrap"></TextBlock>
+                                    <TextBlock Text="{Binding SoftwareName}" TextWrapping="Wrap"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Click="DeleteButton_Click" BorderThickness="0" HorizontalAlignment="Right" >
+                                    <Button Click="EditButton_Click" BorderThickness="0" HorizontalAlignment="Right">
                                         <Button.Background>
                                             <SolidColorBrush Color="Transparent"/>
                                         </Button.Background>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="/img\icons8-edit-48.png"  Width="36" Height="36"   Margin="0,0,5,0"/>
+                                            <Image Source="/img/icons8-edit-48.png" Width="36" Height="36" Margin="0,0,5,0"/>
                                         </StackPanel>
                                     </Button>
                                 </DataTemplate>
@@ -53,12 +55,12 @@
                         <GridViewColumn>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Click="DeleteButton_Click" BorderThickness="0" >
+                                    <Button Click="DeleteButton_Click" BorderThickness="0">
                                         <Button.Background>
                                             <SolidColorBrush Color="Transparent"/>
                                         </Button.Background>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="/img\icons8-delete-48.png"  Width="26" Height="26" Margin="0,0,5,0"/>
+                                            <Image Source="/img/icons8-delete-48.png" Width="26" Height="26" Margin="0,0,5,0"/>
                                         </StackPanel>
                                     </Button>
                                 </DataTemplate>
@@ -67,18 +69,9 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-
-            <Button   BorderThickness="2,2,2,2" Click="Add_Soft_Click"
-                 HorizontalAlignment="Left" VerticalAlignment="Top" 
-                FontFamily="Courier New"  >
-                <TextBlock Text="Добавить" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
-               
+            <Button BorderThickness="2" Click="Add_Soft_Click" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Courier New">
+                <TextBlock Text="Добавить" TextWrapping="Wrap" TextAlignment="Center"/>
             </Button>
-        </StackPanel>
-        <StackPanel Grid.Column="1">
-
-
-
         </StackPanel>
     </Grid>
 </Page>

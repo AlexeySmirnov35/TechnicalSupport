@@ -1,20 +1,14 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TechnicalSupport.DataBaseClasses;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
+using Xceed.Words.NET; // For DocX
+
 namespace TechnicalSupport.Pages
 {
     /// <summary>
@@ -23,8 +17,7 @@ namespace TechnicalSupport.Pages
     public partial class EditPageJornul : Page
     {
         private Request _requests = new Request();
-        ApplicationContext KonfigKc;
-
+        private ApplicationContext KonfigKc;
 
         public EditPageJornul(Request selectedRequests)
         {
@@ -33,48 +26,94 @@ namespace TechnicalSupport.Pages
             if (selectedRequests != null)
             {
                 _requests = selectedRequests;
+                LoadCommitMessages();
             }
             DataContext = _requests;
-            UpdatePo();
         }
-        private void UpdatePo()
+
+        private void LoadCommitMessages()
         {
-            try
+            _requests.CommitMessages = KonfigKc.CommitMessages.Where(cm => cm.RequestID == _requests.RequestID).ToList();
+        }
+
+        private void ExportToPdf_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PDF Files (*.pdf)|*.pdf";
+            if (saveFileDialog.ShowDialog() == true)
             {
-               /* if (_requests != null && _requests.Position != null)
+                using (PdfDocument document = new PdfDocument())
                 {
-                    Position selectedPosition = _requests.Position;
+                    PdfPage page = document.AddPage();
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+                    XFont font = new XFont("Times New Roman", 14);
 
-                    if (selectedPosition != null && selectedPosition.SoftwarePositions!= null)
+                    gfx.DrawString("Заявка № " + _requests.RequestID, font, XBrushes.Black, new XRect(40, 30, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString("Дата: " + _requests.RequestDateStart, font, XBrushes.Black, new XRect(40, 50, page.Width, page.Height), XStringFormats.TopLeft);
+
+                    gfx.DrawString("Заявитель: " + $"{_requests.Client.Firstname} {_requests.Client.Surname} {_requests.Client.Patranomic}", font, XBrushes.Black, new XRect(40, 70, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString("Подразделение: " + _requests.Client.Department.DepartmentName, font, XBrushes.Black, new XRect(40, 90, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString("Должность: " + _requests.Client.Position.PositionName, font, XBrushes.Black, new XRect(40, 110, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString("Кабинет: " + _requests.Client.Cabinet, font, XBrushes.Black, new XRect(40, 130, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString("Номер телефона: " + _requests.Client.NumberPhone, font, XBrushes.Black, new XRect(40, 150, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString("Примечание: " + _requests.Description, font, XBrushes.Black, new XRect(40, 170, page.Width, page.Height), XStringFormats.TopLeft);
+
+                    gfx.DrawString("Исполнитель: " + $"{_requests.User.Firstname} {_requests.User.Surname} {_requests.User.Patranomic}", font, XBrushes.Black, new XRect(40, 190, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString("Подразделение: " + _requests.User.Department.DepartmentName, font, XBrushes.Black, new XRect(40, 210, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString("Должность: " + _requests.User.Position.PositionName, font, XBrushes.Black, new XRect(40, 230, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString("Кабинет: " + _requests.User.Cabinet, font, XBrushes.Black, new XRect(40, 250, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString("Номер телефона: " + _requests.User.NumberPhone, font, XBrushes.Black, new XRect(40, 270, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString("Дата исполнения: " + _requests.RequestDateFinish, font, XBrushes.Black, new XRect(40, 290, page.Width, page.Height), XStringFormats.TopLeft);
+
+                    int yOffset = 310;
+                    foreach (var commit in _requests.CommitMessages)
                     {
-                        var softwareForPosition = selectedPosition.SoftwarePositions
-                            .Select(sp => sp.Software.SoftwareName)
-                            .ToList();
-
-                        if (softwareForPosition.Any())
-                        {
-                            StringBuilder sb = new StringBuilder();
-                            for (int i = 0; i < softwareForPosition.Count; i++)
-                            {
-                                sb.AppendLine($"{i + 1}. {softwareForPosition[i]}");
-                            }
-                            tbPO.Text = sb.ToString();
-                        }
-                        else
-                        {
-                            tbPO.Text = "Нет данных для отображения.";
-                        }
+                        gfx.DrawString("Примечание: " + commit.CommitTextMessage, font, XBrushes.Black, new XRect(40, yOffset, page.Width, page.Height), XStringFormats.TopLeft);
+                        yOffset += 20;
                     }
-                }*/
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при обновлении данных: {ex.Message}");
+
+                    document.Save(saveFileDialog.FileName);
+                }
             }
         }
-           
 
-        private void Create_Pdf_Click(object sender, RoutedEventArgs e)
+        private void ExportToWord_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Word Documents (*.docx)|*.docx";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using (var document = DocX.Create(saveFileDialog.FileName))
+                {
+                    document.InsertParagraph("Заявка № " + _requests.RequestID).Font("Times New Roman").FontSize(12);
+                    document.InsertParagraph("Дата: " + _requests.RequestDateStart).Font("Times New Roman").FontSize(12);
+
+                    document.InsertParagraph("Заявитель: " + $"{_requests.Client.Firstname} {_requests.Client.Surname} {_requests.Client.Patranomic}").Font("Times New Roman").FontSize(12);
+                    document.InsertParagraph("Подразделение: " + _requests.Client.Department.DepartmentName).Font("Times New Roman").FontSize(12);
+                    document.InsertParagraph("Должность: " + _requests.Client.Position.PositionName).Font("Times New Roman").FontSize(12);
+                    document.InsertParagraph("Кабинет: " + _requests.Client.Cabinet).Font("Times New Roman").FontSize(12);
+                    document.InsertParagraph("Номер телефона: " + _requests.Client.NumberPhone).Font("Times New Roman").FontSize(12);
+
+                    document.InsertParagraph("Примечание: " + _requests.Description).Font("Times New Roman").FontSize(12);
+
+                    document.InsertParagraph("Исполнитель: " + $"{_requests.User.Firstname} {_requests.User.Surname} {_requests.User.Patranomic}").Font("Times New Roman").FontSize(12);
+                    document.InsertParagraph("Подразделение: " + _requests.User.Department.DepartmentName).Font("Times New Roman").FontSize(12);
+                    document.InsertParagraph("Должность: " + _requests.User.Position.PositionName).Font("Times New Roman").FontSize(12);
+                    document.InsertParagraph("Кабинет: " + _requests.User.Cabinet).Font("Times New Roman").FontSize(12);
+                    document.InsertParagraph("Номер телефона: " + _requests.User.NumberPhone).Font("Times New Roman").FontSize(12);
+                    document.InsertParagraph("Дата исполнения: " + _requests.RequestDateFinish).Font("Times New Roman").FontSize(12);
+
+                    foreach (var commit in _requests.CommitMessages)
+                    {
+                        document.InsertParagraph("Примечание: " + commit.CommitTextMessage).Font("Times New Roman").FontSize(12);
+                    }
+
+                    document.Save();
+                }
+            }
+        }
+
+        private void Print_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -93,7 +132,7 @@ namespace TechnicalSupport.Pages
 
         private void Btn_GoBack(object sender, RoutedEventArgs e)
         {
-            NavigationService.GoBack(); 
+            NavigationService.GoBack();
         }
     }
 }

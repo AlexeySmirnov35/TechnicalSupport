@@ -32,22 +32,64 @@ namespace TechnicalSupport.Pages
 
         private void UpdatePo()
         {
+            StringBuilder sb = new StringBuilder();
+
             if (cbPosir.SelectedItem is Position selectedPosition)
             {
+                // Get and format the software list
                 var softwareForPosition = selectedPosition.SoftwarePositions
                     .Select(sp => sp.Software.SoftwareName)
                     .ToList();
 
+                sb.AppendLine("ПО:");
                 if (softwareForPosition.Any())
                 {
-                    var numberedSoftwareList = string.Join(Environment.NewLine, softwareForPosition.Select((software, index) => $"{index + 1}. {software}"));
-                    tbPO.Text = numberedSoftwareList;
+                    sb.AppendLine(string.Join(Environment.NewLine, softwareForPosition.Select((software, index) => $"{index + 1}. {software}")));
                 }
                 else
                 {
-                    tbPO.Text = "Нет данных для отображения.";
+                    sb.AppendLine("Нет данных для отображения.");
+                }
+
+                // Get and format the operating systems list
+                var osForPosition = KonfigKc.OperatingSystems
+                    .Where(os => os.Positions.Any(p => p.PositionID == selectedPosition.PositionID))
+                    .Select(os => os.NameOperatingSystem)
+                    .ToList();
+
+                sb.AppendLine();
+                sb.AppendLine("ОС:");
+                if (osForPosition.Any())
+                {
+                    sb.AppendLine(string.Join(Environment.NewLine, osForPosition.Select((os, index) => $"{index + 1}. {os}")));
+                }
+                else
+                {
+                    sb.AppendLine("Нет данных для отображения.");
+                }
+
+                // Get and format the office equipment list
+                var officeEquipmentForPosition = selectedPosition.PositionOfficeEquips
+                    .Select(pe => pe.OfficeEquipment.NameOfficeEquipment)
+                    .ToList();
+
+                sb.AppendLine();
+                sb.AppendLine("ОргТехника:");
+                if (officeEquipmentForPosition.Any())
+                {
+                    sb.AppendLine(string.Join(Environment.NewLine, officeEquipmentForPosition.Select((oe, index) => $"{index + 1}. {oe}")));
+                }
+                else
+                {
+                    sb.AppendLine("Нет данных для отображения.");
                 }
             }
+            else
+            {
+                sb.AppendLine("Нет данных для отображения.");
+            }
+
+            tbPO.Text = sb.ToString();
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -97,7 +139,6 @@ namespace TechnicalSupport.Pages
 
             if (string.IsNullOrWhiteSpace(tbName.Text))
                 errors.AppendLine("Поле 'Имя' не должно быть пустым.");
-
 
             if (string.IsNullOrWhiteSpace(tbCab.Text))
                 errors.AppendLine("Поле 'Кабинет' не должно быть пустым.");
@@ -196,6 +237,7 @@ namespace TechnicalSupport.Pages
         private void Btn_GoBack(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
+
         }
     }
 }

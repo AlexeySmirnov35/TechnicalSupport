@@ -31,6 +31,7 @@ namespace TechnicalSupport.DataBaseClasses
         public int UserID { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<RequestUser> RequestUsers { get; set; }
+        public virtual ICollection<CommitMessage> CommitMessages { get; set; }
         public Request(int positionID, int departmentID, int statusID,  string requestDateStart, 
             string requestDateFinish,
             string description, string fio, string requestDeadline)

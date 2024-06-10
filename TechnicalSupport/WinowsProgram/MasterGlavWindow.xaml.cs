@@ -129,5 +129,15 @@ namespace TechnicalSupport.WinowsProgram
             mainWindow.Show();
             this.Close();
         }
+
+        private void OborudovanieUpravleniePosi_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ProgramnoeObespecheniePosit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

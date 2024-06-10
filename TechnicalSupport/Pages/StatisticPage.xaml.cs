@@ -54,7 +54,7 @@ namespace TechnicalSupport.Pages
         public double GetAverageCompletionTime(int userId, string period)
         {
             var requests = GetRequestsByPeriod(userId, period)
-                .Where(r => r.StatusID == 3) // assuming StatusID 3 means 'Completed'
+                .Where(r => r.StatusID == 3) 
                 .ToList()
                 .Where(r => DateTime.TryParse(r.RequestDateStart, out _) && DateTime.TryParse(r.RequestDateFinish, out _))
                 .Select(r => new
@@ -72,14 +72,14 @@ namespace TechnicalSupport.Pages
         public int GetTotalCompletedRequests(int userId, string period)
         {
             return GetRequestsByPeriod(userId, period)
-                .Where(r => r.StatusID == 3) // assuming StatusID 3 means 'Completed'
+                .Where(r => r.StatusID == 3) 
                 .Count();
         }
 
         public int GetTotalPendingRequests(int userId, string period)
         {
             return GetRequestsByPeriod(userId, period)
-                .Where(r => r.StatusID < 3) // assuming StatusID < 3 means 'Pending'
+                .Where(r => r.StatusID < 3) 
                 .Count();
         }
 

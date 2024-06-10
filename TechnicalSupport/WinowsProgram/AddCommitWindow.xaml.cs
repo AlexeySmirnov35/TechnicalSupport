@@ -21,8 +21,9 @@ namespace TechnicalSupport.WinowsProgram
     public partial class AddCommitWindow : Window
     {
         ApplicationContext context;
-        private Request _request=new Request();
-        private User _user=new User();
+        private Request _request = new Request();
+        private User _user = new User();
+
         public AddCommitWindow(Request request, User user)
         {
             InitializeComponent();
@@ -33,29 +34,36 @@ namespace TechnicalSupport.WinowsProgram
 
         private void AddEditDepar_Click(object sender, RoutedEventArgs e)
         {
-          if (string.IsNullOrEmpty(tbDep.Text))
+            if (string.IsNullOrEmpty(tbDep.Text))
             {
-                MessageBox.Show("Eror");
+                MessageBox.Show("Error");
                 return;
             }
-          
+
             CommitMessage commitMessage = new CommitMessage
             {
-               UserID=_user.UserID,
-               CommitTextMessage=tbDep.Text,
-               RequestID=_request.RequestID
+                UserID = _user.UserID,
+                CommitTextMessage = tbDep.Text,
+                RequestID = _request.RequestID
             };
-            _request.StatusID = 3;
+
+            if (_user.RoleID == 1)
+            {
+                _request.StatusID = 5;
+            }
+            else
+            {
+                _request.StatusID = 3;
+
+            }
+
             _request.RequestDateFinish = DateTime.Now.ToString();
-            context.SaveChanges();
             context.CommitMessages.Add(commitMessage);
             context.SaveChanges();
             MessageBox.Show("Save");
             this.DialogResult = true;
-
             // Закройте окно после сохранения
             this.Close();
-
         }
     }
 }

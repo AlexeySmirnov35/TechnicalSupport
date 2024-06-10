@@ -1,40 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TechnicalSupport.DataBaseClasses;
+
 namespace TechnicalSupport.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для SoftwarePage.xaml
-    /// </summary>
     public partial class SoftwarePage : Page
     {
-        ApplicationContext KonfigKc;
-
+        private ApplicationContext KonfigKc;
 
         public SoftwarePage()
         {
             InitializeComponent();
             KonfigKc = new ApplicationContext();
-            listview.ItemsSource=KonfigKc.Softwares.ToList();
-            
+            LoadSoftwareTypes();
+            listview.ItemsSource = KonfigKc.Softwares.ToList();
+        }
+
+        private void LoadSoftwareTypes()
+        {
+            var softwareTypes = KonfigKc.TypeSofwares.ToList();
+            ComboBoxSoftwareType.ItemsSource = softwareTypes;
+            ComboBoxSoftwareType.DisplayMemberPath = "TypeName"; // Assuming TypeSofware has a property TypeName
         }
 
         private void Tbox_Search(object sender, TextChangedEventArgs e)
         {
+            FilterSoftware();
+        }
 
+        private void ComboBoxSoftwareType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FilterSoftware();
+        }
+
+        private void FilterSoftware()
+        {
+            var searchText = TboxSerch.Text.ToLower();
+            var selectedType = ComboBoxSoftwareType.SelectedItem as TypeSofware;
+
+            var filteredList = KonfigKc.Softwares.Where(s =>
+                s.SoftwareName.ToLower().Contains(searchText) &&
+                (selectedType == null || s.TypeSofwareID == selectedType.TypeSofwareID)).ToList();
+
+            listview.ItemsSource = filteredList;
         }
 
         private void SoftwareListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -49,7 +60,7 @@ namespace TechnicalSupport.Pages
 
         private void Add_Soft_Click(object sender, RoutedEventArgs e)
         {
-           NavigationService.Navigate(new SoftInfoPage(null));
+            NavigationService.Navigate(new SoftInfoPage(null));
         }
 
         private void Btn_GoBack(object sender, RoutedEventArgs e)
@@ -57,26 +68,22 @@ namespace TechnicalSupport.Pages
             NavigationService.GoBack();
         }
 
-      
-
         private void Btn_Del(object sender, RoutedEventArgs e)
         {
             var softToDelete = listview.SelectedItems.Cast<Software>().ToList();
 
-            if (MessageBox.Show($"Вы действительно хотите удалить эти {softToDelete.Count()} элемента!?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+            if (MessageBox.Show($"Вы действительно хотите удалить эти {softToDelete.Count} элемента!?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
             {
                 return;
             }
 
             try
             {
-                var dbContext = KonfigKc;
-
                 foreach (var softw in softToDelete)
                 {
-                    if (!dbContext.SoftwarePositions.Any(item => item.SoftwareID == softw.SoftwareID))
+                    if (!KonfigKc.SoftwarePositions.Any(item => item.SoftwareID == softw.SoftwareID))
                     {
-                        dbContext.Softwares.Remove(softw);
+                        KonfigKc.Softwares.Remove(softw);
                     }
                     else
                     {
@@ -84,9 +91,9 @@ namespace TechnicalSupport.Pages
                     }
                 }
 
-                dbContext.SaveChanges();
+                KonfigKc.SaveChanges();
                 MessageBox.Show("Удаление прошло успешно");
-                listview.ItemsSource = dbContext.FilesSoftwares.ToList();
+                listview.ItemsSource = KonfigKc.Softwares.ToList();
             }
             catch (Exception ex)
             {
@@ -94,9 +101,14 @@ namespace TechnicalSupport.Pages
             }
         }
 
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Handle edit button click
+        }
+
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // Handle delete button click
         }
     }
 }

@@ -122,14 +122,12 @@ namespace TechnicalSupport.Pages
                 }
             }
 
-            // Создаем новый StackPanel для вкладки
             StackPanel newTabPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
                 Margin = new Thickness(0, 0, 5, 0)
             };
 
-            // Создаем Button для вкладки
             var newTabButton = new Button
             {
                 Content = header,
@@ -137,13 +135,11 @@ namespace TechnicalSupport.Pages
                 Foreground = Brushes.White
             };
 
-            // Добавляем событие Click для перехода на соответствующую страницу
             newTabButton.Click += (sender, e) =>
             {
                 frmMain.Source = pageUri;
             };
 
-            // Создаем кнопку для закрытия вкладки
             var closeButton = new Button
             {
                 Content = "X",
@@ -154,7 +150,6 @@ namespace TechnicalSupport.Pages
                 Margin = new Thickness(5, 0, 0, 0)
             };
 
-            // Добавляем событие Click для закрытия вкладки
             closeButton.Click += (sender, e) =>
             {
                 Table.Children.Remove(newTabPanel);
@@ -170,17 +165,13 @@ namespace TechnicalSupport.Pages
                 }
             };
 
-            // Устанавливаем URI в Tag для кнопки вкладки
             newTabButton.Tag = pageUri.ToString();
 
-            // Добавляем кнопки в StackPanel
             newTabPanel.Children.Add(newTabButton);
             newTabPanel.Children.Add(closeButton);
 
-            // Добавляем StackPanel в StackPanel Table
             Table.Children.Add(newTabPanel);
 
-            // Переходим на страницу сразу после добавления вкладки
             frmMain.Source = pageUri;*/
         }
 

@@ -160,6 +160,7 @@ namespace TechnicalSupport.WinowsProgram
         {
             AddEditFileWindow addEditFileWindow = new AddEditFileWindow(null);
             addEditFileWindow.ShowDialog();
+            LoadComboBoxData();
         }
 
         private void Win_Load(object sender, RoutedEventArgs e)

@@ -33,7 +33,8 @@ namespace TechnicalSupport.DataBaseClasses
         public DbSet<Client> Clients { get; set; }
        public DbSet<CommitMessage> CommitMessages { get; set; }
         public ApplicationContext() : base("DefaultConnection")
-        { }
+        {
+        }
 
     }
 }

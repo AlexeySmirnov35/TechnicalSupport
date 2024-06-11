@@ -40,13 +40,11 @@ namespace TechnicalSupport.Pages
 
         private void LoadDepartments()
         {
-            // Получаем все данные из базы данных
             listview.ItemsSource = KonfigKc.Positions.ToList();
         }
 
         private void DisplayPage()
         {
-            // Получаем текущую страницу данных
             var departments = KonfigKc.Positions
                 .OrderBy(d => d.PositionID)
                 .Skip((currentPage - 1) * PageSize)
@@ -54,8 +52,6 @@ namespace TechnicalSupport.Pages
                 .ToList();
 
             listview.ItemsSource = departments;
-
-            // Обновляем текст с информацией о текущей странице
             PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKc.Positions.Count() / PageSize)}";
         }
 

@@ -55,28 +55,28 @@ TextWrapping="Wrap" FontFamily="Courier New" VerticalAlignment="Center"  />
                     <StackPanel Orientation="Horizontal">
                         <CheckBox x:Name="checkBox1" Content="САПР" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,30,0"/>
                         <StackPanel  Margin="20,0,0,0">
-                            <TextBlock Text="Примечание:"  HorizontalAlignment="Center"></TextBlock>
+                            <TextBlock Text="Примечание:"  HorizontalAlignment="Center" Margin="0,0,10,0"></TextBlock>
                             <TextBox x:Name="tbDesc1" HorizontalAlignment="Left" 
                                  TextWrapping="Wrap" FontFamily="Courier New" Width="250"
-                                 IsEnabled="{Binding ElementName=checkBox1, Path=IsChecked}" Height="70" />
+                                 IsEnabled="{Binding ElementName=checkBox1, Path=IsChecked}" Height="70" Margin="0,0,10,0" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" >
                         <CheckBox x:Name="checkBox2" Content="Другое ПО" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <StackPanel HorizontalAlignment="Right" Margin="20,0,0,0">
-                            <TextBlock Text="Примечание:" HorizontalAlignment="Center"></TextBlock>
+                            <TextBlock Text="Примечание:" HorizontalAlignment="Center" Margin="0,0,10,0"></TextBlock>
                             <TextBox x:Name="tbDesc2" HorizontalAlignment="Left" Foreground="#FF32EBFB"
              TextWrapping="Wrap" FontFamily="Courier New" Width="250"
-             IsEnabled="{Binding ElementName=checkBox2, Path=IsChecked}" Height="70"  />
+             IsEnabled="{Binding ElementName=checkBox2, Path=IsChecked}" Height="70" Margin="0,0,10,0"  />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <CheckBox x:Name="checkBox3" Content="Ос" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,40,0"/>
                         <StackPanel Margin="20,0,0,0">
-                            <TextBlock Text="Примечание:"  HorizontalAlignment="Center"></TextBlock>
+                            <TextBlock Text="Примечание:"  HorizontalAlignment="Center" Margin="0,0,10,0"></TextBlock>
                             <TextBox HorizontalAlignment="Right" x:Name="tbDesc3" Foreground="#FF32EBFB"
              TextWrapping="Wrap" FontFamily="Courier New" Width="250"
-             IsEnabled="{Binding ElementName=checkBox3, Path=IsChecked}" Height="70"  />
+             IsEnabled="{Binding ElementName=checkBox3, Path=IsChecked}" Height="70" Margin="5,0,10,0"  />
                         </StackPanel>
                     </StackPanel>
 
@@ -84,10 +84,10 @@ TextWrapping="Wrap" FontFamily="Courier New" VerticalAlignment="Center"  />
                         <StackPanel Orientation="Horizontal">
                             <CheckBox x:Name="checkBox4" Content="Орг.Техника" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <StackPanel Margin="10,0,0,0">
-                                <TextBlock Text="Примечание:"  HorizontalAlignment="Center"></TextBlock>
+                                <TextBlock Text="Примечание:"  HorizontalAlignment="Center" Margin="0,0,10,0"></TextBlock>
                                 <TextBox HorizontalAlignment="Left" Foreground="#FF32EBFB" x:Name="tbDesc4"
              TextWrapping="Wrap" FontFamily="Courier New" Width="250"
-             IsEnabled="{Binding ElementName=checkBox4, Path=IsChecked}" Height="70"  />
+             IsEnabled="{Binding ElementName=checkBox4, Path=IsChecked}" Height="70" Margin="0,0,10,0"  />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -129,7 +129,7 @@ TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Orientation="Vertical" Margin="10,0,0,0">
-                    <Label Content="Перечень ПО" Foreground="#FF32EBFB" VerticalAlignment="Top" FontFamily="Courier New"/>
+                    <Label Content="Перечень" Foreground="#FF32EBFB" VerticalAlignment="Center" FontFamily="Courier New" HorizontalAlignment="Center"/>
                     <TextBox x:Name="tbPO" Text="" Width="150" VerticalScrollBarVisibility="Auto"
                      IsReadOnly="True" TextWrapping="Wrap" FontFamily="Courier New" HorizontalAlignment="Left" Height="325"/>
                 </StackPanel>

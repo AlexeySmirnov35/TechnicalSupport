@@ -38,14 +38,12 @@ namespace TechnicalSupport.Pages
 
         private void LoadDepartments()
         {
-            // Получаем все данные из базы данных
             listViewReq.ItemsSource = KonfigKc.Requests.Where(x => x.StatusID == 4).ToList();
 
         }
 
         private void DisplayPage()
         {
-            // Получаем текущую страницу данных
             var departments = KonfigKc.Requests.Where(x => x.StatusID == 4)
                 .OrderBy(d => d.RequestID)
                 .Skip((currentPage - 1) * PageSize)
@@ -54,7 +52,6 @@ namespace TechnicalSupport.Pages
 
             listViewReq.ItemsSource = departments;
 
-            // Обновляем текст с информацией о текущей странице
             PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKc.Requests.Where(x => x.StatusID == 4).Count() / PageSize)}";
         }
 

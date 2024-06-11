@@ -36,7 +36,6 @@ namespace TechnicalSupport.Pages
 
             if (cbPosir.SelectedItem is Position selectedPosition)
             {
-                // Get and format the software list
                 var softwareForPosition = selectedPosition.SoftwarePositions
                     .Select(sp => sp.Software.SoftwareName)
                     .ToList();
@@ -51,7 +50,6 @@ namespace TechnicalSupport.Pages
                     sb.AppendLine("Нет данных для отображения.");
                 }
 
-                // Get and format the operating systems list
                 var osForPosition = KonfigKc.OperatingSystems
                     .Where(os => os.Positions.Any(p => p.PositionID == selectedPosition.PositionID))
                     .Select(os => os.NameOperatingSystem)
@@ -68,7 +66,6 @@ namespace TechnicalSupport.Pages
                     sb.AppendLine("Нет данных для отображения.");
                 }
 
-                // Get and format the office equipment list
                 var officeEquipmentForPosition = selectedPosition.PositionOfficeEquips
                     .Select(pe => pe.OfficeEquipment.NameOfficeEquipment)
                     .ToList();

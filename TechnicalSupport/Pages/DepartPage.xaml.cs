@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using TechnicalSupport;
 using TechnicalSupport.WinowsProgram;
 using TechnicalSupport.DataBaseClasses;
+using System.Data.Entity;
+
 namespace TechnicalSupport.Pages
 {
     public partial class DepartPage : Page
@@ -24,13 +26,11 @@ namespace TechnicalSupport.Pages
 
         private void LoadDepartments()
         {
-            // Получаем все данные из базы данных
             listview.ItemsSource = KonfigKcDB.Departments.ToList();
         }
 
         private void DisplayPage()
         {
-            // Получаем текущую страницу данных
             var departments = KonfigKcDB.Departments
                 .OrderBy(d => d.DepartmentID)
                 .Skip((currentPage - 1) * PageSize)
@@ -39,7 +39,6 @@ namespace TechnicalSupport.Pages
             
             listview.ItemsSource = departments;
 
-            // Обновляем текст с информацией о текущей странице
             PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKcDB.Departments.Count() / PageSize)}";
         }
 
@@ -111,7 +110,7 @@ namespace TechnicalSupport.Pages
         {
             AddEditDepartWindow addEditDepartWindow = new AddEditDepartWindow(null);
             addEditDepartWindow.ShowDialog();
-            // Обновляем список после добавления/редактирования подразделения
+            
             DisplayPage();
         }
 
@@ -154,10 +153,15 @@ namespace TechnicalSupport.Pages
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var d=(sender as Button).DataContext as Department;
-            AddEditDepartWindow addEditDepartWindow=new AddEditDepartWindow(d);
-             
-            addEditDepartWindow.ShowDialog();
+            if (sender is Button button && button.DataContext is Department department)
+            {
+                AddEditDepartWindow addCommitWindow = new AddEditDepartWindow(department);
+                addCommitWindow.ShowDialog();           
+                
+                LoadDepartments();
+                DisplayPage();
+            }
+          
         }
     }
 }

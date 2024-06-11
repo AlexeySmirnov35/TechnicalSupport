@@ -7,6 +7,19 @@
         mc:Ignorable="d" Background="#333" 
         Title="AddEditSotWindow" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Grid>
-        
+        <StackPanel Grid.Column="1" Margin="10">
+
+
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Наименование подразделения" 
+                        FontFamily="Courier New"/>
+            <TextBox x:Name="tbDep" TextWrapping="Wrap" Text="{Binding DepartmentName}"
+                     FontFamily="Courier New"  Height="28" Width="300"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button BorderThickness="2" Content="Сохранить" Click="AddEditDepar_Click" 
+                        FontFamily="Courier New"  Margin="0 10 0  0" BorderBrush="{x:Null}"/>
+
+            </StackPanel>
+
+        </StackPanel>
     </Grid>
 </Window>

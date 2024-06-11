@@ -43,13 +43,11 @@ namespace TechnicalSupport.Pages
 
         private void LoadDepartments()
         {
-            // Получаем все данные из базы данных
             listview.ItemsSource = KonfigKcDB.OperatingSystems.ToList();
         }
 
         private void DisplayPage()
         {
-            // Получаем текущую страницу данных
             var departments = KonfigKcDB.OperatingSystems
                 .OrderBy(d => d.OperatingSystemsID)
                 .Skip((currentPage - 1) * PageSize)
@@ -58,7 +56,6 @@ namespace TechnicalSupport.Pages
 
             listview.ItemsSource = departments;
 
-            // Обновляем текст с информацией о текущей странице
             PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKcDB.OperatingSystems.Count() / PageSize)}";
         }
 
@@ -118,19 +115,14 @@ namespace TechnicalSupport.Pages
             {
                 var dbContext = KonfigKcDB;
 
-                // Проверяем, используется ли файл в других таблицах
                 if (dbContext.Positions.Any(item => item.OperatingSystemsID == filesToDelete.OperatingSystemsID) )
                 {
                     MessageBox.Show($"ОС {filesToDelete.NameOperatingSystem} используется в других таблицах и не может быть удален.");
                     return;
                 }
 
-
-
-                // Удаляем объект
                 dbContext.OperatingSystems.Remove(filesToDelete);
 
-                // Сохраняем изменения
                 dbContext.SaveChanges();
                 MessageBox.Show("Удаление прошло успешно");
                 LoadDepartments();

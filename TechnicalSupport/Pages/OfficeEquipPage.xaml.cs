@@ -41,13 +41,11 @@ namespace TechnicalSupport.Pages
 
         private void LoadDepartments()
         {
-            // Получаем все данные из базы данных
             listview.ItemsSource = KonfigKcDB.OfficeEquipments.ToList();
         }
 
         private void DisplayPage()
         {
-            // Получаем текущую страницу данных
             var departments = KonfigKcDB.OfficeEquipments
                 .OrderBy(d => d.OfficeEquipmentID)
                 .Skip((currentPage - 1) * PageSize)
@@ -56,7 +54,6 @@ namespace TechnicalSupport.Pages
 
             listview.ItemsSource = departments;
 
-            // Обновляем текст с информацией о текущей странице
             PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKcDB.OfficeEquipments.Count() / PageSize)}";
         }
 
@@ -162,19 +159,14 @@ namespace TechnicalSupport.Pages
             {
                 var dbContext = KonfigKcDB;
 
-                // Проверяем, используется ли файл в других таблицах
                 if (dbContext.PositionOfficeEquips.Any(item => item.OfficeEquipID == filesToDelete.OfficeEquipmentID) )
                 {
                     MessageBox.Show($"Орг техника {filesToDelete.NameOfficeEquipment} используется в других таблицах и не может быть удален.");
                     return;
                 }
 
-
-
-                // Удаляем объект
                 dbContext.OfficeEquipments.Remove(filesToDelete);
 
-                // Сохраняем изменения
                 dbContext.SaveChanges();
                 MessageBox.Show("Удаление прошло успешно");
                 LoadDepartments();

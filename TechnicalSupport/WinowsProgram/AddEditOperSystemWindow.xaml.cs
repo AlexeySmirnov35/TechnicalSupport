@@ -127,6 +127,7 @@ namespace TechnicalSupport.WinowsProgram
         {
             AddEditFileWindow addEditFileWindow = new AddEditFileWindow(null);
             addEditFileWindow.ShowDialog();
+            LoadFiles();
         }
     }
 }

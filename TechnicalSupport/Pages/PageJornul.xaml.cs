@@ -23,26 +23,21 @@ namespace TechnicalSupport.Pages
 
         private void LoadStatuses()
         {
-            // Получить все статусы из базы данных
             var statuses = KonfigKc.StatusRequests.ToList();
 
-            // Очистить комбо-бокс перед добавлением новых элементов
             StatusComboBox.Items.Clear();
 
-            // Создать пункт "Все" и добавить его в комбо-бокс
             ComboBoxItem allItem = new ComboBoxItem();
             allItem.Content = "Все";
             StatusComboBox.Items.Add(allItem);
 
-            // Создать ComboBoxItem для каждого StatusRequest и добавить их в ComboBox
             foreach (var status in statuses)
             {
                 ComboBoxItem item = new ComboBoxItem();
-                item.Content = status.StatusName; // Предполагается, что StatusName - это свойство, отображаемое в ComboBox
+                item.Content = status.StatusName; 
                 StatusComboBox.Items.Add(item);
             }
 
-            // Установить "Все" как выбранный по умолчанию
             StatusComboBox.SelectedIndex = 0;
         }
 
@@ -50,7 +45,6 @@ namespace TechnicalSupport.Pages
 
         private void DisplayPage()
         {
-            // Остальной код для отображения страницы остается тем же
             var searchText = SearchTextBox.Text.ToLower();
             var statusFilter = GetStatusFilter();
             var sortDescending = SortComboBox.SelectedIndex == 0;
@@ -108,22 +102,17 @@ namespace TechnicalSupport.Pages
                 return -1;
             }
 
-            // Получить выбранный элемент из комбо-бокса
             var selectedComboBoxItem = (ComboBoxItem)StatusComboBox.SelectedItem;
 
-            // Если выбран "Все", вернуть -1, чтобы игнорировать фильтрацию по статусу
             if (selectedComboBoxItem.Content.ToString() == "Все")
             {
                 return -1;
             }
 
-            // Получить содержимое выбранного элемента (это будет строка, содержащая название статуса)
             var selectedStatusName = selectedComboBoxItem.Content.ToString();
 
-            // Получить соответствующий статус из базы данных по его названию
             var selectedStatus = KonfigKc.StatusRequests.FirstOrDefault(s => s.StatusName == selectedStatusName);
 
-            // Если статус найден, вернуть его идентификатор, иначе вернуть -1
             return selectedStatus != null ? selectedStatus.StatusID : -1;
         }
 
@@ -188,11 +177,13 @@ namespace TechnicalSupport.Pages
         private void Btn_GoBack(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
+
         }
 
         private void AddEditDepar_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new FormPage());
+            NavigationService.Navigate(new FormPage()); LoadStatuses();
+            DisplayPage();
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)

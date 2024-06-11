@@ -60,9 +60,8 @@ namespace TechnicalSupport.WinowsProgram
             _request.RequestDateFinish = DateTime.Now.ToString();
             context.CommitMessages.Add(commitMessage);
             context.SaveChanges();
-            MessageBox.Show("Save");
+            MessageBox.Show("Сохранение прошло успешно");
             this.DialogResult = true;
-            // Закройте окно после сохранения
             this.Close();
         }
     }

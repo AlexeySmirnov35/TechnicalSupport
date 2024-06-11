@@ -23,7 +23,7 @@ namespace TechnicalSupport.Pages
         {
             var softwareTypes = KonfigKc.TypeSofwares.ToList();
             ComboBoxSoftwareType.ItemsSource = softwareTypes;
-            ComboBoxSoftwareType.DisplayMemberPath = "TypeName"; // Assuming TypeSofware has a property TypeName
+            ComboBoxSoftwareType.DisplayMemberPath = "TypeName"; 
         }
 
         private void Tbox_Search(object sender, TextChangedEventArgs e)
@@ -103,12 +103,11 @@ namespace TechnicalSupport.Pages
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            // Handle edit button click
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            // Handle delete button click
+           
         }
     }
 }

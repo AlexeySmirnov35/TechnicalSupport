@@ -57,7 +57,7 @@ namespace TechnicalSupport.Pages
             var statusFilter = GetStatusFilter();
 
             var requestsQuery = _context.Requests
-                .Where(x => x.UserID == _user.UserID);
+                .Where(x => x.UserID == _user.UserID && x.StatusID <= 3);
 
             if (statusFilter == 3)
             {
@@ -85,11 +85,11 @@ namespace TechnicalSupport.Pages
             switch (ComboBoxStatus.SelectedIndex)
             {
                 case 1:
-                    return 3; // Выполнено
+                    return 3; 
                 case 2:
-                    return 0; // Не выполнено
+                    return 0; 
                 default:
-                    return -1; // Все
+                    return -1; 
             }
         }
 
@@ -105,7 +105,7 @@ namespace TechnicalSupport.Pages
         private void NextPage_Click(object sender, RoutedEventArgs e)
         {
             var totalRequests = _context.Requests
-                .Where(x => x.UserID == _user.UserID)
+                .Where(x => x.UserID == _user.UserID && x.StatusID <= 3)
                 .Count();
 
             if (_currentPage < (totalRequests + PageSize - 1) / PageSize)
@@ -170,7 +170,6 @@ namespace TechnicalSupport.Pages
 
         private void SoftwareListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // Handle mouse double click
         }
     }
 }

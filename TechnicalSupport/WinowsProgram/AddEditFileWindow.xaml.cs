@@ -54,7 +54,7 @@ namespace TechnicalSupport.WinowsProgram
                 {
                      fileContent = File.ReadAllBytes(fileName);
                     tbContent.Text += fileOpen.SafeFileName + "\n";
-                    // Дополнительно можете сохранять или обрабатывать содержимое файла
+   
                 }
             }
         }
@@ -96,7 +96,6 @@ namespace TechnicalSupport.WinowsProgram
                     dbContext.SaveChanges();
                     this.DialogResult = true;
 
-                    // Закройте окно после сохранения
                     this.Close();
                 }
             }

@@ -48,14 +48,12 @@ namespace TechnicalSupport.Pages
 
         private void LoadDepartments()
         {
-            // Получаем все данные из базы данных
             softwareListView.ItemsSource = KonfigKc.PositionOfficeEquips.ToList();
         }
 
 
         private void DisplayPage()
         {
-            // Получаем текущую страницу данных
             var departments = KonfigKc.PositionOfficeEquips
                 .OrderBy(d => d.PositOffiiceID)
                 .Skip((currentPage - 1) * PageSize)
@@ -64,7 +62,6 @@ namespace TechnicalSupport.Pages
 
             softwareListView.ItemsSource = departments;
 
-            // Обновляем текст с информацией о текущей странице
             PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKc.PositionOfficeEquips.Count() / PageSize)}";
         }
 

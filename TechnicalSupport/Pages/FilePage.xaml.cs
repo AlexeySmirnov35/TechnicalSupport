@@ -29,7 +29,6 @@ namespace TechnicalSupport.Pages
         }
         private void LoadDepartments()
         {
-            // Получаем все данные из базы данных
             listview.ItemsSource = KonfigKc.FilesSoftwares.ToList();
         }
         private void Listview_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -44,7 +43,6 @@ namespace TechnicalSupport.Pages
 
         private void DisplayPage()
         {
-            // Получаем текущую страницу данных
             var departments = KonfigKc.FilesSoftwares
                 .OrderBy(d => d.FileID)
                 .Skip((currentPage - 1) * PageSize)
@@ -53,7 +51,6 @@ namespace TechnicalSupport.Pages
 
             listview.ItemsSource = departments;
 
-            // Обновляем текст с информацией о текущей странице
             PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKc.FilesSoftwares.Count() / PageSize)}";
         }
 
@@ -138,19 +135,14 @@ namespace TechnicalSupport.Pages
             {
                 var dbContext = KonfigKc;
 
-                // Проверяем, используется ли файл в других таблицах
                 if (dbContext.Softwares.Any(item => item.FileID == filesToDelete.FileID) || dbContext.OperatingSystems.Any(item => item.FileID == filesToDelete.FileID) || dbContext.OfficeEquipments.Any(item => item.FileID == filesToDelete.FileID))
                 {
                     MessageBox.Show($"Файл {filesToDelete.FileName} используется в других таблицах и не может быть удален.");
                     return;
                 }
 
-                
-
-                // Удаляем объект
                 dbContext.FilesSoftwares.Remove(filesToDelete);
 
-                // Сохраняем изменения
                 dbContext.SaveChanges();
                 MessageBox.Show("Удаление прошло успешно");
                 LoadDepartments();

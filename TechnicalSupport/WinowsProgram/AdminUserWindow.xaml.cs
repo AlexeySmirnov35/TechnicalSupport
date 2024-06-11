@@ -53,7 +53,7 @@ namespace TechnicalSupport.WinowsProgram
                 return;
             }
 
-            if (_user.UserID == 0) // Если это новый пользователь
+            if (_user.UserID == 0) 
             {
                 User newUser = new User
                 {
@@ -69,7 +69,7 @@ namespace TechnicalSupport.WinowsProgram
 
                 _konfigKc.Users.Add(newUser);
             }
-            else // Если это редактирование существующего пользователя
+            else 
             {
                 _user.Surname = tbName.Text;
                 _user.Firstname = tbSurname.Text;
@@ -83,7 +83,7 @@ namespace TechnicalSupport.WinowsProgram
 
             try
             {
-                _konfigKc.SaveChanges(); // Сохраняем изменения только один раз после всех операций
+                _konfigKc.SaveChanges(); 
                 MessageBox.Show("Успешно сохранено");
                 this.Close();
             }

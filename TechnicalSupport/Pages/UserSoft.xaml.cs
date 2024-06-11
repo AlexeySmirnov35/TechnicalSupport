@@ -21,42 +21,52 @@ namespace TechnicalSupport.Pages
 {
     public partial class UserSoft : Page
     {
-        ApplicationContext KonfigKc;
-        private int currentPage = 1;
+        private readonly ApplicationContext _context;
+        private int _currentPage = 1;
         private const int PageSize = 10;
 
         public UserSoft()
         {
             InitializeComponent();
-            KonfigKc = new ApplicationContext();
+            _context = new ApplicationContext();
+            InitializeUIComponents();
+        }
+
+        private void InitializeUIComponents()
+        {
             LoadDepartments();
             DisplayPage();
+            InitializeSoftwareTypes();
+        }
 
-            // Prepare software types with "Все" included
-            var softwareTypes = KonfigKc.TypeSofwares.ToList().OrderBy(t => t.NameType).ToList();
+        private void InitializeSoftwareTypes()
+        {
+            var softwareTypes = _context.TypeSofwares
+                .OrderBy(t => t.NameType)
+                .ToList();
+
             var allType = new TypeSofware { TypeSofwareID = -1, NameType = "Все" };
-            softwareTypes.Insert(0, allType); // Insert "Все" at the beginning
+            softwareTypes.Insert(0, allType);
 
             ComboBoxSoftwareType.ItemsSource = softwareTypes;
-            ComboBoxSoftwareType.SelectedItem = allType; // Set "Все" as the default selected item
+            ComboBoxSoftwareType.SelectedItem = allType;
         }
 
         private void UpdateSoftware()
         {
-            var allSoftware = KonfigKc.Softwares.ToList();
-            allSoftware = allSoftware.Where(s => s.SoftwareName.ToLower().Contains(TboxSerch.Text.ToLower())).ToList();
+            var allSoftware = _context.Softwares.AsQueryable();
 
-            if (ComboBoxSoftwareType.SelectedItem != null)
+            if (!string.IsNullOrWhiteSpace(TboxSerch.Text))
             {
-                var selectedType = (ComboBoxSoftwareType.SelectedItem as TypeSofware);
-                if (selectedType.TypeSofwareID != -1)
-                {
-                    allSoftware = allSoftware.Where(s => s.TypeSofwareID == selectedType.TypeSofwareID).ToList();
-                }
+                allSoftware = allSoftware.Where(s => s.SoftwareName.ToLower().Contains(TboxSerch.Text.ToLower()));
             }
 
-            allSoftware = allSoftware.OrderBy(s => s.SoftwareName).ToList();
-            listview.ItemsSource = allSoftware;
+            if (ComboBoxSoftwareType.SelectedItem is TypeSofware selectedType && selectedType.TypeSofwareID != -1)
+            {
+                allSoftware = allSoftware.Where(s => s.TypeSofwareID == selectedType.TypeSofwareID);
+            }
+
+            listview.ItemsSource = allSoftware.OrderBy(s => s.SoftwareName).ToList();
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -68,6 +78,7 @@ namespace TechnicalSupport.Pages
                     FileName = uriResult.ToString(),
                     UseShellExecute = true
                 });
+
                 e.Handled = true;
             }
             else
@@ -78,77 +89,78 @@ namespace TechnicalSupport.Pages
 
         private void Btn_OpenFile(object sender, RoutedEventArgs e)
         {
-            var sel = (sender as Button).DataContext as Software;
-
-            if (sel != null)
+            if (sender is Button button && button.DataContext is Software selectedSoftware)
             {
-                try
-                {
-                    var dbContext = KonfigKc;
-                    var file = dbContext.FilesSoftwares.FirstOrDefault(f => f.FileID == sel.FileID);
-                    if (file != null)
-                    {
-                        string tempFilePath = System.IO.Path.GetTempFileName();
-                        File.WriteAllBytes(tempFilePath, file.FileContent);
-                        System.Diagnostics.Process.Start("rundll32.exe", $"shell32.dll,OpenAs_RunDLL {tempFilePath}");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Файл не найден для выбранной программы.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка при открытии файла: {ex.Message}");
-                }
+                OpenFile(selectedSoftware.FileID);
             }
             else
             {
-                MessageBox.Show("Файл не был загружен");
+                MessageBox.Show("Файл не загружен");
+            }
+        }
+
+        private void OpenFile(int? fileId)
+        {
+            try
+            {
+                var file = _context.FilesSoftwares.FirstOrDefault(f => f.FileID == fileId);
+                if (file != null)
+                {
+                    string tempFilePath = System.IO.Path.GetTempFileName();
+                    File.WriteAllBytes(tempFilePath, file.FileContent);
+                    Process.Start("rundll32.exe", $"shell32.dll,OpenAs_RunDLL {tempFilePath}");
+                }
+                else
+                {
+                    MessageBox.Show("Файл не найден");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка открытия: {ex.Message}");
             }
         }
 
         private void LoadDepartments()
         {
-            listview.ItemsSource = KonfigKc.Softwares.ToList();
+            listview.ItemsSource = _context.Softwares.ToList();
         }
 
         private void DisplayPage()
         {
-            var departments = KonfigKc.Softwares
+            var departments = _context.Softwares
                 .OrderBy(d => d.SoftwareID)
-                .Skip((currentPage - 1) * PageSize)
+                .Skip((_currentPage - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
 
             listview.ItemsSource = departments;
-            PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKc.Softwares.Count() / PageSize)}";
+            PageInfo.Text = $"Страница {_currentPage} из {Math.Ceiling((double)_context.Softwares.Count() / PageSize)}";
         }
 
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            if (currentPage > 1)
+            if (_currentPage > 1)
             {
-                currentPage--;
+                _currentPage--;
                 DisplayPage();
             }
         }
 
         private void NextPage_Click(object sender, RoutedEventArgs e)
         {
-            if (currentPage < (KonfigKc.Softwares.Count() + PageSize - 1) / PageSize)
+            if (_currentPage < (_context.Softwares.Count() + PageSize - 1) / PageSize)
             {
-                currentPage++;
+                _currentPage++;
                 DisplayPage();
             }
         }
 
         private void SoftwareListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (listview.SelectedItem != null)
+            if (listview.SelectedItem is Software selectedSoftware)
             {
-                Software selectedSoftware = (Software)listview.SelectedItem;
-                UserPageSoft userPageSoft = new UserPageSoft(selectedSoftware);
+                var userPageSoft = new UserPageSoft(selectedSoftware);
                 NavigationService.Navigate(userPageSoft);
             }
         }
@@ -165,46 +177,56 @@ namespace TechnicalSupport.Pages
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var filesToDelete = (sender as Button).DataContext as Software;
+            if (sender is Button button && button.DataContext is Software softwareToDelete)
+            {
+                ConfirmAndDeleteSoftware(softwareToDelete);
+            }
+            InitializeUIComponents();
+        }
 
-            if (MessageBox.Show($"Вы действительно хотите удалить этот файл {filesToDelete.SoftwareName}!?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+        private void ConfirmAndDeleteSoftware(Software software)
+        {
+            if (MessageBox.Show($"Вы действительное хотите удалите: {software.SoftwareName}?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
             {
                 return;
             }
 
             try
             {
-                var dbContext = KonfigKc;
-
-                if (dbContext.SoftwarePositions.Any(item => item.SoftwareID == filesToDelete.SoftwareID))
+                if (_context.SoftwarePositions.Any(item => item.SoftwareID == software.SoftwareID))
                 {
-                    MessageBox.Show($"Программа {filesToDelete.SoftwareName} используется в других таблицах и не может быть удален.");
+                    MessageBox.Show($" {software.SoftwareName} нелзя удалить.");
                     return;
                 }
 
-                dbContext.Softwares.Remove(filesToDelete);
-                dbContext.SaveChanges();
-                MessageBox.Show("Удаление прошло успешно");
+                _context.Softwares.Remove(software);
+                _context.SaveChanges();
+                MessageBox.Show("Удаленение прошло успешно");
                 LoadDepartments();
                 DisplayPage();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при удалении файла: {ex.Message}");
+                MessageBox.Show($"Ошибка удаления: {ex.Message}");
             }
+            InitializeUIComponents();
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var d = (sender as Button).DataContext as Software;
-            AddEditSoftwareWindow addEditDepartWindow = new AddEditSoftwareWindow(d);
-            addEditDepartWindow.ShowDialog();
+            if (sender is Button button && button.DataContext is Software softwareToEdit)
+            {
+                var addEditSoftwareWindow = new AddEditSoftwareWindow(softwareToEdit);
+                addEditSoftwareWindow.ShowDialog();
+                InitializeUIComponents();
+            }
         }
 
         private void AddEditDepar_Click(object sender, RoutedEventArgs e)
         {
-            AddEditSoftwareWindow addEditSoftwareWindow = new AddEditSoftwareWindow(null);
+            var addEditSoftwareWindow = new AddEditSoftwareWindow(null);
             addEditSoftwareWindow.ShowDialog();
+            InitializeUIComponents();
         }
 
         private void ComboBoxSoftwareType_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -39,13 +39,11 @@ namespace TechnicalSupport.Pages
 
         private void LoadDepartments()
         {
-            // Получаем все данные из базы данных
             listView.ItemsSource = KonfigKcDB.Users.Where(x=>x.RoleID!=1).ToList();
         }
 
         private void DisplayPage()
         {
-            // Получаем текущую страницу данных
             var departments = KonfigKcDB.Users.Where(x => x.RoleID != 1)
                 .OrderBy(d => d.UserID)
                 .Skip((currentPage - 1) * PageSize)
@@ -54,7 +52,6 @@ namespace TechnicalSupport.Pages
 
             listView.ItemsSource = departments;
 
-            // Обновляем текст с информацией о текущей странице
             PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKcDB.Users.Where(x => x.RoleID != 1).Count() / PageSize)}";
         }
 
@@ -125,7 +122,7 @@ namespace TechnicalSupport.Pages
         {
             AdminUserWindow addEditDepartWindow = new AdminUserWindow(null);
             addEditDepartWindow.ShowDialog();
-            // Обновляем список после добавления/редактирования подразделения
+
             DisplayPage();
         }
     }

@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using TechnicalSupport.DataBaseClasses;
 
 namespace TechnicalSupport.WinowsProgram
@@ -41,24 +43,36 @@ namespace TechnicalSupport.WinowsProgram
 
             if (user != null)
             {
-                tbName.Text = _editableUser.Surname;
-                tbSurname.Text = _editableUser.Firstname;
+                tbSurname.Text = _editableUser.Surname;
+                tbFirstname.Text = _editableUser.Firstname;
                 tbNumber.Text = _editableUser.NumberPhone;
                 tbCab.Text = _editableUser.Cabinet;
-                tbPAt.Text = _editableUser.Patranomic;
+                tbPatronymic.Text = _editableUser.Patranomic;
                 tbLogin.Text = _editableUser.Login;
-                tbPassword.Password = _editableUser.Password;
+                pbPassword.Password = _editableUser.Password;
+                pbConfirmPassword.Password = _editableUser.Password;
                 cbRole.SelectedValue = _editableUser.RoleID;
-                cbDepar.SelectedValue = _editableUser.DepartmentID;
-                cbPosir.SelectedValue = _editableUser.PositionsID;
+                cbDepartment.SelectedValue = _editableUser.DepartmentID;
+                cbPosition.SelectedValue = _editableUser.PositionsID;
             }
         }
 
         private void LoadComboBoxData()
         {
-            cbPosir.ItemsSource = _konfigKc.Positions.ToList();
-            cbDepar.ItemsSource = _konfigKc.Departments.ToList();
+            cbPosition.ItemsSource = _konfigKc.Positions.ToList();
+            cbPosition.SelectedValuePath = "PositionID";
+            cbPosition.DisplayMemberPath = "PositionName";
+            cbPosition.SelectedValue = _editableUser.PositionsID;
+
+            cbDepartment.ItemsSource = _konfigKc.Departments.ToList();
+            cbDepartment.SelectedValuePath = "DepartmentID";
+            cbDepartment.DisplayMemberPath = "DepartmentName";
+            cbDepartment.SelectedValue = _editableUser.DepartmentID;
+
             cbRole.ItemsSource = _konfigKc.Roles.ToList();
+            cbRole.SelectedValuePath = "RoleID";
+            cbRole.DisplayMemberPath = "RoleName";
+            cbRole.SelectedValue = _editableUser.RoleID;
         }
 
         private void Create_Req_Click(object sender, RoutedEventArgs e)
@@ -77,14 +91,14 @@ namespace TechnicalSupport.WinowsProgram
                 {
                     Cabinet = tbCab.Text,
                     NumberPhone = tbNumber.Text,
-                    Surname = tbName.Text,
-                    Firstname = tbSurname.Text,
-                    Patranomic = tbPAt.Text,
-                    DepartmentID = (cbDepar.SelectedItem as Department)?.DepartmentID ?? 0,
-                    PositionsID = (cbPosir.SelectedItem as Position)?.PositionID ?? 0,
+                    Surname = tbSurname.Text,
+                    Firstname = tbFirstname.Text,
+                    Patranomic = tbPatronymic.Text,
+                    DepartmentID = (cbDepartment.SelectedItem as Department)?.DepartmentID ?? 0,
+                    PositionsID = (cbPosition.SelectedItem as Position)?.PositionID ?? 0,
                     RoleID = (cbRole.SelectedItem as Role)?.RoleID ?? 0,
                     Login = tbLogin.Text,
-                    Password = tbPassword.Password
+                    Password = pbPassword.Password
                 };
 
                 _konfigKc.Users.Add(newUser);
@@ -96,11 +110,11 @@ namespace TechnicalSupport.WinowsProgram
                 _originalUser.NumberPhone = _editableUser.NumberPhone;
                 _originalUser.Cabinet = _editableUser.Cabinet;
                 _originalUser.RoleID = (cbRole.SelectedItem as Role)?.RoleID ?? 0;
-                _originalUser.DepartmentID = (cbDepar.SelectedItem as Department)?.DepartmentID ?? 0;
-                _originalUser.PositionsID = (cbPosir.SelectedItem as Position)?.PositionID ?? 0;
+                _originalUser.DepartmentID = (cbDepartment.SelectedItem as Department)?.DepartmentID ?? 0;
+                _originalUser.PositionsID = (cbPosition.SelectedItem as Position)?.PositionID ?? 0;
                 _originalUser.Patranomic = _editableUser.Patranomic;
                 _originalUser.Login = tbLogin.Text;
-                _originalUser.Password = tbPassword.Password;
+                _originalUser.Password = pbPassword.Password;
             }
 
             try
@@ -119,10 +133,10 @@ namespace TechnicalSupport.WinowsProgram
         {
             StringBuilder errors = new StringBuilder();
 
-            if (string.IsNullOrWhiteSpace(tbName.Text))
+            if (string.IsNullOrWhiteSpace(tbSurname.Text))
                 errors.AppendLine("Укажите фамилию!");
 
-            if (string.IsNullOrWhiteSpace(tbSurname.Text))
+            if (string.IsNullOrWhiteSpace(tbFirstname.Text))
                 errors.AppendLine("Укажите имя!");
 
             if (string.IsNullOrWhiteSpace(tbNumber.Text))
@@ -131,10 +145,10 @@ namespace TechnicalSupport.WinowsProgram
             if (string.IsNullOrWhiteSpace(tbCab.Text))
                 errors.AppendLine("Укажите кабинет!");
 
-            if (cbDepar.SelectedItem == null)
+            if (cbDepartment.SelectedItem == null)
                 errors.AppendLine("Выберите отдел!");
 
-            if (cbPosir.SelectedItem == null)
+            if (cbPosition.SelectedItem == null)
                 errors.AppendLine("Выберите должность!");
 
             if (cbRole.SelectedItem == null)
@@ -143,19 +157,65 @@ namespace TechnicalSupport.WinowsProgram
             if (string.IsNullOrWhiteSpace(tbLogin.Text) || tbLogin.Text.Length < 8)
                 errors.AppendLine("Логин должен быть не менее 8 символов!");
 
-            if (string.IsNullOrWhiteSpace(tbPassword.Password) || !IsValidPassword(tbPassword.Password))
+            if (string.IsNullOrWhiteSpace(pbPassword.Password) || !IsValidPassword(pbPassword.Password))
                 errors.AppendLine("Пароль должен быть не менее 8 символов и содержать хотя бы одну заглавную букву, одну цифру и один специальный символ: ! $ % @ _ ? *");
+
+            if (pbPassword.Password != pbConfirmPassword.Password)
+                errors.AppendLine("Пароли не совпадают!");
 
             return errors;
         }
 
         private bool IsValidPassword(string password)
         {
-            // Пароль должен быть не менее 8 символов, содержать хотя бы одну заглавную букву, одну цифру и один специальный символ
             return password.Length >= 8 &&
                    password.Any(char.IsUpper) &&
                    password.Any(char.IsDigit) &&
-                   Regex.IsMatch(password, @"!$%@_?*");
+                   Regex.IsMatch(password, @"[!$%@_?*]");
         }
+
+        private void BtnShowPassword_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button == null) return;
+
+            if (tbPassword.Visibility == Visibility.Collapsed)
+            {
+                tbPassword.Visibility = Visibility.Visible;
+                tbPassword.Text = pbPassword.Password;
+                pbPassword.Visibility = Visibility.Collapsed;
+                (button.Content as Image).Source = new BitmapImage(new Uri("pack://application:,,,/img/icons8-invisible-96.png"));
+            }
+            else
+            {
+                pbPassword.Visibility = Visibility.Visible;
+                pbPassword.Password = tbPassword.Text;
+                tbPassword.Visibility = Visibility.Collapsed;
+                (button.Content as Image).Source = new BitmapImage(new Uri("pack://application:,,,/img/icons8-eye-96.png"));
+            }
+        }
+
+        private void BtnShowPasswordDouble_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button == null) return;
+
+            if (tbConPassword.Visibility == Visibility.Collapsed)
+            {
+                tbConPassword.Visibility = Visibility.Visible;
+                tbConPassword.Text = pbConfirmPassword.Password;
+                pbConfirmPassword.Visibility = Visibility.Collapsed;
+                (button.Content as Image).Source = new BitmapImage(new Uri("pack://application:,,,/img/icons8-invisible-96.png"));
+            }
+            else
+            {
+                pbConfirmPassword.Visibility = Visibility.Visible;
+                pbConfirmPassword.Password = tbConPassword.Text;
+                tbConPassword.Visibility = Visibility.Collapsed;
+                (button.Content as Image).Source = new BitmapImage(new Uri("pack://application:,,,/img/icons8-eye-96.png"));
+            }
+        }
+
+
     }
 }

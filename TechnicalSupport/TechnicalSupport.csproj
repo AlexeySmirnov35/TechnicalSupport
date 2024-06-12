@@ -612,6 +612,12 @@
     <Resource Include="img\icons8-print-96.png" />
     <Resource Include="img\icons8-word-96.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-eye-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icons8-invisible-96.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

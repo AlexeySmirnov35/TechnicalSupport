@@ -1,20 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static MaterialDesignThemes.Wpf.Theme;
 using TechnicalSupport.DataBaseClasses;
+
 namespace TechnicalSupport.WinowsProgram
 {
     /// <summary>
@@ -22,39 +13,40 @@ namespace TechnicalSupport.WinowsProgram
     /// </summary>
     public partial class AddEditFileWindow : Window
     {
-        private byte[] fileContent = null;
-        private FilesSoftware selectedFile = null;
-        ApplicationContext KonfigKc;
-        private FilesSoftware filesSoftware1 = new FilesSoftware();
-        public AddEditFileWindow(FilesSoftware filesSoftware)
+        private byte[] _fileContent = null;
+        private readonly ApplicationContext _context;
+        private readonly FilesSoftware _originalFile;
+        private readonly FilesSoftware _editableFile;
+
+        public AddEditFileWindow(FilesSoftware filesSoftware, ApplicationContext context)
         {
             InitializeComponent();
-            KonfigKc = new ApplicationContext();
-            if(filesSoftware != null )
+            _context = context;
+            _originalFile = filesSoftware ?? new FilesSoftware();
+            _editableFile = new FilesSoftware
             {
-                filesSoftware1 = filesSoftware;
-            }
-            DataContext = filesSoftware1;
-           // listview.ItemsSource = KonfigKc.FilesSoftwares.ToList();
-            //listview.SelectionChanged += Listview_SelectionChanged;
+                FileID = _originalFile.FileID,
+                FileContent = _originalFile.FileContent,
+                FileName = _originalFile.FileName,
+            };
+            DataContext = _editableFile;
         }
-
 
         private void Btn_AddFile_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog fileOpen = new OpenFileDialog();
-
-            fileOpen.Title = "Выберите файлы";
-            fileOpen.Multiselect = true;
-            fileOpen.Filter = "Текстовые файлы|*.txt;*.docx;*.pdf|Все файлы|*.*";
+            OpenFileDialog fileOpen = new OpenFileDialog
+            {
+                Title = "Выберите файлы",
+                Multiselect = true,
+                Filter = "Текстовые файлы|*.txt;*.docx;*.pdf|Все файлы|*.*"
+            };
 
             if (fileOpen.ShowDialog() == true)
             {
                 foreach (string fileName in fileOpen.FileNames)
                 {
-                     fileContent = File.ReadAllBytes(fileName);
+                    _fileContent = File.ReadAllBytes(fileName);
                     tbContent.Text += fileOpen.SafeFileName + "\n";
-   
                 }
             }
         }
@@ -70,9 +62,7 @@ namespace TechnicalSupport.WinowsProgram
             }
             else
             {
-                var dbContext = KonfigKc;
-
-                var isDuplicate = dbContext.FilesSoftwares.Any(f => f.FileName == fileName && f.FileID != filesSoftware1.FileID);
+                var isDuplicate = _context.FilesSoftwares.Any(f => f.FileName == fileName && f.FileID != _editableFile.FileID);
 
                 if (isDuplicate)
                 {
@@ -81,21 +71,20 @@ namespace TechnicalSupport.WinowsProgram
 
                 if (errors.Length == 0)
                 {
-                    if (filesSoftware1.FileID != 0)
+                    if (_editableFile.FileID != 0)
                     {
-                        var fileToUpdate = dbContext.FilesSoftwares.First(f => f.FileID == filesSoftware1.FileID);
+                        var fileToUpdate = _context.FilesSoftwares.First(f => f.FileID == _editableFile.FileID);
                         fileToUpdate.FileName = fileName;
-                        fileToUpdate.FileContent = fileContent ?? fileToUpdate.FileContent;
+                        fileToUpdate.FileContent = _fileContent ?? fileToUpdate.FileContent;
                     }
                     else
                     {
-                        FilesSoftware newFile = new FilesSoftware { FileName = fileName, FileContent = fileContent };
-                        dbContext.FilesSoftwares.Add(newFile);
+                        FilesSoftware newFile = new FilesSoftware { FileName = fileName, FileContent = _fileContent };
+                        _context.FilesSoftwares.Add(newFile);
                     }
 
-                    dbContext.SaveChanges();
+                    _context.SaveChanges();
                     this.DialogResult = true;
-
                     this.Close();
                 }
             }

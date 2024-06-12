@@ -116,7 +116,7 @@ namespace TechnicalSupport.Pages
 
         private void AddEditFile_Click(object sender, RoutedEventArgs e)
         {
-            AddEditFileWindow addEditFileWindow = new AddEditFileWindow(null);
+            AddEditFileWindow addEditFileWindow = new AddEditFileWindow(null, KonfigKc);
             addEditFileWindow.ShowDialog();
             LoadDepartments();
             DisplayPage();
@@ -157,7 +157,7 @@ namespace TechnicalSupport.Pages
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var v=(sender as Button).DataContext as FilesSoftware;
-            AddEditFileWindow addEditFileWindow = new AddEditFileWindow(v);
+            AddEditFileWindow addEditFileWindow = new AddEditFileWindow(v, KonfigKc);
             addEditFileWindow.ShowDialog();
             LoadDepartments();
             DisplayPage();

@@ -16,31 +16,52 @@ namespace TechnicalSupport.WinowsProgram
     public partial class AddEditSoftwareWindow : Window
     {
         private readonly ApplicationContext _konfigKcDB;
-        private readonly Software _software;
+        private readonly Software _originalSoftware;
+        private readonly Software _editableSoftware;
 
-        public AddEditSoftwareWindow(Software software = null)
+        public AddEditSoftwareWindow(Software software, ApplicationContext konfigKcDB)
         {
             InitializeComponent();
-            _konfigKcDB = new ApplicationContext();
-            _software = software ?? new Software();
-            DataContext = _software;
+            _konfigKcDB = konfigKcDB;
+            _originalSoftware = software ?? new Software();
+            _editableSoftware = new Software
+            {
+                SoftwareID = _originalSoftware.SoftwareID,
+                SoftwareName = _originalSoftware.SoftwareName,
+                WebUrl = _originalSoftware.WebUrl,
+                FileID = _originalSoftware.FileID,
+                LicenseID = _originalSoftware.LicenseID,
+                TypeSofwareID = _originalSoftware.TypeSofwareID
+            };
+            DataContext = _editableSoftware;
             LoadComboBoxData();
 
-            if (_software.SoftwareID != 0)
+            if (_originalSoftware.SoftwareID != 0)
             {
-                tbName.Text = _software.SoftwareName;
-                tbWeb.Text = _software.WebUrl;
-                cbFile.SelectedItem = _konfigKcDB.FilesSoftwares.FirstOrDefault(fs => fs.FileID == _software.FileID);
-                cbLis.SelectedItem = _konfigKcDB.LicensiaInfoes.FirstOrDefault(li => li.LicenseID == _software.LicenseID);
-                cbTypeSoft.SelectedItem = _konfigKcDB.TypeSofwares.FirstOrDefault(ts => ts.TypeSofwareID == _software.TypeSofwareID);
+                tbName.Text = _editableSoftware.SoftwareName;
+                tbWeb.Text = _editableSoftware.WebUrl;
+                cbFile.SelectedValue = _editableSoftware.FileID;
+                cbLis.SelectedValue = _editableSoftware.LicenseID;
+                cbTypeSoft.SelectedValue = _editableSoftware.TypeSofwareID;
             }
         }
 
         private void LoadComboBoxData()
         {
             cbFile.ItemsSource = _konfigKcDB.FilesSoftwares.ToList();
+            cbFile.SelectedValuePath = "FileID";
+            cbFile.DisplayMemberPath = "FileName";
+            cbFile.SelectedValue = _editableSoftware.FileID;
+
             cbLis.ItemsSource = _konfigKcDB.LicensiaInfoes.ToList();
+            cbLis.SelectedValuePath = "LicenseID";
+            cbLis.DisplayMemberPath = "LicenseType";
+            cbLis.SelectedValue = _editableSoftware.LicenseID;
+
             cbTypeSoft.ItemsSource = _konfigKcDB.TypeSofwares.ToList();
+            cbTypeSoft.SelectedValuePath = "TypeSofwareID";
+            cbTypeSoft.DisplayMemberPath = "NameType";
+            cbTypeSoft.SelectedValue = _editableSoftware.TypeSofwareID;
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -86,7 +107,7 @@ namespace TechnicalSupport.WinowsProgram
 
             try
             {
-                if (_software.SoftwareID == 0)
+                if (_editableSoftware.SoftwareID == 0)
                 {
                     AddSoftware(prog);
                 }
@@ -130,7 +151,7 @@ namespace TechnicalSupport.WinowsProgram
 
         private bool IsDuplicateRecord()
         {
-            return _konfigKcDB.Softwares.Any(s => s.SoftwareName == tbName.Text && s.SoftwareID != _software.SoftwareID);
+            return _konfigKcDB.Softwares.Any(s => s.SoftwareName == tbName.Text && s.SoftwareID != _editableSoftware.SoftwareID);
         }
 
         private void AddSoftware(FilesSoftware prog)
@@ -149,23 +170,23 @@ namespace TechnicalSupport.WinowsProgram
 
         private void UpdateSoftware(FilesSoftware prog)
         {
-            _software.SoftwareName = tbName.Text;
-            _software.WebUrl = tbWeb.Text;
-            _software.FileID = prog.FileID;
-            _software.LicenseID = (cbLis.SelectedItem as LicensiaInfo)?.LicenseID ?? 0;
-            _software.TypeSofwareID = (cbTypeSoft.SelectedItem as TypeSofware)?.TypeSofwareID ?? 0;
+            _originalSoftware.SoftwareName = _editableSoftware.SoftwareName;
+            _originalSoftware.WebUrl = _editableSoftware.WebUrl;
+            _originalSoftware.FileID = prog.FileID;
+            _originalSoftware.LicenseID = (cbLis.SelectedItem as LicensiaInfo)?.LicenseID ?? 0;
+            _originalSoftware.TypeSofwareID = (cbTypeSoft.SelectedItem as TypeSofware)?.TypeSofwareID ?? 0;
         }
 
         private void TextBlock_Click(object sender, MouseButtonEventArgs e)
         {
-            AddEditFileWindow addEditFileWindow = new AddEditFileWindow(null);
+            var addEditFileWindow = new AddEditFileWindow(null, _konfigKcDB);
             addEditFileWindow.ShowDialog();
             LoadComboBoxData();
         }
 
         private void Win_Load(object sender, RoutedEventArgs e)
         {
-
+            // Placeholder for any actions on window load
         }
     }
 }

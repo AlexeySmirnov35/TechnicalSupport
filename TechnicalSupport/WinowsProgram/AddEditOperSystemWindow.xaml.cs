@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TechnicalSupport.DataBaseClasses;
+
 namespace TechnicalSupport.WinowsProgram
 {
     /// <summary>
@@ -22,25 +17,37 @@ namespace TechnicalSupport.WinowsProgram
     public partial class AddEditOperSystemWindow : Window
     {
         private readonly ApplicationContext _konfigKcDB;
-        private readonly DataBaseClasses.OperatingSystem _operatingSystem;
+        private readonly DataBaseClasses.OperatingSystem _originalOperatingSystem;
+        private readonly DataBaseClasses.OperatingSystem _editableOperatingSystem;
 
-        public AddEditOperSystemWindow(DataBaseClasses.OperatingSystem operatingSystem)
+        public AddEditOperSystemWindow(DataBaseClasses.OperatingSystem operatingSystem, ApplicationContext konfigKcDB)
         {
             InitializeComponent();
-            _konfigKcDB = new ApplicationContext();
-            _operatingSystem = operatingSystem ?? new DataBaseClasses.OperatingSystem();
-            DataContext = _operatingSystem;
+            _konfigKcDB = konfigKcDB;
+            _originalOperatingSystem = operatingSystem ?? new DataBaseClasses.OperatingSystem();
+            _editableOperatingSystem = new DataBaseClasses.OperatingSystem
+            {
+                OperatingSystemsID = _originalOperatingSystem.OperatingSystemsID,
+                NameOperatingSystem = _originalOperatingSystem.NameOperatingSystem,
+                WebUrl = _originalOperatingSystem.WebUrl,
+                FileID = _originalOperatingSystem.FileID
+            };
+            DataContext = _editableOperatingSystem;
             LoadFiles();
             if (operatingSystem != null)
             {
-                tbName.Text = _operatingSystem.NameOperatingSystem;
-                cbFile.SelectedItem = _konfigKcDB.FilesSoftwares.FirstOrDefault(os => os.FileID == _operatingSystem.FileID);
+                tbName.Text = _editableOperatingSystem.NameOperatingSystem;
+                tbWeb.Text = _editableOperatingSystem.WebUrl;
+                cbFile.SelectedValue = _editableOperatingSystem.FileID;
             }
         }
 
         private void LoadFiles()
         {
             cbFile.ItemsSource = _konfigKcDB.FilesSoftwares.ToList();
+            cbFile.SelectedValuePath = "FileID";
+            cbFile.DisplayMemberPath = "FileName";
+            cbFile.SelectedValue = _editableOperatingSystem.FileID;
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -61,15 +68,9 @@ namespace TechnicalSupport.WinowsProgram
             }
         }
 
-        private void Btn_Save_Soft_Click(object sender, RoutedEventArgs e)
+        private async void Btn_Save_Soft_Click(object sender, RoutedEventArgs e)
         {
-            StringBuilder errors = new StringBuilder();
-
-            if (string.IsNullOrWhiteSpace(tbName.Text))
-                errors.AppendLine("Укажите название программы!");
-
-            if (!Uri.TryCreate(tbWeb.Text, UriKind.Absolute, out var uriResult) || (uriResult.Scheme != Uri.UriSchemeHttp && uriResult.Scheme != Uri.UriSchemeHttps))
-                errors.AppendLine("Укажите корректную ссылку на документацию!");
+            StringBuilder errors = ValidateInputs();
 
             if (errors.Length > 0)
             {
@@ -84,7 +85,7 @@ namespace TechnicalSupport.WinowsProgram
                 return;
             }
 
-            var isDuplicate = _konfigKcDB.OperatingSystems.Any(s => s.NameOperatingSystem == _operatingSystem.NameOperatingSystem && s.OperatingSystemsID != _operatingSystem.OperatingSystemsID);
+            var isDuplicate = _konfigKcDB.OperatingSystems.Any(s => s.NameOperatingSystem == _editableOperatingSystem.NameOperatingSystem && s.OperatingSystemsID != _editableOperatingSystem.OperatingSystemsID);
 
             if (isDuplicate)
             {
@@ -92,27 +93,27 @@ namespace TechnicalSupport.WinowsProgram
                 return;
             }
 
-            if (_operatingSystem.OperatingSystemsID == 0)
+            if (_editableOperatingSystem.OperatingSystemsID == 0)
             {
-                var newSoftware = new DataBaseClasses.OperatingSystem
+                var newOperatingSystem = new DataBaseClasses.OperatingSystem
                 {
                     NameOperatingSystem = tbName.Text,
                     WebUrl = tbWeb.Text,
                     FileID = prog.FileID
                 };
 
-                _konfigKcDB.OperatingSystems.Add(newSoftware);
+                _konfigKcDB.OperatingSystems.Add(newOperatingSystem);
             }
             else
             {
-                _operatingSystem.NameOperatingSystem = tbName.Text;
-                _operatingSystem.WebUrl = tbWeb.Text;
-                _operatingSystem.FileID = prog.FileID;
+                _originalOperatingSystem.NameOperatingSystem = _editableOperatingSystem.NameOperatingSystem;
+                _originalOperatingSystem.WebUrl = _editableOperatingSystem.WebUrl;
+                _originalOperatingSystem.FileID = prog.FileID;
             }
 
             try
             {
-                _konfigKcDB.SaveChanges();
+                await _konfigKcDB.SaveChangesAsync();
                 MessageBox.Show("Успешно сохранено");
                 this.DialogResult = true;
                 this.Close();
@@ -123,9 +124,22 @@ namespace TechnicalSupport.WinowsProgram
             }
         }
 
+        private StringBuilder ValidateInputs()
+        {
+            StringBuilder errors = new StringBuilder();
+
+            if (string.IsNullOrWhiteSpace(tbName.Text))
+                errors.AppendLine("Укажите название программы!");
+
+            if (!Uri.TryCreate(tbWeb.Text, UriKind.Absolute, out var uriResult) || (uriResult.Scheme != Uri.UriSchemeHttp && uriResult.Scheme != Uri.UriSchemeHttps))
+                errors.AppendLine("Укажите корректную ссылку на документацию!");
+
+            return errors;
+        }
+
         private void TextBlock_Click(object sender, MouseButtonEventArgs e)
         {
-            AddEditFileWindow addEditFileWindow = new AddEditFileWindow(null);
+            var addEditFileWindow = new AddEditFileWindow(null, _konfigKcDB);
             addEditFileWindow.ShowDialog();
             LoadFiles();
         }

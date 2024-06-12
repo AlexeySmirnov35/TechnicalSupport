@@ -216,7 +216,7 @@ namespace TechnicalSupport.Pages
         {
             if (sender is Button button && button.DataContext is Software softwareToEdit)
             {
-                var addEditSoftwareWindow = new AddEditSoftwareWindow(softwareToEdit);
+                var addEditSoftwareWindow = new AddEditSoftwareWindow(softwareToEdit, _context);
                 addEditSoftwareWindow.ShowDialog();
                 InitializeUIComponents();
             }
@@ -224,7 +224,7 @@ namespace TechnicalSupport.Pages
 
         private void AddEditDepar_Click(object sender, RoutedEventArgs e)
         {
-            var addEditSoftwareWindow = new AddEditSoftwareWindow(null);
+            var addEditSoftwareWindow = new AddEditSoftwareWindow(null, _context);
             addEditSoftwareWindow.ShowDialog();
             InitializeUIComponents();
         }

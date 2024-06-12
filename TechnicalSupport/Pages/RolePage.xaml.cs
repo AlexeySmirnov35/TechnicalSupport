@@ -109,7 +109,7 @@ namespace TechnicalSupport.Pages
 
         private void AddEditRole_Click(object sender, RoutedEventArgs e)
         {
-            AddEditRoleWindow addEditRoleWindow = new AddEditRoleWindow(null);
+            AddEditRoleWindow addEditRoleWindow = new AddEditRoleWindow(null, KonfigKc);
             addEditRoleWindow.ShowDialog();
             DisplayPage();
         }
@@ -157,7 +157,7 @@ namespace TechnicalSupport.Pages
 
         private void EditRole_Click(object sender, RoutedEventArgs e)
         {
-            AddEditRoleWindow addEditRoleWindow = new AddEditRoleWindow((sender as Button).DataContext as Position);
+            AddEditRoleWindow addEditRoleWindow = new AddEditRoleWindow((sender as Button).DataContext as Position, KonfigKc);
             addEditRoleWindow.ShowDialog();
             DisplayPage();
         }

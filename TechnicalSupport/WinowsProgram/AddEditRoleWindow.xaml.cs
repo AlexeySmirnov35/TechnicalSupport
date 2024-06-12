@@ -8,27 +8,34 @@ namespace TechnicalSupport.WinowsProgram
 {
     public partial class AddEditRoleWindow : Window
     {
-        private ApplicationContext KonfigKc;
-        private Position _role;
+        private readonly ApplicationContext _konfigKc;
+        private readonly Position _originalRole;
+        private readonly Position _editableRole;
 
-        public AddEditRoleWindow(Position role)
+        public AddEditRoleWindow(Position role, ApplicationContext konfigKc)
         {
             InitializeComponent();
-            KonfigKc = new ApplicationContext();
-            _role = role ?? new Position();
-            DataContext = _role;
+            _konfigKc = konfigKc;
+            _originalRole = role ?? new Position();
+            _editableRole = new Position
+            {
+                PositionID = _originalRole.PositionID,
+                PositionName = _originalRole.PositionName,
+                OperatingSystemsID = _originalRole.OperatingSystemsID
+            };
+            DataContext = _editableRole;
 
             LoadOperatingSystems();
             if (role != null)
             {
-                tbPos.Text = role.PositionName;
-                cbFile.SelectedItem = KonfigKc.OperatingSystems.FirstOrDefault(os => os.OperatingSystemsID == role.OperatingSystemsID);
+                tbPos.Text = _editableRole.PositionName;
+                cbFile.SelectedItem = _konfigKc.OperatingSystems.FirstOrDefault(os => os.OperatingSystemsID == _editableRole.OperatingSystemsID);
             }
         }
 
         private void LoadOperatingSystems()
         {
-            cbFile.ItemsSource = KonfigKc.OperatingSystems.ToList();
+            cbFile.ItemsSource = _konfigKc.OperatingSystems.ToList();
         }
 
         private void AddEditRole_Click(object sender, RoutedEventArgs e)
@@ -41,7 +48,7 @@ namespace TechnicalSupport.WinowsProgram
 
             try
             {
-                if (_role.PositionID == 0)
+                if (_editableRole.PositionID == 0)
                 {
                     AddRole();
                 }
@@ -71,7 +78,7 @@ namespace TechnicalSupport.WinowsProgram
                 return false;
             }
 
-            if (_role.PositionID == 0 && KonfigKc.Positions.Any(sp => sp.PositionName == tbPos.Text))
+            if (_editableRole.PositionID == 0 && _konfigKc.Positions.Any(sp => sp.PositionName == tbPos.Text))
             {
                 errors.AppendLine("Такая запись существует.");
                 return false;
@@ -88,17 +95,17 @@ namespace TechnicalSupport.WinowsProgram
                 OperatingSystemsID = (cbFile.SelectedItem as DataBaseClasses.OperatingSystem)?.OperatingSystemsID ?? 1
             };
 
-            KonfigKc.Positions.Add(newPosition);
-            KonfigKc.SaveChanges();
+            _konfigKc.Positions.Add(newPosition);
+            _konfigKc.SaveChanges();
             Console.WriteLine($"Добавлена новая должность: {newPosition.PositionName}");
         }
 
         private void UpdateRole()
         {
-            _role.PositionName = tbPos.Text;
-            _role.OperatingSystemsID = (cbFile.SelectedItem as DataBaseClasses.OperatingSystem)?.OperatingSystemsID ?? _role.OperatingSystemsID;
-            KonfigKc.SaveChanges();
-            Console.WriteLine($"Обновлена должность: {_role.PositionName}");
+            _originalRole.PositionName = _editableRole.PositionName;
+            _originalRole.OperatingSystemsID = (cbFile.SelectedItem as DataBaseClasses.OperatingSystem)?.OperatingSystemsID ?? _originalRole.OperatingSystemsID;
+            _konfigKc.SaveChanges();
+            Console.WriteLine($"Обновлена должность: {_originalRole.PositionName}");
         }
     }
 }

@@ -9,14 +9,20 @@ namespace TechnicalSupport.WinowsProgram
     public partial class AddEditDepartWindow : Window
     {
         private readonly ApplicationContext _context;
-        private readonly Department _department;
+        private readonly Department _originalDepartment;
+        private readonly Department _editableDepartment;
 
-        public AddEditDepartWindow(Department department)
+        public AddEditDepartWindow(Department department, ApplicationContext context)
         {
             InitializeComponent();
-            _context = new ApplicationContext();
-            _department = department ?? new Department();
-            DataContext = _department;
+            _context = context;
+            _originalDepartment = department ?? new Department();
+            _editableDepartment = new Department
+            {
+                DepartmentID = _originalDepartment.DepartmentID,
+                DepartmentName = _originalDepartment.DepartmentName
+            };
+            DataContext = _editableDepartment;
         }
 
         private async void AddEditDepar_Click(object sender, RoutedEventArgs e)
@@ -37,7 +43,7 @@ namespace TechnicalSupport.WinowsProgram
 
             try
             {
-                if (_department.DepartmentID == 0)
+                if (_editableDepartment.DepartmentID == 0)
                 {
                     await AddDepartment(departmentName);
                 }
@@ -60,7 +66,7 @@ namespace TechnicalSupport.WinowsProgram
         private async Task<bool> DepartmentExists(string departmentName)
         {
             return await Task.Run(() =>
-                _context.Departments.Any(d => d.DepartmentName == departmentName && d.DepartmentID != _department.DepartmentID));
+                _context.Departments.Any(d => d.DepartmentName == departmentName && d.DepartmentID != _editableDepartment.DepartmentID));
         }
 
         private async Task AddDepartment(string departmentName)
@@ -73,9 +79,9 @@ namespace TechnicalSupport.WinowsProgram
 
         private async Task UpdateDepartment(string departmentName)
         {
-            _department.DepartmentName = departmentName;
+            _originalDepartment.DepartmentName = _editableDepartment.DepartmentName;
             await _context.SaveChangesAsync();
-            Console.WriteLine($"Обновлено подразделение: {_department.DepartmentName}");
+            Console.WriteLine($"Обновлено подразделение: {_originalDepartment.DepartmentName}");
         }
     }
 }

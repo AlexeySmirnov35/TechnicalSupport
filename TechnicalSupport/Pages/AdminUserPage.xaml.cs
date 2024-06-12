@@ -76,7 +76,7 @@ namespace TechnicalSupport.Pages
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var d = (sender as System.Windows.Controls.Button).DataContext as User;
-            AdminUserWindow addEditDepartWindow = new AdminUserWindow(d);
+            AdminUserWindow addEditDepartWindow = new AdminUserWindow(d, KonfigKcDB);
 
             addEditDepartWindow.ShowDialog();
         }
@@ -120,7 +120,7 @@ namespace TechnicalSupport.Pages
 
         private void AddEditDepar_Click(object sender, RoutedEventArgs e)
         {
-            AdminUserWindow addEditDepartWindow = new AdminUserWindow(null);
+            AdminUserWindow addEditDepartWindow = new AdminUserWindow(null, KonfigKcDB);
             addEditDepartWindow.ShowDialog();
 
             DisplayPage();

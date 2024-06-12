@@ -96,7 +96,7 @@ namespace TechnicalSupport.Pages
 
         private void AddEditDepar_Click(object sender, RoutedEventArgs e)
         {
-          AddEditOperSystemWindow addEditOperSystemWindow=new AddEditOperSystemWindow(null);
+          AddEditOperSystemWindow addEditOperSystemWindow=new AddEditOperSystemWindow(null, KonfigKcDB);
             addEditOperSystemWindow.ShowDialog();
             LoadDepartments();
             DisplayPage();
@@ -137,7 +137,7 @@ namespace TechnicalSupport.Pages
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var v=(sender as Button).DataContext as DataBaseClasses.OperatingSystem;
-            AddEditOperSystemWindow addEditOperSystemWindow = new AddEditOperSystemWindow(v);
+            AddEditOperSystemWindow addEditOperSystemWindow = new AddEditOperSystemWindow(v, KonfigKcDB);
             addEditOperSystemWindow.ShowDialog();
             LoadDepartments();
             DisplayPage();

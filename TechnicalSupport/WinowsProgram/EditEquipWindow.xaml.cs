@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TechnicalSupport.DataBaseClasses;
 
 namespace TechnicalSupport.WinowsProgram
@@ -21,17 +12,22 @@ namespace TechnicalSupport.WinowsProgram
     public partial class EditEquipWindow : Window
     {
         private readonly ApplicationContext _context;
-        private readonly PositionOfficeEquip _softwarePosition;
-        public EditEquipWindow(PositionOfficeEquip positionOfficeEquip)
+        private readonly PositionOfficeEquip _originalSoftwarePosition;
+        private readonly PositionOfficeEquip _editableSoftwarePosition;
+
+        public EditEquipWindow(PositionOfficeEquip positionOfficeEquip, ApplicationContext context)
         {
             InitializeComponent();
-            _context = new ApplicationContext();
-            _softwarePosition = positionOfficeEquip;
-            DataContext = _softwarePosition;
+            _context = context;
+            _originalSoftwarePosition = positionOfficeEquip ?? new PositionOfficeEquip();
+            _editableSoftwarePosition = new PositionOfficeEquip
+            {
+                PositionsID = _originalSoftwarePosition.PositionsID,
+                OfficeEquipID = _originalSoftwarePosition.OfficeEquipID
+            };
+            DataContext = _originalSoftwarePosition;
             cbAllProg.ItemsSource = _context.OfficeEquipments.ToList();
         }
-
-     
 
         private void Btn_Edit_Click(object sender, RoutedEventArgs e)
         {
@@ -43,7 +39,7 @@ namespace TechnicalSupport.WinowsProgram
                 errors.AppendLine("Выберите программу для замены");
 
             var isDuplicate = _context.PositionOfficeEquips
-                .Any(sp => sp.PositionsID == _softwarePosition.PositionsID && sp.OfficeEquipID == prog.OfficeEquipmentID);
+                .Any(sp => sp.PositionsID == _editableSoftwarePosition.PositionsID && sp.OfficeEquipID == prog.OfficeEquipmentID);
 
             if (isDuplicate)
                 errors.AppendLine("Такая запись существует");
@@ -54,18 +50,34 @@ namespace TechnicalSupport.WinowsProgram
                 return;
             }
 
-            _softwarePosition.OfficeEquipID = prog?.OfficeEquipmentID ?? 0;
+            _editableSoftwarePosition.OfficeEquipID = prog?.OfficeEquipmentID ?? 0;
 
             try
             {
+                if (_editableSoftwarePosition.PositionsID == 0)
+                {
+                    var newPositionOfficeEquip = new PositionOfficeEquip
+                    {
+                        PositionsID = _editableSoftwarePosition.PositionsID,
+                        OfficeEquipID = _editableSoftwarePosition.OfficeEquipID
+                    };
+
+                    _context.PositionOfficeEquips.Add(newPositionOfficeEquip);
+                }
+                else
+                {
+                    _originalSoftwarePosition.OfficeEquipID = _editableSoftwarePosition.OfficeEquipID;
+                }
+
                 _context.SaveChanges();
                 MessageBox.Show("Успешно сохранено");
+                this.DialogResult = true;
+                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"Ошибка при сохранении: {ex.Message}");
             }
         }
     }
 }
-

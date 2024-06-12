@@ -182,7 +182,7 @@ namespace TechnicalSupport.Pages
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var v = (sender as System.Windows.Controls.Button).DataContext as SoftwarePosition;
-            EditWindowSoftPosit editWindowSoftPosit = new EditWindowSoftPosit(v);
+            EditWindowSoftPosit editWindowSoftPosit = new EditWindowSoftPosit(v, KonfigKc);
             editWindowSoftPosit.ShowDialog();
             LoadDepartments();
             DisplayPage();

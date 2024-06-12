@@ -1,61 +1,59 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
 using System.Windows;
 using System.Windows.Controls;
 using TechnicalSupport;
 using TechnicalSupport.WinowsProgram;
 using TechnicalSupport.DataBaseClasses;
-using System.Data.Entity;
 
 namespace TechnicalSupport.Pages
 {
     public partial class DepartPage : Page
     {
-        private ApplicationContext KonfigKcDB;
-        private int currentPage = 1;
+        private readonly ApplicationContext _konfigKcDB;
+        private int _currentPage = 1;
         private const int PageSize = 10;
 
         public DepartPage()
         {
             InitializeComponent();
-            KonfigKcDB = new ApplicationContext();
+            _konfigKcDB = new ApplicationContext();
             LoadDepartments();
             DisplayPage();
         }
 
         private void LoadDepartments()
         {
-            listview.ItemsSource = KonfigKcDB.Departments.ToList();
+            listview.ItemsSource = _konfigKcDB.Departments.ToList();
         }
 
         private void DisplayPage()
         {
-            var departments = KonfigKcDB.Departments
+            var departments = _konfigKcDB.Departments
                 .OrderBy(d => d.DepartmentID)
-                .Skip((currentPage - 1) * PageSize)
+                .Skip((_currentPage - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
-            
+
             listview.ItemsSource = departments;
 
-            PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)KonfigKcDB.Departments.Count() / PageSize)}";
+            PageInfo.Text = $"Страница {_currentPage} из {Math.Ceiling((double)_konfigKcDB.Departments.Count() / PageSize)}";
         }
 
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            if (currentPage > 1)
+            if (_currentPage > 1)
             {
-                currentPage--;
+                _currentPage--;
                 DisplayPage();
             }
         }
 
         private void NextPage_Click(object sender, RoutedEventArgs e)
         {
-            if (currentPage < (KonfigKcDB.Departments.Count() + PageSize - 1) / PageSize)
+            if (_currentPage < (_konfigKcDB.Departments.Count() + PageSize - 1) / PageSize)
             {
-                currentPage++;
+                _currentPage++;
                 DisplayPage();
             }
         }
@@ -78,19 +76,19 @@ namespace TechnicalSupport.Pages
             {
                 foreach (var department in departmentsToDelete)
                 {
-                    /*if (!KonfigKcDB.Requests.Any(item => item.DepartmentID == department.DepartmentID))
+                    if (!_konfigKcDB.Users.Any(item => item.DepartmentID == department.DepartmentID))
                     {
-                        KonfigKcDB.Departments.Remove(department);
+                        _konfigKcDB.Departments.Remove(department);
                         Console.WriteLine($"Удалено подразделение: {department.DepartmentName}");
                     }
                     else
                     {
                         MessageBox.Show($"{department.DepartmentName} используется в других таблицах и не может быть удален.");
                         Console.WriteLine($"{department.DepartmentName} используется в других таблицах и не может быть удален.");
-                    }*/
+                    }
                 }
 
-                KonfigKcDB.SaveChanges();
+                _konfigKcDB.SaveChanges();
                 MessageBox.Show("Удаление прошло успешно");
                 DisplayPage();
             }
@@ -108,39 +106,36 @@ namespace TechnicalSupport.Pages
 
         private void AddEditDepar_Click(object sender, RoutedEventArgs e)
         {
-            AddEditDepartWindow addEditDepartWindow = new AddEditDepartWindow(null);
+            var addEditDepartWindow = new AddEditDepartWindow(null, _konfigKcDB);
             addEditDepartWindow.ShowDialog();
-            
+
             DisplayPage();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-           // var departmentsToDelete = listview.SelectedItems.Cast<Department>().ToList();
             var departmentsToDelete = (sender as Button).DataContext as Department;
-           
+
             if (MessageBox.Show($"Вы действительно хотите удалить {departmentsToDelete.DepartmentName}?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
             {
                 return;
             }
-           // KonfigKcDB.Departments.Remove(del);
+
             try
             {
-                
-                    if (!KonfigKcDB.Clients.Any(item => item.DepartamentID == departmentsToDelete.DepartmentID))
-                    {
-                        KonfigKcDB.Departments.Remove(departmentsToDelete);
-                        Console.WriteLine($"Удалено подразделение: {departmentsToDelete.DepartmentName}");
-                        MessageBox.Show("Удаление прошло успешно");
-                    }
-                    else
-                    {
-                        MessageBox.Show($"{departmentsToDelete.DepartmentName} используется в других таблицах и не может быть удален.");
-                        Console.WriteLine($"{departmentsToDelete.DepartmentName} используется в других таблицах и не может быть удален.");
-                    }
-                
+                if (!_konfigKcDB.Clients.Any(item => item.DepartamentID == departmentsToDelete.DepartmentID))
+                {
+                    _konfigKcDB.Departments.Remove(departmentsToDelete);
+                    Console.WriteLine($"Удалено подразделение: {departmentsToDelete.DepartmentName}");
+                    MessageBox.Show("Удаление прошло успешно");
+                }
+                else
+                {
+                    MessageBox.Show($"{departmentsToDelete.DepartmentName} используется в других таблицах и не может быть удален.");
+                    Console.WriteLine($"{departmentsToDelete.DepartmentName} используется в других таблицах и не может быть удален.");
+                }
 
-                KonfigKcDB.SaveChanges();
+                _konfigKcDB.SaveChanges();
                 LoadDepartments();
                 DisplayPage();
             }
@@ -155,13 +150,12 @@ namespace TechnicalSupport.Pages
         {
             if (sender is Button button && button.DataContext is Department department)
             {
-                AddEditDepartWindow addCommitWindow = new AddEditDepartWindow(department);
-                addCommitWindow.ShowDialog();           
-                
+                var addCommitWindow = new AddEditDepartWindow(department, _konfigKcDB);
+                addCommitWindow.ShowDialog();
+
                 LoadDepartments();
                 DisplayPage();
             }
-          
         }
     }
 }

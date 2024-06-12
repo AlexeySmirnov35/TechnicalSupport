@@ -180,7 +180,7 @@ namespace TechnicalSupport.Pages
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var v = (sender as System.Windows.Controls.Button).DataContext as PositionOfficeEquip;
-            EditEquipWindow editEquipWindow = new EditEquipWindow(v);
+            EditEquipWindow editEquipWindow = new EditEquipWindow(v, KonfigKc);
             editEquipWindow.ShowDialog();
             LoadDepartments();
             DisplayPage();

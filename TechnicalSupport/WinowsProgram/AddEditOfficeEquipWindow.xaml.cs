@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TechnicalSupport.DataBaseClasses;
+
 namespace TechnicalSupport.WinowsProgram
 {
     /// <summary>
@@ -23,25 +17,38 @@ namespace TechnicalSupport.WinowsProgram
     public partial class AddEditOfficeEquipWindow : Window
     {
         private readonly ApplicationContext _konfigKcDB;
-        private readonly OfficeEquipment _officeEquipment;
+        private readonly OfficeEquipment _originalOfficeEquipment;
+        private readonly OfficeEquipment _editableOfficeEquipment;
 
-        public AddEditOfficeEquipWindow(OfficeEquipment officeEquipment = null)
+        public AddEditOfficeEquipWindow(OfficeEquipment officeEquipment, ApplicationContext konfigKcDB)
         {
             InitializeComponent();
-            _konfigKcDB = new ApplicationContext();
-            _officeEquipment = officeEquipment ?? new OfficeEquipment();
-            DataContext = _officeEquipment;
+            _konfigKcDB = konfigKcDB;
+            _originalOfficeEquipment = officeEquipment ?? new OfficeEquipment();
+            _editableOfficeEquipment = new OfficeEquipment
+            {
+                OfficeEquipmentID = _originalOfficeEquipment.OfficeEquipmentID,
+                NameOfficeEquipment = _originalOfficeEquipment.NameOfficeEquipment,
+                WebUrl = _originalOfficeEquipment.WebUrl,
+                FileID = _originalOfficeEquipment.FileID
+            };
+            DataContext = _editableOfficeEquipment;
             LoadFiles();
+
             if (officeEquipment != null)
             {
-                tbName.Text = _officeEquipment.NameOfficeEquipment;
-                cbFile.SelectedItem = _konfigKcDB.FilesSoftwares.FirstOrDefault(os => os.FileID == _officeEquipment.FileID);
+                tbName.Text = _editableOfficeEquipment.NameOfficeEquipment;
+                tbWeb.Text = _editableOfficeEquipment.WebUrl;
+                cbFile.SelectedItem = _konfigKcDB.FilesSoftwares.FirstOrDefault(os => os.FileID == _editableOfficeEquipment.FileID);
             }
         }
 
         private void LoadFiles()
         {
             cbFile.ItemsSource = _konfigKcDB.FilesSoftwares.ToList();
+            cbFile.SelectedValuePath = "FileID";
+            cbFile.DisplayMemberPath = "FileName";
+            cbFile.SelectedValue = _editableOfficeEquipment.FileID;
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -85,7 +92,7 @@ namespace TechnicalSupport.WinowsProgram
                 return;
             }
 
-            if (_officeEquipment.OfficeEquipmentID == 0)
+            if (_editableOfficeEquipment.OfficeEquipmentID == 0)
             {
                 var newOfficeEquip = new OfficeEquipment
                 {
@@ -95,6 +102,12 @@ namespace TechnicalSupport.WinowsProgram
                 };
 
                 _konfigKcDB.OfficeEquipments.Add(newOfficeEquip);
+            }
+            else
+            {
+                _originalOfficeEquipment.NameOfficeEquipment = _editableOfficeEquipment.NameOfficeEquipment;
+                _originalOfficeEquipment.WebUrl = _editableOfficeEquipment.WebUrl;
+                _originalOfficeEquipment.FileID = prog.FileID;
             }
 
             try
@@ -125,12 +138,12 @@ namespace TechnicalSupport.WinowsProgram
 
         private bool IsDuplicateRecord()
         {
-            return _konfigKcDB.OfficeEquipments.Any(s => s.NameOfficeEquipment == _officeEquipment.NameOfficeEquipment && s.OfficeEquipmentID != _officeEquipment.OfficeEquipmentID);
+            return _konfigKcDB.OfficeEquipments.Any(s => s.NameOfficeEquipment == _editableOfficeEquipment.NameOfficeEquipment && s.OfficeEquipmentID != _editableOfficeEquipment.OfficeEquipmentID);
         }
 
         private void TextBlock_Click(object sender, MouseButtonEventArgs e)
         {
-            AddEditFileWindow addEditFileWindow = new AddEditFileWindow(null);
+            var addEditFileWindow = new AddEditFileWindow(null, _konfigKcDB);
             addEditFileWindow.ShowDialog();
             LoadFiles();
         }

@@ -18,7 +18,7 @@
         <StackPanel Grid.Row="0">
             <TextBlock  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" 
                        FontWeight="Bold" FontStyle="Italic" TextWrapping="Wrap" Margin="10" Foreground="#FF32EBFB">Перечень подразделений</TextBlock>
-            <ListView x:Name="listview"  FontFamily="Courier New" HorizontalAlignment="Center">
+            <ListView x:Name="listview"    HorizontalAlignment="Center">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Подразделение">

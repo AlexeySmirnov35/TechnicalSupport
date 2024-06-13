@@ -25,7 +25,7 @@
             <TextBlock Text="Перечень Орг Техники" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     FontWeight="Bold" FontStyle="Italic" TextWrapping="Wrap"/>
 
-            <ListView x:Name="listview" BorderBrush="#FF111211"  FontFamily="Courier New" >
+            <ListView x:Name="listview" BorderBrush="#FF111211"    >
 
                 <ListView.View>
 

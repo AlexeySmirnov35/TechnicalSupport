@@ -40,12 +40,12 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Vertical" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0">
-                    <Label Content="Создание заявки" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Foreground="#FF32EBFB" FontSize="16" FontFamily="Courier New"/>
+                    <Label Content="Создание заявки" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Foreground="#FF32EBFB" FontSize="16"  />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                        <Label Content="Номер:" HorizontalAlignment="Center" Foreground="#FF32EBFB" FontFamily="Courier New" VerticalAlignment="Center"  />
+                        <Label Content="Номер:" HorizontalAlignment="Center" Foreground="#FF32EBFB"   VerticalAlignment="Center"  />
                         <TextBox x:Name="tbInc" HorizontalAlignment="Center" Foreground="#FF32EBFB"
-TextWrapping="Wrap" FontFamily="Courier New" VerticalAlignment="Center"  />
+TextWrapping="Wrap"   VerticalAlignment="Center"  />
                     </StackPanel>
 
                 </StackPanel>
@@ -57,7 +57,7 @@ TextWrapping="Wrap" FontFamily="Courier New" VerticalAlignment="Center"  />
                         <StackPanel  Margin="20,0,0,0">
                             <TextBlock Text="Примечание:"  HorizontalAlignment="Center" Margin="0,0,10,0"></TextBlock>
                             <TextBox x:Name="tbDesc1" HorizontalAlignment="Left" 
-                                 TextWrapping="Wrap" FontFamily="Courier New" Width="250"
+                                 TextWrapping="Wrap"   Width="250"
                                  IsEnabled="{Binding ElementName=checkBox1, Path=IsChecked}" Height="70" Margin="0,0,10,0" />
                         </StackPanel>
                     </StackPanel>
@@ -66,7 +66,7 @@ TextWrapping="Wrap" FontFamily="Courier New" VerticalAlignment="Center"  />
                         <StackPanel HorizontalAlignment="Right" Margin="20,0,0,0">
                             <TextBlock Text="Примечание:" HorizontalAlignment="Center" Margin="0,0,10,0"></TextBlock>
                             <TextBox x:Name="tbDesc2" HorizontalAlignment="Left" Foreground="#FF32EBFB"
-             TextWrapping="Wrap" FontFamily="Courier New" Width="250"
+             TextWrapping="Wrap"   Width="250"
              IsEnabled="{Binding ElementName=checkBox2, Path=IsChecked}" Height="70" Margin="0,0,10,0"  />
                         </StackPanel>
                     </StackPanel>
@@ -75,7 +75,7 @@ TextWrapping="Wrap" FontFamily="Courier New" VerticalAlignment="Center"  />
                         <StackPanel Margin="20,0,0,0">
                             <TextBlock Text="Примечание:"  HorizontalAlignment="Center" Margin="0,0,10,0"></TextBlock>
                             <TextBox HorizontalAlignment="Right" x:Name="tbDesc3" Foreground="#FF32EBFB"
-             TextWrapping="Wrap" FontFamily="Courier New" Width="250"
+             TextWrapping="Wrap"   Width="250"
              IsEnabled="{Binding ElementName=checkBox3, Path=IsChecked}" Height="70" Margin="5,0,10,0"  />
                         </StackPanel>
                     </StackPanel>
@@ -86,7 +86,7 @@ TextWrapping="Wrap" FontFamily="Courier New" VerticalAlignment="Center"  />
                             <StackPanel Margin="10,0,0,0">
                                 <TextBlock Text="Примечание:"  HorizontalAlignment="Center" Margin="0,0,10,0"></TextBlock>
                                 <TextBox HorizontalAlignment="Left" Foreground="#FF32EBFB" x:Name="tbDesc4"
-             TextWrapping="Wrap" FontFamily="Courier New" Width="250"
+             TextWrapping="Wrap"   Width="250"
              IsEnabled="{Binding ElementName=checkBox4, Path=IsChecked}" Height="70" Margin="0,0,10,0"  />
                             </StackPanel>
                         </StackPanel>
@@ -98,40 +98,40 @@ TextWrapping="Wrap" FontFamily="Courier New" VerticalAlignment="Center"  />
                 <StackPanel Grid.Row="1" Grid.Column="0">
                     <Label Content="Выберите подразделение" HorizontalAlignment="Left" Foreground="#FF32EBFB"
                            VerticalAlignment="Top" 
-                           FontFamily="Courier New"/>
+                            />
 
                     <ComboBox HorizontalAlignment="Left" x:Name="cbDepar" SelectedItem="{Binding Departments}" 
                               DisplayMemberPath="DepartmentName" Width="179"
-                              FontFamily="Courier New"/>
+                               />
 
                     <Label Content="Выберите должность" HorizontalAlignment="Left" Foreground="#FF32EBFB"
                            VerticalAlignment="Top" 
-                           FontFamily="Courier New"/>
+                            />
                     <ComboBox HorizontalAlignment="Left" SelectionChanged="ComboBox_SelectionChanged" 
                               x:Name="cbPosir" SelectedItem="{Binding Positions}" DisplayMemberPath="PositionName" Width="182" 
-                              FontFamily="Courier New"/>
+                               />
                     <TextBlock Text="Фамилия"></TextBlock>
                     <TextBox x:Name="tbSurname" HorizontalAlignment="Left" Foreground="#FF32EBFB"
-         TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
+         TextWrapping="Wrap"   Width="182" />
                     <TextBlock Text="Имя"></TextBlock>
                     <TextBox x:Name="tbName" HorizontalAlignment="Left" Foreground="#FF32EBFB"
-TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
+TextWrapping="Wrap"   Width="182" />
                     <TextBlock Text="Отчетсво"></TextBlock>
                     <TextBox x:Name="tbPAt" HorizontalAlignment="Left" Foreground="#FF32EBFB"
-TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
+TextWrapping="Wrap"   Width="182" />
                     <TextBlock Text="Кабинет"></TextBlock>
                     <TextBox x:Name="tbCab" HorizontalAlignment="Left" Foreground="#FF32EBFB"
-TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
+TextWrapping="Wrap"   Width="182" />
                     <TextBlock Text="Номер"></TextBlock>
                     <TextBox x:Name="tbNumber" HorizontalAlignment="Left" Foreground="#FF32EBFB"
-TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
+TextWrapping="Wrap"   Width="182" />
 
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Orientation="Vertical" Margin="10,0,0,0">
-                    <Label Content="Перечень" Foreground="#FF32EBFB" VerticalAlignment="Center" FontFamily="Courier New" HorizontalAlignment="Center"/>
+                    <Label Content="Перечень" Foreground="#FF32EBFB" VerticalAlignment="Center"   HorizontalAlignment="Center"/>
                     <TextBox x:Name="tbPO" Text="" Width="150" VerticalScrollBarVisibility="Auto"
-                     IsReadOnly="True" TextWrapping="Wrap" FontFamily="Courier New" HorizontalAlignment="Left" Height="325"/>
+                     IsReadOnly="True" TextWrapping="Wrap"   HorizontalAlignment="Left" Height="325"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
@@ -139,7 +139,7 @@ TextWrapping="Wrap" FontFamily="Courier New" Width="182" />
 
             <Button x:Name="createRequestButton" BorderThickness="2,2,2,2"
                     Click="Create_Req_Click" HorizontalAlignment="Center" 
-                    VerticalAlignment="Top" FontFamily="Courier New" BorderBrush="{x:Null}" Margin="00,10,0,10">
+                    VerticalAlignment="Top"   BorderBrush="{x:Null}" Margin="00,10,0,10">
                 <Button.Content>
                     <TextBlock Text="Создать заявку" Margin="5" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" />
                 </Button.Content>

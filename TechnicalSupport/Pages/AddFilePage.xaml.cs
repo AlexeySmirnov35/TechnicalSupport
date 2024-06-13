@@ -38,7 +38,6 @@ namespace TechnicalSupport.Pages
                     HorizontalAlignment = HorizontalAlignment.Left,
                     VerticalAlignment = VerticalAlignment.Top,
                     Width = 150,
-                    FontFamily = new FontFamily("Courier New"),
                     Margin = new Thickness(0, 10, 0, 0)
                 };
 

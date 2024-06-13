@@ -24,9 +24,9 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                <TextBlock Text="Поиск по номеру заявки:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                <TextBlock Text="Поиск по номеру заявки:"   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
                 <TextBox Width="100" x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged"/>
-                <TextBlock Text="Фильтр по статусу:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                <TextBlock Text="Фильтр по статусу:"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
                 <ComboBox Width="150" x:Name="StatusComboBox" SelectionChanged="StatusComboBox_SelectionChanged" SelectedValuePath="ID" SelectedValue="{Binding SelectedStatusID}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -35,15 +35,14 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                <TextBlock Text="Сортировка по дате:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                <TextBlock Text="Сортировка по дате:"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
                 <ComboBox Width="150" x:Name="SortComboBox" SelectionChanged="SortComboBox_SelectionChanged" SelectedIndex="0">
                     <ComboBoxItem Content="От новых к старым" IsSelected="True"/>
                     <ComboBoxItem Content="От старых к новым"/>
                 </ComboBox>
             </StackPanel>
             <Grid x:Name="print">
-                <ListView  x:Name="listViewReq"  MouseDoubleClick="SoftwareListView_MouseDoubleClick"
-                          FontFamily="Courier New" VerticalAlignment="Top">
+                <ListView  x:Name="listViewReq"  MouseDoubleClick="SoftwareListView_MouseDoubleClick" VerticalAlignment="Top">
 
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
@@ -226,8 +225,7 @@
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button Content="Экспорт PDF" 
                         BorderThickness="2,2,2,2" Click="Create_Pdf_Click"
-                        HorizontalAlignment="Left"
-                        FontFamily="Courier New" BorderBrush="{x:Null}" VerticalAlignment="Top" Margin="0,0,10,0"/>
+                        HorizontalAlignment="Left" BorderBrush="{x:Null}" VerticalAlignment="Top" Margin="0,0,10,0"/>
             </StackPanel>
         </StackPanel>
     </Grid>

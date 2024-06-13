@@ -27,19 +27,19 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
             <Label Content="Назавние" HorizontalAlignment="Center" Foreground="#FF32EBFB"
-            VerticalAlignment="Center" FontFamily="Courier New" />
+            VerticalAlignment="Center" />
             <TextBox x:Name="tbName" HorizontalAlignment="Center" 
-              TextWrapping="Wrap" Text="{Binding SoftwareName}" VerticalAlignment="Center"   FontFamily="Courier New" />
+              TextWrapping="Wrap" Text="{Binding SoftwareName}" VerticalAlignment="Center"   />
         </StackPanel>
         <StackPanel Grid.Row="1"  Margin="10">
             <Label Content="Описание:" HorizontalAlignment="Left" Foreground="#FF32EBFB"
-            VerticalAlignment="Top" FontFamily="Courier New" />
+            VerticalAlignment="Top" />
             <TextBlock x:Name="tbDes"  HorizontalAlignment="Left"  TextWrapping="Wrap" 
               Text="{Binding Description}" VerticalAlignment="Top" Height="100" 
-              Width="340" FontFamily="Courier New" />
+              Width="340"  />
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal"  Margin="10">
-            <TextBlock   FontFamily="Courier New" HorizontalAlignment="Left"  >
+            <TextBlock    HorizontalAlignment="Left"  >
          <Hyperlink NavigateUri="{Binding WebUrl}" RequestNavigate="Hyperlink_RequestNavigate">
              <TextBlock Text="Ссылка на документацию"   />
          </Hyperlink>
@@ -50,17 +50,17 @@
           
             <TextBlock Text="Если нет вашего файла, то нажмите сюда, для создания" TextWrapping="Wrap"
                 MouseLeftButtonDown="TextBlock_Click" HorizontalAlignment="Left"  VerticalAlignment="Top" 
-                 Width="200" FontFamily="Courier New"  TextAlignment="Justify" TextDecorations="Underline" Foreground="#FF137BEF" />
+                 Width="200"  TextAlignment="Justify" TextDecorations="Underline" Foreground="#FF137BEF" />
         </StackPanel>
         <StackPanel Grid.Row="4" Orientation="Horizontal" Grid.Column="0"  Margin="10">
             <Label Content="Тип лицензии" HorizontalAlignment="Left" Foreground="#FF32EBFB"
-            VerticalAlignment="Top" FontFamily="Courier New" />
+            VerticalAlignment="Top"  />
             <TextBlock x:Name="cbLis"  Text="{Binding LicensiaInfos.LicenseType}" 
-               HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100"  FontFamily="Courier New" />
+               HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100"   />
             <Label Content="Тип ПО" HorizontalAlignment="Left" Foreground="#FF32EBFB"
-            VerticalAlignment="Top" FontFamily="Courier New" />
+            VerticalAlignment="Top"  />
             <TextBlock x:Name="cbTypeSoft"  Text="{Binding TypeSoftware.NameType}" 
-               HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100"  FontFamily="Courier New" />
+               HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100"  />
         </StackPanel>
        
     </Grid>

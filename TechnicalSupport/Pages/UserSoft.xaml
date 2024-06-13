@@ -10,20 +10,19 @@
 
     <Grid>
         <StackPanel Grid.Column="0" Margin="10" HorizontalAlignment="Center">
-                <Label Content="Перечень программ" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF32EBFB" FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic"/>
+                <Label Content="Перечень программ" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF32EBFB"  FontWeight="Bold" />
                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="Поиск:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox Width="100" x:Name="TboxSerch" TextChanged="Tbox_Search" FontFamily="Courier New"/>
+                        <TextBlock Text="Поиск:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Width="100" x:Name="TboxSerch" TextChanged="Tbox_Search" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0">
-                        <TextBlock Text="Тип ПО:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="Тип ПО:"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <ComboBox Width="150" x:Name="ComboBoxSoftwareType"  SelectedItem="{Binding TypeSofware}" DisplayMemberPath="NameType" SelectionChanged="ComboBoxSoftwareType_SelectionChanged"/>
                     </StackPanel>
                 </WrapPanel>
                 <ListView x:Name="listview"  MouseDoubleClick="SoftwareListView_MouseDoubleClick"
-                   BorderBrush="#FF111211" VerticalAlignment="Center" 
-                   FontFamily="Courier New" HorizontalAlignment="Center"  >
+                   BorderBrush="#FF111211" VerticalAlignment="Center"  HorizontalAlignment="Center"  >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Программа">

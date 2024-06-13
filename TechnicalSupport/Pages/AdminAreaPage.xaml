@@ -230,8 +230,7 @@
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button Content="Экспорт PDF" 
             BorderThickness="2,2,2,2" Click="Create_Pdf_Click"
-            HorizontalAlignment="Left"
-            FontFamily="Courier New" BorderBrush="{x:Null}" VerticalAlignment="Top" Margin="0,0,10,0"/>
+            HorizontalAlignment="Left" BorderBrush="{x:Null}" VerticalAlignment="Top" Margin="0,0,10,0"/>
 
             </StackPanel>
         </StackPanel>

@@ -30,7 +30,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-            <TextBlock Text="Статус:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="Статус:"   HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <ComboBox Width="150" x:Name="ComboBoxStatus" SelectionChanged="ComboBoxStatus_SelectionChanged">
                 <ComboBoxItem Content="Все" IsSelected="True"/>
                 <ComboBoxItem Content="Выполнено"/>
@@ -198,7 +198,7 @@
                         BorderThickness="2,2,2,2" 
                         Click="Create_Pdf_Click"
                         HorizontalAlignment="Left"
-                        FontFamily="Courier New" 
+                          
                         BorderBrush="{x:Null}" 
                         VerticalAlignment="Top" 
                         Margin="0,0,10,0"/>

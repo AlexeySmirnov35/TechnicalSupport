@@ -16,19 +16,19 @@
 
         <StackPanel Grid.Column="0" Margin="10">
             <Label Content="Перечень программ" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF32EBFB"
-                   FontSize="16" FontFamily="Courier New" FontWeight="Bold" FontStyle="Italic"/>
+                   FontSize="16" FontWeight="Bold" FontStyle="Italic"/>
             <WrapPanel Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="Поиск:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBox Width="102" x:Name="TboxSerch" TextChanged="Tbox_Search" FontFamily="Courier New"/>
+                    <TextBlock Text="Поиск:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox Width="102" x:Name="TboxSerch" TextChanged="Tbox_Search" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0">
-                    <TextBlock Text="Тип ПО:" FontFamily="Courier New" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Тип ПО:"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <ComboBox Width="150" x:Name="ComboBoxSoftwareType" SelectionChanged="ComboBoxSoftwareType_SelectionChanged"/>
                 </StackPanel>
             </WrapPanel>
             <ListView x:Name="listview" MouseDoubleClick="SoftwareListView_MouseDoubleClick" Margin="10"
-                      BorderBrush="#FF111211" VerticalAlignment="Top" FontFamily="Courier New">
+                      BorderBrush="#FF111211" VerticalAlignment="Top" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Программа">
@@ -69,7 +69,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button BorderThickness="2" Click="Add_Soft_Click" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Courier New">
+            <Button BorderThickness="2" Click="Add_Soft_Click" HorizontalAlignment="Left" VerticalAlignment="Top"  >
                 <TextBlock Text="Добавить" TextWrapping="Wrap" TextAlignment="Center"/>
             </Button>
         </StackPanel>

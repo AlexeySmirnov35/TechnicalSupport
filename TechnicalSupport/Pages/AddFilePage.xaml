@@ -21,9 +21,8 @@ mc:Ignorable="d" Background="#333"
     <Grid>
         <StackPanel x:Name="comboBoxPanel" Orientation="Vertical" Grid.Row="3" Grid.Column="2" Height="170" Margin="10,0,0,0" >
             <Label Content="Отвественный:" HorizontalAlignment="Left"
-             VerticalAlignment="Top" Foreground="#FF32EBFB"
-             FontFamily="Courier New"/>
-            <ComboBox x:Name="cbOtvest"  ItemsSource="{Binding Users}" Width="150" FontFamily="Courier New" VerticalAlignment="Center" HorizontalAlignment="Left" >
+             VerticalAlignment="Top" Foreground="#FF32EBFB"/>
+            <ComboBox x:Name="cbOtvest"  ItemsSource="{Binding Users}" Width="150" VerticalAlignment="Center" HorizontalAlignment="Left" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock>
@@ -38,7 +37,7 @@ mc:Ignorable="d" Background="#333"
             </ComboBox>
         </StackPanel>
         <Button x:Name="addComboBoxButton" BorderThickness="2,2,2,2" 
-        HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Courier New"
+        HorizontalAlignment="Center" VerticalAlignment="Top" 
         Click="AddComboBox_Click" BorderBrush="{x:Null}" >
             <Button.Content>
                 <TextBlock TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" Width="143" >

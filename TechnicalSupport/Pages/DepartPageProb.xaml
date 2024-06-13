@@ -33,7 +33,7 @@
             <Button Content="ПO" Margin="5"  FontWeight="Bold"/>
         </StackPanel>
         <StackPanel Grid.Column="1">
-            <ListView x:Name="listview" Width="100" BorderBrush="#FF111211"  FontFamily="Courier New" HorizontalAlignment="Left" >
+            <ListView x:Name="listview" Width="100" BorderBrush="#FF111211"    HorizontalAlignment="Left" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Подразделение">
@@ -55,9 +55,9 @@
             </ListView>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button Background="#FF00C2C5" BorderThickness="2" Content="Сохранить" Click="AddEditDepar_Click" 
-                        FontFamily="Courier New"  Margin="0 10 20 0" BorderBrush="{x:Null}"/>
+                           Margin="0 10 20 0" BorderBrush="{x:Null}"/>
                 <Button Background="#FF00C2C5" BorderThickness="2" Content="Удалить" Click="DelDepar_Click"
-                        FontFamily="Courier New"  Margin="0 10 0 0" Height="auto" Width="auto" BorderBrush="{x:Null}"/>
+                           Margin="0 10 0 0" Height="auto" Width="auto" BorderBrush="{x:Null}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

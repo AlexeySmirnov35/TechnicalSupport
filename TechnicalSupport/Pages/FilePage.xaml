@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <!-- Left Panel -->
         <StackPanel Grid.Row="0"  Orientation="Horizontal" HorizontalAlignment="Center">
-            <ListView x:Name="listview" FontFamily="Courier New">
+            <ListView x:Name="listview"  >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Название файла">

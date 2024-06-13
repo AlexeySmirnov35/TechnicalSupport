@@ -10,16 +10,15 @@
     <Grid>
         <StackPanel Grid.Column="1" Margin="10">
             <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Введите наименование должности"
-                       HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Courier New"/>
+                       HorizontalAlignment="Left" VerticalAlignment="Top" />
             <TextBox x:Name="tbPos" HorizontalAlignment="Center" TextWrapping="Wrap" 
-                     Text="{Binding PositionName}" VerticalAlignment="Top" FontFamily="Courier New" Width="200"/>
+                     Text="{Binding PositionName}" VerticalAlignment="Top" Width="200"/>
             <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Выберите ОС"
-                       HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Courier New"/>
+                       HorizontalAlignment="Left" VerticalAlignment="Top" />
             <ComboBox Width="200" x:Name="cbFile" SelectedItem="{Binding OperatingSystem}" DisplayMemberPath="NameOperatingSystem"
                       HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,10,0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Сохранить" BorderThickness="2" 
-                        FontFamily="Courier New" Margin="0 10 0 0"
+                <Button Content="Сохранить" BorderThickness="2"  Margin="0 10 0 0"
                         Click="AddEditRole_Click" HorizontalAlignment="Center" 
                         VerticalAlignment="Top" BorderBrush="{x:Null}"/>
             </StackPanel>

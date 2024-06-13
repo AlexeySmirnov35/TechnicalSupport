@@ -25,9 +25,9 @@
 
 
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
-            <TextBlock Text="Шубин" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">
-            </TextBlock>
-            <TextBlock Text="Роман" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"></TextBlock>
+                <TextBlock Text="{Binding Firstname}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">
+                </TextBlock>
+                <TextBlock Text="{Binding Surname}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"></TextBlock>
             </StackPanel>
             <Image Source="/img\Centre.png" Margin="0,0,5,0" Width="60" Height="auto"/>
 

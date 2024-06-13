@@ -11,7 +11,7 @@
         <StackPanel>
             <TextBlock Text="Исполнитель:"/>
             <StackPanel Orientation="Horizontal">
-                <ComboBox x:Name="cbOtvest"  ItemsSource="{Binding Users}" Width="270" FontFamily="Courier New" HorizontalAlignment="Left">
+                <ComboBox x:Name="cbOtvest"  ItemsSource="{Binding Users}" Width="270"  HorizontalAlignment="Left">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock>
@@ -24,7 +24,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <ComboBox x:Name="cbPeriod" Width="150" FontFamily="Courier New" HorizontalAlignment="Left" Margin="10,0,0,0" SelectedIndex="0">
+                <ComboBox x:Name="cbPeriod" Width="150"  HorizontalAlignment="Left" Margin="10,0,0,0" SelectedIndex="0">
                     <ComboBoxItem Content="Все время" Tag="all"/>
                     <ComboBoxItem Content="Год" Tag="year"/>
                     <ComboBoxItem Content="Квартал" Tag="quarter"/>

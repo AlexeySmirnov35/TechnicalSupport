@@ -18,7 +18,7 @@
                  Text="{Binding Positions.PositionName}" 
                  VerticalAlignment="Top" 
                  FontSize="36" 
-                 FontFamily="Courier New" 
+                   
                  Height="75" Width="500"/>
 
         <ComboBox x:Name="cbAllProg" 
@@ -29,7 +29,7 @@
                   VerticalAlignment="Top" 
                   Width="500" 
                   FontSize="36" 
-                  FontFamily="Courier New" 
+                    
                   Height="75"/>
 
         <TextBox x:Name="tbVProg" 
@@ -40,7 +40,7 @@
                  Text="" 
                  VerticalAlignment="Top" 
                  FontSize="36" 
-                 FontFamily="Courier New" 
+                   
                  Height="75" Width="500"/>
 
         <Button Content="Сохранить изменения" 
@@ -49,7 +49,7 @@
                 Margin="313,512,0,0" 
                 VerticalAlignment="Top" 
                 FontSize="36" 
-                FontFamily="Courier New" 
+                  
                 Foreground="White" 
                 Height="116" 
                 Width="462" BorderThickness="2,2,2,2">
@@ -63,7 +63,7 @@
                   VerticalAlignment="Top" 
                   Width="500" 
                   FontSize="36" 
-                  FontFamily="Courier New" 
+                    
                   Height="75"/>
 
         <TextBlock Text="Вы выбрали должность:" TextWrapping="Wrap"
@@ -71,7 +71,7 @@
                Margin="12,124,0,0" Foreground="#FF32EBFB"
                VerticalAlignment="Top" 
                FontSize="36" 
-               FontFamily="Courier New" 
+                 
               />
 
         <TextBlock Text="Выберите программу, на которую хотите заменить" 
@@ -82,7 +82,7 @@
                    Height="82" 
                    Width="524" 
                    FontSize="36" 
-                   FontFamily="Courier New"/>
+                    />
 
         <TextBlock Text="Выберите необходимость лицензии" 
                    TextWrapping="Wrap" 
@@ -92,13 +92,13 @@
                    Height="74" Foreground="#FF32EBFB"
                    Width="540" 
                    FontSize="36" 
-                   FontFamily="Courier New"/>
+                    />
 
         <Label Content="Редактирование программ для сотрудников" Foreground="#FF32EBFB"
                HorizontalAlignment="Center" 
                VerticalAlignment="Top" 
                FontSize="44" 
-               FontFamily="Courier New" 
+                 
                FontWeight="Bold" 
                FontStyle="Italic"/>
 
@@ -107,6 +107,6 @@
                Margin="576,95,0,0" 
                VerticalAlignment="Top" 
                FontSize="36" Foreground="#FF32EBFB"
-               FontFamily="Courier New" Height="92" Width="591"/>
+                 Height="92" Width="591"/>
     </Grid>
 </Page>

@@ -112,12 +112,12 @@
             <StackPanel Orientation="Horizontal" Name="stkPan" Margin="0,10,0,0"  >
                 <StackPanel VerticalAlignment="Center" >
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right" >
-                        <TextBlock Text="Логин" TextWrapping="Wrap" TextAlignment="Center" FontFamily="Courier New" FontStyle="Italic" Margin="0,0,2,10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox x:Name="tbLog" TextWrapping="Wrap" Text=""  Width="150" FontFamily="Courier New" Margin="0,0,0,10" />
+                        <TextBlock Text="Логин" TextWrapping="Wrap" TextAlignment="Center"  FontStyle="Italic" Margin="0,0,2,10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox x:Name="tbLog" TextWrapping="Wrap" Text=""  Width="150"  Margin="0,0,0,10" />
                     </StackPanel>
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <TextBlock Text="Пароль" TextWrapping="Wrap" TextAlignment="Center" FontFamily="Courier New" FontStyle="Italic" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,2,0"/>
-                        <PasswordBox x:Name="tbPas"  Width="150" FontFamily="Courier New"/>
+                        <TextBlock Text="Пароль" TextWrapping="Wrap" TextAlignment="Center"  FontStyle="Italic" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,2,0"/>
+                        <PasswordBox x:Name="tbPas"  Width="150"  />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel>

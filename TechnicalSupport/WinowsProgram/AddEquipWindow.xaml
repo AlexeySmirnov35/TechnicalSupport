@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechnicalSupport.WinowsProgram" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
                mc:Ignorable="d" Background="#333" Foreground="White"
-        Title="AddInfoSotrPOWindow" >
+         Title="Управление" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>

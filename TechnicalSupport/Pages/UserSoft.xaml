@@ -33,6 +33,22 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        <GridViewColumn Header="Тип">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TypeSofware.NameType}"  TextWrapping="Wrap" 
+                                           TextAlignment="Center"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Лицензия">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LicensiaInfo.LicenseType}"  TextWrapping="Wrap" 
+                                           TextAlignment="Center"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="Ссылка">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

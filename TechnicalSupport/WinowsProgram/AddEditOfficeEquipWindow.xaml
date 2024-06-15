@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechnicalSupport.WinowsProgram"
         mc:Ignorable="d" Background="#333" Foreground="#FF32EBFB"
-        Title="AddEditOfficeEquipWindow" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+        Title="Управление" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -27,7 +27,7 @@
             <Label Content="Назавние" HorizontalAlignment="Center" Foreground="#FF32EBFB"
                VerticalAlignment="Center"  />
             <TextBox x:Name="tbName" HorizontalAlignment="Center" 
-                 TextWrapping="Wrap" Text="{Binding NameOfficeEquipment}" VerticalAlignment="Center"   />
+                 TextWrapping="Wrap" Text="{Binding NameOfficeEquipment}" VerticalAlignment="Center"  MinWidth="100" MaxWidth="200" />
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal"  Margin="10">

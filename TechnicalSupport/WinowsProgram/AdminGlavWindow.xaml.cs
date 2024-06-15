@@ -103,7 +103,7 @@ namespace TechnicalSupport.WinowsProgram
 
         private void CniiSetRoli_Click(object sender, RoutedEventArgs e)
         {
-             frmMain.Navigate(new AdminUserPage());
+             frmMain.Navigate(new AdminUserPage(_user));
         }
 
         private void BazaZnaniy_Click(object sender, RoutedEventArgs e)

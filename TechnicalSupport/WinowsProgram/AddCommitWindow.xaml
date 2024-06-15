@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TechnicalSupport.WinowsProgram"
         
        mc:Ignorable="d" Background="#333" Foreground="#FF32EBFB"
-        Title="AddEditDepartWindow"  WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+        Title="Управление"  WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Grid>
         <StackPanel Grid.Column="1" Margin="10">
 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechnicalSupport.WinowsProgram"
                mc:Ignorable="d" Background="#333" Foreground="White"
-              Title="AddEditWindowInfoSotrPO" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+         Title="Управление" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
             <StackPanel Orientation="Vertical">

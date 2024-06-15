@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechnicalSupport.WinowsProgram"
         mc:Ignorable="d"  Background="#333" 
-        Title="AdminWindow" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+         Title="Управление" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Window.Resources>
 
         <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>

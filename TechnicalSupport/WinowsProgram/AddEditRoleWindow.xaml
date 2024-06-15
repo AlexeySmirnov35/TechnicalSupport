@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TechnicalSupport.WinowsProgram"
         xmlns:loc="clr-namespace:TechnicalSupport.DataBaseClasses"
         mc:Ignorable="d" Background="#333" Foreground="#FF32EBFB"
-        Title="AddEditRoleWindow" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+        Title="Управление" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Grid>
         <StackPanel Grid.Column="1" Margin="10">
             <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Введите наименование должности"

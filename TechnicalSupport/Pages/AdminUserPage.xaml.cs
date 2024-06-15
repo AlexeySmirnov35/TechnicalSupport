@@ -26,10 +26,12 @@ namespace TechnicalSupport.Pages
         private ApplicationContext KonfigKcDB;
         private int currentPage = 1;
         private const int PageSize = 10;
-        public AdminUserPage()
+        private User _user;
+        public AdminUserPage(User user)
         {
             InitializeComponent();
             KonfigKcDB = new ApplicationContext();
+            _user = user;
             LoadDepartments();
             DisplayPage();
         }
@@ -76,7 +78,7 @@ namespace TechnicalSupport.Pages
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var d = (sender as System.Windows.Controls.Button).DataContext as User;
-            AdminUserWindow addEditDepartWindow = new AdminUserWindow(d, KonfigKcDB);
+            AdminUserWindow addEditDepartWindow = new AdminUserWindow(d, KonfigKcDB, _user);
 
             addEditDepartWindow.ShowDialog();
         }
@@ -120,7 +122,7 @@ namespace TechnicalSupport.Pages
 
         private void AddEditDepar_Click(object sender, RoutedEventArgs e)
         {
-            AdminUserWindow addEditDepartWindow = new AdminUserWindow(null, KonfigKcDB);
+            AdminUserWindow addEditDepartWindow = new AdminUserWindow(null, KonfigKcDB, _user);
             addEditDepartWindow.ShowDialog();
 
             DisplayPage();

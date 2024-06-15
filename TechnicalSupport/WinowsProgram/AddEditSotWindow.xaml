@@ -4,15 +4,36 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechnicalSupport.WinowsProgram"
-        mc:Ignorable="d" Background="#333" 
-        Title="AddEditSotWindow" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+        mc:Ignorable="d" Background="#333" Foreground="#FF32EBFB"
+         Title="Управление" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Grid>
         <StackPanel Grid.Column="1" Margin="10">
 
+            <TextBlock Text="Пароль"></TextBlock>
+            <StackPanel Orientation="Horizontal">
 
-            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Наименование подразделения" />
-            <TextBox x:Name="tbDep" TextWrapping="Wrap" Text="{Binding DepartmentName}"
-                   Height="28" Width="300"/>
+                <PasswordBox x:Name="pbPassword" HorizontalAlignment="Left" Foreground="#FF32EBFB" Width="182"/>
+                <TextBox x:Name="tbPassword" HorizontalAlignment="Left" Foreground="#FF32EBFB" Width="182" Visibility="Collapsed"/>
+                <Button Click="BtnShowPassword_Click" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Background>
+                        <SolidColorBrush Color="Transparent"/>
+                    </Button.Background>
+                    <Image Source="/img/icons8-eye-96.png" Width="24" Height="24" Margin="0,0,5,0"/>
+                </Button>
+            </StackPanel>
+
+            <TextBlock Text="Подтвердите пароль"></TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <PasswordBox x:Name="pbConfirmPassword" HorizontalAlignment="Left" Foreground="#FF32EBFB"
+                                      Width="182"/>
+                <TextBox x:Name="tbConPassword" HorizontalAlignment="Left" Foreground="#FF32EBFB" Width="182" Visibility="Collapsed"/>
+                <Button Click="BtnShowPasswordDouble_Click" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Background>
+                        <SolidColorBrush Color="Transparent"/>
+                    </Button.Background>
+                    <Image Source="/img/icons8-eye-96.png" Width="24" Height="24" Margin="0,0,5,0"/>
+                </Button>
+            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button BorderThickness="2" Content="Сохранить" Click="AddEditDepar_Click"  Margin="0 10 0  0" BorderBrush="{x:Null}"/>
 

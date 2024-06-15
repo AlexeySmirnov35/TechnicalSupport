@@ -287,6 +287,9 @@
     <Compile Include="WinowsProgram\AdminGlavWindow.xaml.cs">
       <DependentUpon>AdminGlavWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WinowsProgram\AdminPasswordDialog.xaml.cs">
+      <DependentUpon>AdminPasswordDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WinowsProgram\AdminUserWindow.xaml.cs">
       <DependentUpon>AdminUserWindow.xaml</DependentUpon>
     </Compile>
@@ -490,6 +493,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="WinowsProgram\AdminPasswordDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WinowsProgram\AdminUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -617,6 +624,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\icons8-invisible-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DraftsPageWindow\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

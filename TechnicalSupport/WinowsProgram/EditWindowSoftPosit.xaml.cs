@@ -27,6 +27,7 @@ namespace TechnicalSupport.WinowsProgram
                 LicenseTreb = _originalSoftwarePosition.LicenseTreb
             };
             DataContext = _originalSoftwarePosition;
+            tbVProg.Text = _originalSoftwarePosition.Software.SoftwareName;
             chkBoxLin.IsChecked = (_editableSoftwarePosition.LicenseTreb == 1);
             cbAllProg.ItemsSource = _context.Softwares.ToList();
         }
@@ -35,7 +36,6 @@ namespace TechnicalSupport.WinowsProgram
         {
             var prog = cbAllProg.SelectedItem as Software;
             int lin = chkBoxLin.IsChecked == true ? 1 : 0;
-
             StringBuilder errors = new StringBuilder();
 
             if (prog == null)

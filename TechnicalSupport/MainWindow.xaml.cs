@@ -1,5 +1,4 @@
-﻿// File: MainWindow.xaml.cs
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,6 +32,7 @@ namespace TechnicalSupport
                 MessageBox.Show("Требуется смена пароля");
                 AddEditSotWindow addEditSotWindow = new AddEditSotWindow(userObj, KonfigKc);
                 addEditSotWindow.ShowDialog();
+               
                 return;
             }
 
@@ -41,34 +41,40 @@ namespace TechnicalSupport
 
         private void OpenUserWindow(User user)
         {
-            MasterGlavWindow masterGlavWindow =new MasterGlavWindow(user);
+            MasterGlavWindow masterGlavWindow = new MasterGlavWindow(user);
             switch (user.RoleID)
             {
                 case 1:
                     MessageBox.Show($"Добро пожаловать, {user.Surname}!");
                     AdminGlavWindow adminGlavWindow = new AdminGlavWindow(user);
                     adminGlavWindow.Show();
+                    this.Close();
                     break;
                 case 2:
                     MessageBox.Show($"Добро пожаловать, {user.Surname}!");
                     masterGlavWindow.Show();
+                    this.Close();
                     break;
-                case 3: 
+                case 3:
                     MessageBox.Show($"Добро пожаловать, {user.Surname}!");
                     masterGlavWindow.Show();
+                    this.Close();
                     break;
-                case 4: 
+                case 4:
                     MessageBox.Show($"Добро пожаловать, {user.Surname}!");
                     masterGlavWindow.Show();
+                    this.Close();
                     break;
-                case 5: 
+                case 5:
                     MessageBox.Show($"Добро пожаловать, {user.Surname}!");
                     masterGlavWindow.Show();
+                    this.Close();
                     break;
                 case 6:
                     MessageBox.Show($"Добро пожаловать, {user.Surname}!");
                     UserGlavWindow userGlavWindow = new UserGlavWindow(user);
-                    masterGlavWindow.Show();
+                    userGlavWindow.Show();
+                    this.Close();
                     break;
                 default:
                     break;

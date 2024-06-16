@@ -63,39 +63,11 @@ namespace TechnicalSupport.WinowsProgram
                 {
                     _konfigKc.SaveChanges();
                     MessageBox.Show("Пароль успешно изменен");
-                    MasterGlavWindow masterGlavWindow = new MasterGlavWindow(userToUpdate);
-                    switch (userToUpdate.RoleID)
-                    {
-                        case 1:
-                            MessageBox.Show($"Добро пожаловать, {userToUpdate.Surname}!");
-                            AdminGlavWindow adminGlavWindow = new AdminGlavWindow(userToUpdate);
-                            adminGlavWindow.Show();
-                            break;
-                        case 2:
-                            MessageBox.Show($"Добро пожаловать, {userToUpdate.Surname}!");
-                            masterGlavWindow.Show();
-                            break;
-                        case 3:
-                            MessageBox.Show($"Добро пожаловать, {userToUpdate.Surname}!");
-                            masterGlavWindow.Show();
-                            break;
-                        case 4:
-                            MessageBox.Show($"Добро пожаловать, {userToUpdate.Surname}!");
-                            masterGlavWindow.Show();
-                            break;
-                        case 5:
-                            MessageBox.Show($"Добро пожаловать, {userToUpdate.Surname}!");
-                            masterGlavWindow.Show();
-                            break;
-                        case 6:
-                            MessageBox.Show($"Добро пожаловать, {userToUpdate.Surname}!");
-                            UserGlavWindow userGlavWindow = new UserGlavWindow(userToUpdate);
-                            masterGlavWindow.Show();
-                            break;
-                        default:
-                            break;
-                    }
+
+                    // Close the current window and return to the login window
                     this.Close();
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
                 }
                 catch (Exception ex)
                 {

@@ -1,6 +1,9 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using PdfSharp.Drawing;
+using PdfSharp.Drawing.Layout;
+using PdfSharp.Pdf;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -213,7 +216,17 @@ namespace TechnicalSupport.Pages
                 return;
             }
 
-            string filePath = "ExportedRequests.docx";
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = "ExportedRequests",
+                DefaultExt = ".docx",
+                Filter = "Word documents (.docx)|*.docx"
+            };
+
+            bool? result = saveFileDialog.ShowDialog();
+            if (result != true) return;
+
+            string filePath = saveFileDialog.FileName;
 
             try
             {
@@ -256,14 +269,14 @@ namespace TechnicalSupport.Pages
                     {
                         DocumentFormat.OpenXml.Wordprocessing.TableRow row = new DocumentFormat.OpenXml.Wordprocessing.TableRow();
                         AddTableCell(row, request.RequestID.ToString());
-                        AddTableCell(row, request.Client.Department.DepartmentName);
-                        AddTableCell(row, request.Client.Position.PositionName);
+                        AddTableCell(row, request.Client.Department?.DepartmentName ?? string.Empty);
+                        AddTableCell(row, request.Client.Position?.PositionName ?? string.Empty);
                         AddTableCell(row, request.RequestDateFinish);
                         AddTableCell(row, request.Description);
                         AddTableCell(row, request.StatusRequest.StatusName);
                         AddTableCell(row, request.Client.Cabinet);
                         AddTableCell(row, request.Client.NumberPhone);
-                      AddTableCell(row, request.RequestDeadline);
+                        AddTableCell(row, request.RequestDeadline);
                         table.Append(row);
                     }
 
@@ -284,5 +297,95 @@ namespace TechnicalSupport.Pages
             DocumentFormat.OpenXml.Wordprocessing.TableCell cell = new DocumentFormat.OpenXml.Wordprocessing.TableCell(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new DocumentFormat.OpenXml.Wordprocessing.Run(new DocumentFormat.OpenXml.Wordprocessing.Text(text))));
             row.Append(cell);
         }
+
+        private void ExportToPdf_Click(object sender, RoutedEventArgs e)
+        {
+            var requests = listViewReq.Items.Cast<Request>().ToList();
+            if (!requests.Any())
+            {
+                MessageBox.Show("Нет данных для экспорта.");
+                return;
+            }
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = "ExportedRequests",
+                DefaultExt = ".pdf",
+                Filter = "PDF documents (.pdf)|*.pdf"
+            };
+
+            bool? result = saveFileDialog.ShowDialog();
+            if (result != true) return;
+
+            string filePath = saveFileDialog.FileName;
+
+            try
+            {
+                using (PdfDocument document = new PdfDocument())
+                {
+                    PdfPage page = document.AddPage();
+                    page.Orientation = PdfSharp.PageOrientation.Landscape;
+
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+                    XFont font = new XFont("Times New Roman", 12);
+                    XPen pen = new XPen(XColors.Black, 0.5);
+                    XTextFormatter tf = new XTextFormatter(gfx);
+
+                    double yPoint = 40;
+                    double cellHeight = 20;
+                    double[] columnWidths = { 30, 120, 100, 100, 150, 100, 50, 70, 100 };
+
+                    // Table headers
+                    string[] headers = { "№", "Подразделение", "Должность", "Дата выполнения", "Описание", "Статус", "Кабинет", "Номер", "Дедлайн" };
+                    double xPoint = 10;
+
+                    for (int i = 0; i < headers.Length; i++)
+                    {
+                        gfx.DrawRectangle(pen, xPoint, yPoint, columnWidths[i], cellHeight);
+                        tf.DrawString(headers[i], font, XBrushes.Black, new XRect(xPoint + 5, yPoint + 5, columnWidths[i], cellHeight), XStringFormats.TopLeft);
+                        xPoint += columnWidths[i];
+                    }
+
+                    yPoint += cellHeight;
+
+                    // Table rows
+                    foreach (var request in requests)
+                    {
+                        xPoint = 10;
+                        string[] values = {
+                    request.RequestID.ToString(),
+                    request.Client?.Department?.DepartmentName ?? string.Empty,
+                    request.Client?.Position?.PositionName ?? string.Empty,
+                    request.RequestDateFinish ?? string.Empty,
+                    request.Description ?? string.Empty,
+                    request.StatusRequest?.StatusName ?? string.Empty,
+                    request.Client?.Cabinet ?? string.Empty,
+                    request.Client?.NumberPhone ?? string.Empty,
+                    request.RequestDeadline ?? string.Empty
+                };
+
+                        for (int i = 0; i < values.Length; i++)
+                        {
+                            double cellYPoint = yPoint;
+                            gfx.DrawRectangle(pen, xPoint, cellYPoint, columnWidths[i], cellHeight);
+                            tf.DrawString(values[i], font, XBrushes.Black, new XRect(xPoint + 5, cellYPoint + 5, columnWidths[i], cellHeight), XStringFormats.TopLeft);
+                            xPoint += columnWidths[i];
+                        }
+
+                        yPoint += cellHeight;
+                    }
+
+                    document.Save(filePath);
+                }
+
+                MessageBox.Show($"Данные успешно экспортированы в {filePath}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при экспорте данных: {ex.Message}");
+            }
+        }
+
+
     }
 }

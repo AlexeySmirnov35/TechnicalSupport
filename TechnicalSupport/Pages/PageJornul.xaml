@@ -227,6 +227,7 @@
                         BorderThickness="2,2,2,2" Click="Create_Pdf_Click"
                         HorizontalAlignment="Left" BorderBrush="{x:Null}" VerticalAlignment="Top" Margin="0,0,10,0"/>
                 <Button Content="Экспорт в Word" Click="ExportToWord_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
+                <Button Content="Экспорт в PDF" Click="ExportToPdf_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
 
             </StackPanel>
         </StackPanel>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PdfSharp.Pdf.Content.Objects;
+using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -80,6 +81,15 @@ namespace TechnicalSupport.WinowsProgram
                 return;
             }
 
+            // Check if login already exists
+            string newLogin = tbLogin.Text;
+            bool loginExists = _konfigKc.Users.Any(u => u.Login == newLogin && u.UserID != _editableUser.UserID);
+            if (loginExists)
+            {
+                MessageBox.Show("Логин уже существует. Пожалуйста, выберите другой логин.");
+                return;
+            }
+
             if (_editableUser.UserID == 0)
             {
                 User newUser = new User
@@ -92,7 +102,7 @@ namespace TechnicalSupport.WinowsProgram
                     DepartmentID = (cbDepartment.SelectedItem as Department)?.DepartmentID ?? 0,
                     PositionsID = (cbPosition.SelectedItem as Position)?.PositionID ?? 0,
                     RoleID = (cbRole.SelectedItem as Role)?.RoleID ?? 0,
-                    Login = tbLogin.Text,
+                    Login = newLogin,
                     Password = "Password_123"
                 };
 
@@ -108,7 +118,7 @@ namespace TechnicalSupport.WinowsProgram
                 _originalUser.DepartmentID = (cbDepartment.SelectedItem as Department)?.DepartmentID ?? 0;
                 _originalUser.PositionsID = (cbPosition.SelectedItem as Position)?.PositionID ?? 0;
                 _originalUser.Patranomic = _editableUser.Patranomic;
-                _originalUser.Login = tbLogin.Text;
+                _originalUser.Login = newLogin;
             }
 
             try

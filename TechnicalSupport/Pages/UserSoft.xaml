@@ -10,7 +10,7 @@
 
     <Grid>
         <StackPanel Grid.Column="0" Margin="10" HorizontalAlignment="Center">
-                <Label Content="Перечень программ" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF32EBFB"  FontWeight="Bold" />
+                <TextBlock Text="Перечень программ" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF32EBFB" FontSize="20" FontStyle="Italic" />
                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="Поиск:" HorizontalAlignment="Center" VerticalAlignment="Center"/>

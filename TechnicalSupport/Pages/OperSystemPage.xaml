@@ -23,7 +23,7 @@
 
         <StackPanel Grid.Column="0" >
             <TextBlock Text="Перечень операционных систем" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" 
-                   FontWeight="Bold" FontStyle="Italic" TextWrapping="Wrap" Foreground="#FF32EBFB"/>
+                   FontStyle="Italic" TextWrapping="Wrap" Foreground="#FF32EBFB"/>
 
             <ListView x:Name="listview" BorderBrush="#FF111211"   >
 

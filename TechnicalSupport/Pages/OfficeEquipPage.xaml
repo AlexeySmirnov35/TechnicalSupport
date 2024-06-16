@@ -23,7 +23,7 @@
 
         <StackPanel Grid.Column="0" >
             <TextBlock Text="Перечень Орг Техники" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" 
-                    FontWeight="Bold" FontStyle="Italic" TextWrapping="Wrap"/>
+                     FontStyle="Italic" TextWrapping="Wrap"/>
 
             <ListView x:Name="listview" BorderBrush="#FF111211"    >
 

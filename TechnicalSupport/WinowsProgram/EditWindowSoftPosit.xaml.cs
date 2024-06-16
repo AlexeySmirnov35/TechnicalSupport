@@ -26,8 +26,15 @@ namespace TechnicalSupport.WinowsProgram
                 SoftwareID = _originalSoftwarePosition.SoftwareID,
                 LicenseTreb = _originalSoftwarePosition.LicenseTreb
             };
-            DataContext = _originalSoftwarePosition;
-            tbVProg.Text = _originalSoftwarePosition.Software.SoftwareName;
+            DataContext = _editableSoftwarePosition; // Corrected DataContext to _editableSoftwarePosition
+
+            if (_originalSoftwarePosition.Software != null)
+            {
+                tbVProg.Text = _originalSoftwarePosition.Software.SoftwareName;
+            }
+
+            tbPosi.Text = _originalSoftwarePosition.Position?.PositionName;
+
             chkBoxLin.IsChecked = (_editableSoftwarePosition.LicenseTreb == 1);
             cbAllProg.ItemsSource = _context.Softwares.ToList();
         }
@@ -39,13 +46,23 @@ namespace TechnicalSupport.WinowsProgram
             StringBuilder errors = new StringBuilder();
 
             if (prog == null)
+            {
                 errors.AppendLine("Выберите программу для замены");
+            }
+            else
+            {
+                // Retrieve all SoftwarePositions and perform in-memory check for duplicates
+                var existingSoftwarePositions = _context.SoftwarePositions.ToList();
+                var isDuplicate = existingSoftwarePositions
+                    .Any(sp => sp.PositionID == _editableSoftwarePosition.PositionID
+                            && sp.SoftwareID == prog.SoftwareID
+                            && sp.LicenseTreb == lin);
 
-            var isDuplicate = _context.SoftwarePositions
-                .Any(sp => sp.PositionID == _editableSoftwarePosition.PositionID && sp.SoftwareID == prog.SoftwareID);
-
-            if (isDuplicate)
-                errors.AppendLine("Такая запись существует");
+                if (isDuplicate)
+                {
+                    errors.AppendLine("Такая запись существует");
+                }
+            }
 
             if (errors.Length > 0)
             {
@@ -58,7 +75,7 @@ namespace TechnicalSupport.WinowsProgram
 
             try
             {
-                if (_editableSoftwarePosition.PositionID == 0)
+                if (_originalSoftwarePosition.PositionID == 0)
                 {
                     var newSoftwarePosition = new SoftwarePosition
                     {
@@ -73,6 +90,7 @@ namespace TechnicalSupport.WinowsProgram
                 {
                     _originalSoftwarePosition.SoftwareID = _editableSoftwarePosition.SoftwareID;
                     _originalSoftwarePosition.LicenseTreb = _editableSoftwarePosition.LicenseTreb;
+                    _context.Entry(_originalSoftwarePosition).State = System.Data.Entity.EntityState.Modified; // Ensure original position is updated
                 }
 
                 _context.SaveChanges();

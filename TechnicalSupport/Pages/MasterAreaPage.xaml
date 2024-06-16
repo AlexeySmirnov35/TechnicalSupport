@@ -41,13 +41,13 @@
             <Grid x:Name="print">
                
                 <StackPanel Grid.Row="1">
-                    <ListView x:Name="listViewReq" MouseDoubleClick="listViewReq_MouseDoubleClick" VerticalAlignment="Top">
+                    <ListView  x:Name="listViewReq"  MouseDoubleClick="SoftwareListView_MouseDoubleClick" VerticalAlignment="Top">
+
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Background" Value="{Binding Converter={StaticResource RequestStatusConverter}}" />
                                 <Setter Property="FocusVisualStyle" Value="{DynamicResource ListViewItemFocusVisual}" />
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="BorderBrush" Value="Transparent" />
+                                <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
                                 <Setter Property="BorderThickness" Value="1" />
                                 <Setter Property="Margin" Value="0,0,0,1" />
                                 <Setter Property="Padding" Value="5,2" />
@@ -55,9 +55,26 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <ControlTemplate.Resources>
+                                                <Storyboard x:Key="HoverOn">
+                                                    <ColorAnimation Duration="0:0:0.2" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="row_content"
+                            To="{StaticResource ColorForeground}"/>
+                                                </Storyboard>
+                                                <Storyboard x:Key="HoverOff">
+                                                    <ColorAnimation Duration="0:0:0.2" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="row_content"
+                            To="{StaticResource ColorForegroundWhite}"/>
+                                                </Storyboard>
+                                                <Storyboard x:Key="SelectedOn">
+                                                    <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="HoverSelected" To="1"/>
+                                                </Storyboard>
+                                                <Storyboard x:Key="SelectedOff">
+                                                    <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="HoverSelected" To="0"/>
+                                                </Storyboard>
+                                            </ControlTemplate.Resources>
                                             <Border SnapsToDevicePixels="True" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" x:Name="border">
                                                 <Grid Margin="2,0">
-                                                    <Rectangle x:Name="Background" IsHitTestVisible="False" Fill="{TemplateBinding Background}" RadiusX="0" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}"/>
+                                                    <Rectangle x:Name="Background" IsHitTestVisible="False" Fill="{TemplateBinding Background}" RadiusX="0"
+                       Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}"/>
                                                     <Rectangle x:Name="HoverSelected" IsHitTestVisible="False" Opacity="0" RadiusX="0">
                                                         <Rectangle.Fill>
                                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -73,8 +90,25 @@
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Opacity" TargetName="HoverSelected" Value="1"/>
+                                                    <Trigger.EnterActions>
+                                                        <BeginStoryboard Storyboard="{StaticResource SelectedOn}"/>
+                                                    </Trigger.EnterActions>
+                                                    <Trigger.ExitActions>
+                                                        <BeginStoryboard Storyboard="{StaticResource SelectedOff}"/>
+                                                    </Trigger.ExitActions>
                                                 </Trigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsMouseOver" Value="True" />
+                                                        <Condition Property="Selector.IsSelected" Value="False" />
+                                                    </MultiTrigger.Conditions>
+                                                    <MultiTrigger.EnterActions>
+                                                        <BeginStoryboard Storyboard="{StaticResource HoverOn}"/>
+                                                    </MultiTrigger.EnterActions>
+                                                    <MultiTrigger.ExitActions>
+                                                        <BeginStoryboard Storyboard="{StaticResource HoverOff}"/>
+                                                    </MultiTrigger.ExitActions>
+                                                </MultiTrigger>
                                                 <Trigger Property="IsEnabled" Value="False">
                                                     <Setter Property="Foreground">
                                                         <Setter.Value>
@@ -88,6 +122,7 @@
                                 </Setter>
                             </Style>
                         </ListView.ItemContainerStyle>
+
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="№">

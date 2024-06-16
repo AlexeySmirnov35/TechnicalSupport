@@ -1,7 +1,12 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using TechnicalSupport.DataBaseClasses;
 
@@ -27,21 +32,23 @@ namespace TechnicalSupport.Pages
 
             StatusComboBox.Items.Clear();
 
-            ComboBoxItem allItem = new ComboBoxItem();
-            allItem.Content = "Все";
+            ComboBoxItem allItem = new ComboBoxItem
+            {
+                Content = "Все"
+            };
             StatusComboBox.Items.Add(allItem);
 
             foreach (var status in statuses)
             {
-                ComboBoxItem item = new ComboBoxItem();
-                item.Content = status.StatusName; 
+                ComboBoxItem item = new ComboBoxItem
+                {
+                    Content = status.StatusName
+                };
                 StatusComboBox.Items.Add(item);
             }
 
             StatusComboBox.SelectedIndex = 0;
         }
-
-
 
         private void DisplayPage()
         {
@@ -93,8 +100,6 @@ namespace TechnicalSupport.Pages
             PageInfo.Text = $"Страница {currentPage} из {Math.Ceiling((double)requestsQuery.Count() / PageSize)}";
         }
 
-
-
         private int GetStatusFilter()
         {
             if (StatusComboBox.SelectedItem == null)
@@ -115,11 +120,6 @@ namespace TechnicalSupport.Pages
 
             return selectedStatus != null ? selectedStatus.StatusID : -1;
         }
-
-
-
-
-
 
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
@@ -177,12 +177,12 @@ namespace TechnicalSupport.Pages
         private void Btn_GoBack(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
-
         }
 
         private void AddEditDepar_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new FormPage()); LoadStatuses();
+            NavigationService.Navigate(new FormPage());
+            LoadStatuses();
             DisplayPage();
         }
 
@@ -202,6 +202,87 @@ namespace TechnicalSupport.Pages
         {
             currentPage = 1;
             DisplayPage();
+        }
+
+        private void ExportToWord_Click(object sender, RoutedEventArgs e)
+        {
+            var requests = listViewReq.Items.Cast<Request>().ToList();
+            if (!requests.Any())
+            {
+                MessageBox.Show("Нет данных для экспорта.");
+                return;
+            }
+
+            string filePath = "ExportedRequests.docx";
+
+            try
+            {
+                using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(filePath, WordprocessingDocumentType.Document))
+                {
+                    MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+                    mainPart.Document = new Document();
+                    Body body = new Body();
+                    mainPart.Document.Append(body);
+
+                    DocumentFormat.OpenXml.Wordprocessing.Table table = new DocumentFormat.OpenXml.Wordprocessing.Table();
+
+                    TableProperties tblProp = new TableProperties(
+                        new TableBorders(
+                            new TopBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                            new BottomBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                            new LeftBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                            new RightBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                            new DocumentFormat.OpenXml.Wordprocessing.InsideHorizontalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                            new DocumentFormat.OpenXml.Wordprocessing.InsideVerticalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 }
+                        )
+                    );
+                    table.AppendChild(tblProp);
+
+                    // Table headers
+                    DocumentFormat.OpenXml.Wordprocessing.TableRow headerRow = new DocumentFormat.OpenXml.Wordprocessing.TableRow();
+                    AddTableCell(headerRow, "№");
+                    AddTableCell(headerRow, "Подразделение");
+                    AddTableCell(headerRow, "Должность");
+                    AddTableCell(headerRow, "Дата выполнения");
+                    AddTableCell(headerRow, "Описание");
+                    AddTableCell(headerRow, "Статус");
+                    AddTableCell(headerRow, "Кабинет");
+                    AddTableCell(headerRow, "Номер");
+                    AddTableCell(headerRow, "Дедлайн");
+                    table.Append(headerRow);
+
+                    // Table rows
+                    foreach (var request in requests)
+                    {
+                        DocumentFormat.OpenXml.Wordprocessing.TableRow row = new DocumentFormat.OpenXml.Wordprocessing.TableRow();
+                        AddTableCell(row, request.RequestID.ToString());
+                        AddTableCell(row, request.Client.Department.DepartmentName);
+                        AddTableCell(row, request.Client.Position.PositionName);
+                        AddTableCell(row, request.RequestDateFinish);
+                        AddTableCell(row, request.Description);
+                        AddTableCell(row, request.StatusRequest.StatusName);
+                        AddTableCell(row, request.Client.Cabinet);
+                        AddTableCell(row, request.Client.NumberPhone);
+                      AddTableCell(row, request.RequestDeadline);
+                        table.Append(row);
+                    }
+
+                    body.Append(table);
+                    mainPart.Document.Save();
+                }
+
+                MessageBox.Show($"Данные успешно экспортированы в {filePath}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при экспорте данных: {ex.Message}");
+            }
+        }
+
+        private void AddTableCell(DocumentFormat.OpenXml.Wordprocessing.TableRow row, string text)
+        {
+            DocumentFormat.OpenXml.Wordprocessing.TableCell cell = new DocumentFormat.OpenXml.Wordprocessing.TableCell(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new DocumentFormat.OpenXml.Wordprocessing.Run(new DocumentFormat.OpenXml.Wordprocessing.Text(text))));
+            row.Append(cell);
         }
     }
 }

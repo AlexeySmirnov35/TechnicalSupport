@@ -65,8 +65,14 @@ namespace TechnicalSupport.WinowsProgram
 
         private async Task<bool> DepartmentExists(string departmentName)
         {
-            return await Task.Run(() =>
-                _context.Departments.Any(d => d.DepartmentName == departmentName && d.DepartmentID != _editableDepartment.DepartmentID));
+            string normalizedDepartmentName = NormalizeString(departmentName);
+            var departments = await Task.Run(() => _context.Departments.ToList());
+            return departments.Any(d => NormalizeString(d.DepartmentName) == normalizedDepartmentName && d.DepartmentID != _editableDepartment.DepartmentID);
+        }
+
+        private string NormalizeString(string input)
+        {
+            return new string(input.Where(c => !char.IsWhiteSpace(c)).ToArray()).ToLower();
         }
 
         private async Task AddDepartment(string departmentName)

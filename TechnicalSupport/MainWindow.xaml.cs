@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using TechnicalSupport.DataBaseClasses;
 using TechnicalSupport.WinowsProgram;
 
@@ -77,6 +79,26 @@ namespace TechnicalSupport
         private void Btn_GoBack(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        private void BtnShowPassword_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button == null) return;
+
+            if (tbPassword.Visibility == Visibility.Collapsed)
+            {
+                tbPassword.Visibility = Visibility.Visible;
+                tbPassword.Text = tbPas.Password;
+                tbPas.Visibility = Visibility.Collapsed;
+                (button.Content as Image).Source = new BitmapImage(new Uri("pack://application:,,,/img/icons8-invisible-96.png"));
+            }
+            else
+            {
+                tbPas.Visibility = Visibility.Visible;
+                tbPas.Password = tbPassword.Text;
+                tbPassword.Visibility = Visibility.Collapsed;
+                (button.Content as Image).Source = new BitmapImage(new Uri("pack://application:,,,/img/icons8-eye-96.png"));
+            }
         }
     }
 }

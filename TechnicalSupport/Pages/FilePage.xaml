@@ -15,7 +15,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <!-- Left Panel -->
-        <StackPanel Grid.Row="0"  Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="0"  Orientation="Vertical" HorizontalAlignment="Center">
+            <TextBlock  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" 
+             FontStyle="Italic" TextWrapping="Wrap" Margin="10" Foreground="#FF32EBFB">Перечень файлов</TextBlock>
             <ListView x:Name="listview"  >
                 <ListView.View>
                     <GridView>

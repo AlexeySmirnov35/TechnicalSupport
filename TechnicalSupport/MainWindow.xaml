@@ -109,15 +109,26 @@
             </StackPanel>
         </Border>
         <Border  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="20,0,20,20">
+
             <StackPanel Orientation="Horizontal" Name="stkPan" Margin="0,10,0,0"  >
+                <StackPanel>
+                    <Image HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10"   Source="/img/structure_property_image_8308.png"  />
+                </StackPanel>
                 <StackPanel VerticalAlignment="Center" >
-                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right" >
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Left" >
                         <TextBlock Text="Логин" TextWrapping="Wrap" TextAlignment="Center"  FontStyle="Italic" Margin="0,0,2,10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox x:Name="tbLog" TextWrapping="Wrap" Text=""  Width="150"  Margin="0,0,0,10" />
+                        <TextBox x:Name="tbLog" TextWrapping="Wrap" Text=""  Width="150"  Margin="7,0,0,10" />
                     </StackPanel>
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right">
                         <TextBlock Text="Пароль" TextWrapping="Wrap" TextAlignment="Center"  FontStyle="Italic" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,2,0"/>
                         <PasswordBox x:Name="tbPas"  Width="150"  />
+                        <TextBox x:Name="tbPassword" HorizontalAlignment="Left" Foreground="#FF32EBFB" Width="150" Visibility="Collapsed"/>
+                        <Button Click="BtnShowPassword_Click" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Button.Background>
+                                <SolidColorBrush Color="Transparent"/>
+                            </Button.Background>
+                            <Image Source="/img/icons8-eye-96.png" Width="24" Height="24" Margin="0,0,5,0"/>
+                        </Button>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel>

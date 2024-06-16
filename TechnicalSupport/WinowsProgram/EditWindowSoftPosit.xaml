@@ -5,87 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechnicalSupport.WinowsProgram"
         mc:Ignorable="d" Background="#333" Foreground="White"
-           Title="Управление" WindowStyle="ThreeDBorderWindow"     WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+        Title="Управление" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
             <StackPanel Orientation="Vertical">
-                <Label Content="Редактирование программ для сотрудников" 
-HorizontalAlignment="Center" Foreground="#FF32EBFB"
-VerticalAlignment="Top" 
-
-FontWeight="Bold" 
-FontStyle="Italic"/>
+                <Label Content="Редактирование программ для сотрудников" HorizontalAlignment="Center" Foreground="#FF32EBFB"
+                       VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="Вы выбрали должность:" TextWrapping="Wrap"
-        HorizontalAlignment="Left" 
-        
-        VerticalAlignment="Center" 
-/>
-
-                <TextBox x:Name="tbPosi"  
-  HorizontalAlignment="Left" 
-  IsReadOnly="True" 
-  
-  TextWrapping="Wrap" 
-  Text="{Binding Position.PositionName}" 
-  VerticalAlignment="Top" 
-/>
+                <TextBlock Text="Вы выбрали должность:" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbPosi" HorizontalAlignment="Left" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <TextBlock Text="Программа, которая заменится:" TextWrapping="Wrap"
-HorizontalAlignment="Left" 
-
-VerticalAlignment="Center" 
-/>
-                <TextBox x:Name="tbVProg" 
-IsReadOnly="True" 
-HorizontalAlignment="Left" 
-
-TextWrapping="Wrap" 
-Text="{Binding Software.SoftwareName}" 
-VerticalAlignment="Top" 
-/>
+                <TextBlock Text="Программа, которая заменится:" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbVProg" IsReadOnly="True" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Выберите программу, на которую хотите заменить" 
-            TextWrapping="Wrap" 
-            HorizontalAlignment="Left" 
-           Width="150"
-            VerticalAlignment="Top" 
-          />
-                <ComboBox x:Name="cbAllProg" 
-  SelectedItem="{Binding Software}" 
-  DisplayMemberPath="SoftwareName"  
-  HorizontalAlignment="Left" 
- 
-  VerticalAlignment="Top" 
-  Width="200" 
-/>
+                <TextBlock Text="Выберите программу, на которую хотите заменить" TextWrapping="Wrap" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cbAllProg" SelectedItem="{Binding Software}" DisplayMemberPath="SoftwareName" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200"/>
             </StackPanel>
-
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Нужна ли лицензия?" 
- TextWrapping="Wrap" 
- HorizontalAlignment="Left" 
- 
- VerticalAlignment="Top" 
-/>
+                <TextBlock Text="Нужна ли лицензия?" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <CheckBox x:Name="chkBoxLin"></CheckBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-
-
-            </StackPanel>
-
-
-
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                <Button Content="Сохранить изменения" 
-                Click="Btn_Edit_Click" 
-                HorizontalAlignment="Center"               
-                VerticalAlignment="Center"   BorderThickness="2,2,2,2">
-                </Button>
+                <Button Content="Сохранить изменения" Click="Btn_Edit_Click" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="2,2,2,2"/>
             </StackPanel>
         </StackPanel>
     </Grid>
